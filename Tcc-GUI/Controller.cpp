@@ -41,3 +41,22 @@ ControllerLogic::~ControllerLogic()
 
 	}
 }
+
+std::string ControllerLogic::intToStrType()
+{
+	std::string typeStr;
+
+	switch(this->type)
+	{
+		case 0:
+			typeStr = "Static";
+			break;
+		case 1:
+			typeStr = "Actuated";
+			break;
+		default:
+			typeStr = "Agent Based";
+	}
+
+	return typeStr;
+}

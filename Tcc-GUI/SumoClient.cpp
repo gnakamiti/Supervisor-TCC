@@ -15,6 +15,35 @@ SumoClient::~SumoClient()
 		s = nullptr;
 	}
 }
+//TODO - CONTINUAR ISSO?
+void SumoClient::getControllerLinks(std::string controllerId)
+{
+	int nbSignals, nbControlledLinks;
+	std::vector<std::string> links;
+	Storage *in;
+
+	in = this->sendCommandForSumoTrafficLights(controllerId, SUMO_GET_CONTROLLED_LINKS);
+
+	if(in->readUnsignedByte() <= 0)
+	   in->readInt();
+
+	nbSignals = in->readInt();
+
+	for(int i = 0; i < nbSignals; i++)
+	{
+		in->readByte();
+		nbControlledLinks = in->readInt();
+
+		for(int k = 0; k < nbControlledLinks; k++)
+		{
+			in->readByte();
+			links = in->readStringList();
+		}
+	}
+
+	delete in;
+	in = nullptr;
+}
 
 std::vector<ControllerLogic *>  SumoClient::getTrafficLightsDefinition(std::string controllerId)
 {
@@ -99,6 +128,7 @@ void SumoClient::simulationStep(int step)
 	s->sendExact(out);
 	s->receiveExact(in);
 }
+//Only used for traffic lights functions for now.
 Storage * SumoClient::sendCommandForSumoTrafficLights(std::string controllerId, int flag)
 {
 	Storage *in, out;

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun 29. Apr 14:49:20 2012
+** Created: Sun 29. Apr 20:40:29 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -32,13 +32,13 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      27,   11,   11,   11, 0x08,
+      48,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0timerTimeout()\0"
+    "MainWindow\0\0timerTimeoutCheckControllersAlive()\0"
     "listClick(QListWidgetItem*)\0"
 };
 
@@ -48,7 +48,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_ASSERT(staticMetaObject.cast(_o));
         MainWindow *_t = static_cast<MainWindow *>(_o);
         switch (_id) {
-        case 0: _t->timerTimeout(); break;
+        case 0: _t->timerTimeoutCheckControllersAlive(); break;
         case 1: _t->listClick((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         default: ;
         }

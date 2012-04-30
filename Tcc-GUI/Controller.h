@@ -24,6 +24,8 @@ public:
 	int subParameter;
 	int currentPhaseIndex;
 	std::vector<Phase *> phases;
+
+	std::string intToStrType();
 };
 
 class Controller

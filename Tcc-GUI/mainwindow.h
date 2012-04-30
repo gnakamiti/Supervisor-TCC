@@ -3,8 +3,11 @@
 
 #include <QtGui/QMainWindow>
 #include <QTimer>
+#include <QMutexLocker>
+#include <QMutex>
 #include "ui_mainwindow.h"
 #include "Controller.h"
+#include <vector>
 
 #define TIMER_TIMEOUT 5000
 
@@ -16,15 +19,21 @@ public:
 	MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~MainWindow();
 
-	void getControllers(std::vector<Controller *>);
+	void setControllersAndMutex(std::vector<Controller *> *, QMutex *);
 
 private:
 	Ui::MainWindowClass ui;
-	QTimer *timer;
+	QTimer *timer; //Deleted in this class
+	std::vector<Controller *> *controllers; //Deleted in supervisor
+	QMutex *mutex; //Deleted in supervisor
+
+	void updateInterface(Controller *);
+	void listControllersInTheList(std::vector<Controller *> *);
 
 private slots:
-	void timerTimeout();
+	void timerTimeoutCheckControllersAlive();
 	void listClick(QListWidgetItem *);
+	
 };
 
 #endif // MAINWINDOW_H

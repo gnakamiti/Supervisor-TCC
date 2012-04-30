@@ -6,36 +6,167 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
-    <height>583</height>
+    <width>978</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Sistema de supervisão de controladores</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>appIcon.png</normaloff>appIcon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
+      <y>70</y>
       <width>281</width>
-      <height>321</height>
+      <height>521</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="lblController">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Controllers</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblControllerName">
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>10</y>
-      <width>53</width>
+      <y>70</y>
+      <width>161</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Controller ID:</string>
     </property>
+   </widget>
+   <widget class="QTextEdit" name="txtControllerName">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>60</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblControlledLanes">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>100</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Controlled Lanes:</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listControlledLanes">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>120</y>
+      <width>331</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>320</y>
+      <width>671</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBoxControllersProgram">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>340</y>
+      <width>671</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Controller's Program</string>
+    </property>
+    <widget class="QLabel" name="lblCurrentPhase">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current Phase:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txtCurrentPhase">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>30</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblOperationType">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Operation Type:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txtOperationType">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>60</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -43,7 +174,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>844</width>
+     <width>978</width>
      <height>26</height>
     </rect>
    </property>
