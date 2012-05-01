@@ -22,12 +22,11 @@ Supervisor::Supervisor(int argc, char **argv): decisions(this)
 	for(std::vector<std::string>::const_iterator it = controllerNames.begin(); it!=controllerNames.end() ; it++)
 	{
 		c = new Controller(*it, sumoC.getTrafficLightsDefinition((*it)), sumoC.getControllerLanes((*it)));
-
+		c->setActive(true);
 		//sumoC.getControllerLinks(*it);
 
 		this->controllers.push_back(c);
 	}
-	
 	
 }
 
@@ -58,13 +57,15 @@ void Supervisor::startThreads(void)
 	//DO NOT REMOVE THIS! OR IT WILL ERASE EVERYTHING!
 	this->decisions.setAutoDelete(false);
 	
-	
-	
 	this->window = new MainWindow();
-	this->window->setControllersAndMutex(&this->controllers, &mutex);
+	this->window->setControllersAndMutex(&this->controllers, &mutexControllerList);
 	this->window->show();
+	
+	
 
 	threadPool->start(&this->decisions);
+
+	
 	a.exec();
 
 	threadPool->waitForDone();

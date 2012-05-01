@@ -7,9 +7,9 @@
 class Phase
 {
 public:
-	int duration;
-	int duration1;
-	int duration2;
+	int duration; //It's in milisecs
+	int duration1; //It's in milisecs
+	int duration2; //It's in milisecs
 	std::string phaseDef;
 };
 
@@ -23,7 +23,7 @@ public:
 	int type;
 	int subParameter;
 	int currentPhaseIndex;
-	std::vector<Phase *> phases;
+	std::vector<Phase *> *phases;
 
 	std::string intToStrType();
 };
@@ -34,15 +34,20 @@ private:
 	std::string name;
 	std::vector<ControllerLogic *>  logics;
 	std::vector<std::string> controlledLanes;
+	bool active;
+	void deleteLogics();
 
 public:
 	Controller();
 	Controller(std::string name, std::vector<ControllerLogic *>  , std::vector<std::string>);
 	~Controller();
 
+	void setActive(bool b) { active = b; }
 	std::string getName() { return name; }
 	std::vector<std::string> getControlledLanes() { return controlledLanes; }
 	std::vector<ControllerLogic *> getLogics() { return logics; }
+	bool isActive() { return active; }
+	void setControllerLogics(std::vector<ControllerLogic *>);
 };
 
 

@@ -52,7 +52,7 @@ std::vector<ControllerLogic *>  SumoClient::getTrafficLightsDefinition(std::stri
 	std::vector<ControllerLogic *> logics;
 	ControllerLogic *logic;
 	int nbLogic;
-	std::vector<Phase *> phases;
+	std::vector<Phase *> *phases;
 	Phase *phase;
 
 	in = this->sendCommandForSumoTrafficLights(controllerId, SUMO_GET_COMPLETE_TRAFFIC_LIGHTS_DEFINITION);
@@ -81,6 +81,8 @@ std::vector<ControllerLogic *>  SumoClient::getTrafficLightsDefinition(std::stri
 		in->readUnsignedByte();
 		nbLogic = in->readInt();
 
+		phases = new std::vector<Phase *>();
+
 		for(int k = 0; k < nbLogic; k++)
 		{
 			phase = new Phase();
@@ -97,7 +99,7 @@ std::vector<ControllerLogic *>  SumoClient::getTrafficLightsDefinition(std::stri
 			in->readUnsignedByte();
 			phase->phaseDef = in->readString();
 
-			phases.push_back(phase);
+			phases->push_back(phase);
 		}
 		
 		logic->phases = phases;
@@ -218,4 +220,37 @@ void SumoClient::close()
 	delete s;
 
 	s = nullptr;
+}
+
+void SumoClient::setControllerProgram(std::string controllerID, std::string programID)
+{
+	Storage out, in;
+
+	int length,flag;
+	flag = SUMO_SET_TRAFFIC_LIGHT_PROGRAM;
+
+	length = (1+4+programID.size()+1+1+1+4+controllerID.size());
+
+
+	if(length <= 255)
+	{
+		out.writeUnsignedByte(length);
+		out.writeUnsignedByte(SUMO_SET_TRAFFIC_LIGHTS_VALUE);
+		out.writeUnsignedByte(flag);
+		out.writeString(controllerID);
+		
+	}
+	else
+	{
+		out.writeUnsignedByte(0);
+		out.writeInt(length+4);
+		out.writeUnsignedByte(SUMO_SET_TRAFFIC_LIGHTS_VALUE);
+		out.writeUnsignedByte(flag);
+		out.writeString(controllerID);
+	}
+	out.writeUnsignedByte(SUMO_TYPE_STRING);
+	out.writeString(programID);
+
+	s->sendExact(out);
+	s->receiveExact(in);
 }

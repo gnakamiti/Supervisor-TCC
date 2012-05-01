@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun 29. Apr 20:40:29 2012
+** Created: Tue 1. May 12:58:16 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,14 +32,17 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      48,   11,   11,   11, 0x08,
+      40,   11,   11,   11, 0x08,
+      59,   11,   11,   11, 0x08,
+      72,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0timerTimeoutCheckControllersAlive()\0"
-    "listClick(QListWidgetItem*)\0"
+    "MainWindow\0\0listClick(QListWidgetItem*)\0"
+    "phaseSelected(int)\0btnRefresh()\0"
+    "programSelected(int)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -48,8 +51,10 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_ASSERT(staticMetaObject.cast(_o));
         MainWindow *_t = static_cast<MainWindow *>(_o);
         switch (_id) {
-        case 0: _t->timerTimeoutCheckControllersAlive(); break;
-        case 1: _t->listClick((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 0: _t->listClick((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 1: _t->phaseSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: _t->btnRefresh(); break;
+        case 3: _t->programSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -87,9 +92,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 4;
     }
     return _id;
 }

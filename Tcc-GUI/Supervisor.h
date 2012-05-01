@@ -22,7 +22,7 @@ private:
 	int argc;
 	char **argv;
 	MainWindow *window;
-	QMutex mutex;
+	QMutex mutexControllerList;
 
 	std::vector<Controller *> controllers;
 	
@@ -36,7 +36,14 @@ private:
 			void run()
 			{
 				int x = 12;
-				//QMutexLocker locker(&self->mutex);
+				QMutexLocker locker(&self->mutexControllerList);
+				self->sumoC.setControllerProgram(self->controllers.at(0)->getName(), "off");
+				self->controllers.at(0)->setControllerLogics(self->sumoC.getTrafficLightsDefinition(self->controllers.at(0)->getName()));
+
+				for(int i = 0; i < 1000; i++)
+				{
+					self->sumoC.simulationStep();
+				}
 			}
 			Supervisor *self; 
 

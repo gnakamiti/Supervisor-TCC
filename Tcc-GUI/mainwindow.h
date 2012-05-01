@@ -25,14 +25,21 @@ private:
 	Ui::MainWindowClass ui;
 	QTimer *timer; //Deleted in this class
 	std::vector<Controller *> *controllers; //Deleted in supervisor
-	QMutex *mutex; //Deleted in supervisor
+	QMutex *mutexControllerList; //Deleted in supervisor
+	int currentRow; //Current selected controller
 
 	void updateInterface(Controller *);
 	void listControllersInTheList(std::vector<Controller *> *);
+	void setPhaseInTheGui(Phase *);
+	void setProgramInTheGui(ControllerLogic *);
+	
 
 private slots:
-	void timerTimeoutCheckControllersAlive();
+	//void timerTimeoutCheckControllersAlive();
 	void listClick(QListWidgetItem *);
+	void phaseSelected(int);
+	void btnRefresh();
+	void programSelected(int);
 	
 };
 

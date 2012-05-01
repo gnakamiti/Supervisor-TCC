@@ -16,6 +16,10 @@ using namespace tcpip;
 #define SUMO_GET_COMPLETE_TRAFFIC_LIGHTS_DEFINITION 0x2b
 #define SUMO_GET_CONTROLLED_LANES  0x26
 #define SUMO_GET_CONTROLLED_LINKS 0x27
+#define SUMO_SET_TRAFFIC_LIGHTS_VALUE 0xc2
+#define SUMO_SET_TRAFFIC_LIGHT_PROGRAM 0x23
+#define SUMO_TURN_OFF_CONTROLLER "off"
+#define SUMO_TYPE_STRING 0x0C
 
 class SumoClient
 {
@@ -36,6 +40,7 @@ public:
 	std::vector<ControllerLogic *>  getTrafficLightsDefinition(std::string);
 	std::vector<std::string> getControllerLanes(std::string);
 	void getControllerLinks(std::string);
+	void setControllerProgram(std::string, std::string);
 
 	
 };
