@@ -20,6 +20,7 @@
     // #define WIN32 //ISCARO ADDED THIS! REMOVE IT WHEN ITS LINUX
 #endif
 
+#include "constants.h"
 
 #ifdef BUILD_TCPIP
 

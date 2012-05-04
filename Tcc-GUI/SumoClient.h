@@ -3,23 +3,11 @@
 #include "socket.h"
 #include "Controller.h"
 
+#include "constants.h"
+
 using namespace tcpip;
 
-#define LOCAL_HOST "localhost"
-#define PORT_HOST 8814
 
-#define CLOSE_SUMO 0x7F
-#define SUMO_STEP 0x02
-
-#define SUMO_TRAFFIC_LIGHTS 0xa2
-#define SUMO_GET_TRAFFIC_LIGHTS 0x00
-#define SUMO_GET_COMPLETE_TRAFFIC_LIGHTS_DEFINITION 0x2b
-#define SUMO_GET_CONTROLLED_LANES  0x26
-#define SUMO_GET_CONTROLLED_LINKS 0x27
-#define SUMO_SET_TRAFFIC_LIGHTS_VALUE 0xc2
-#define SUMO_SET_TRAFFIC_LIGHT_PROGRAM 0x23
-#define SUMO_TURN_OFF_CONTROLLER "off"
-#define SUMO_TYPE_STRING 0x0C
 
 class SumoClient
 {

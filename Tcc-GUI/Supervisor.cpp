@@ -13,7 +13,14 @@ Supervisor::Supervisor(int argc, char **argv): decisions(this)
 	
 	threadPool = QThreadPool::globalInstance();
 
-	sumoC.connect();
+	try
+	{
+		sumoC.connect();
+	}
+	catch(...)
+	{
+		exit(-1);
+	}
 
 	controllerNames = sumoC.getTrafficLightsId();
 

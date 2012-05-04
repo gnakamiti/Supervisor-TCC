@@ -23,6 +23,7 @@
      #define BUILD_TCPIP
 #endif
 
+#include "constants.h"
 
 #ifdef BUILD_TCPIP
 

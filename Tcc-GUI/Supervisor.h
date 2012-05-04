@@ -9,7 +9,7 @@
 #include <QRunnable>
 #include <QMutexLocker>
 #include <QMutex>
-
+#include "constants.h"
 
 
 class Supervisor

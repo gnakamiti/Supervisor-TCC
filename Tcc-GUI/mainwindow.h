@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include "Controller.h"
 #include <vector>
+#include "constants.h"
 
 #define TIMER_TIMEOUT 5000
 

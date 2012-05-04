@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include "constants.h"
 
 class Phase
 {
