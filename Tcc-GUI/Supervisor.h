@@ -10,6 +10,7 @@
 #include <QMutexLocker>
 #include <QMutex>
 #include "constants.h"
+#include "Fuzzy.h"
 
 
 class Supervisor
@@ -29,21 +30,27 @@ private:
 	class Decisions:public QRunnable
 	{
 		private:
-		
+			Fuzzy fuzzy;
+			
 
 		public: 
-			Decisions(Supervisor *ml): self(ml) {} 
-			void run()
+			Decisions(Supervisor *ml): self(ml) {}
+
+			/*
+				This is a thread!
+			*/
+			void run() 
 			{
-				int x = 12;
-				QMutexLocker locker(&self->mutexControllerList);
+				
+				/*QMutexLocker locker(&self->mutexControllerList);
 				self->sumoC.setControllerProgram(self->controllers.at(0)->getName(), "off");
 				self->controllers.at(0)->setControllerLogics(self->sumoC.getTrafficLightsDefinition(self->controllers.at(0)->getName()));
-
+				/*
 				for(int i = 0; i < 1000; i++)
 				{
 					self->sumoC.simulationStep();
-				}
+				}*/
+				self->sumoC.simulationStep();
 			}
 			Supervisor *self; 
 

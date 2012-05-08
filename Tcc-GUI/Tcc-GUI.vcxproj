@@ -50,6 +50,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <WarningLevel>Level1</WarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -125,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="constants.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
     <ClInclude Include="socket.h" />
     <ClInclude Include="storage.h" />

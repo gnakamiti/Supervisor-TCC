@@ -18,7 +18,7 @@
 
 
 #define LOCAL_HOST "localhost"
-#define PORT_HOST 8814
+#define PORT_HOST 8813
 
 #define CLOSE_SUMO 0x7F
 #define SUMO_STEP 0x02
@@ -32,5 +32,10 @@
 #define SUMO_SET_TRAFFIC_LIGHT_PROGRAM 0x23
 #define SUMO_TURN_OFF_CONTROLLER "off"
 #define SUMO_TYPE_STRING 0x0C
+
+#define FUZZY_INPUTL_VAR_WAIT_TIME "WaitTime"
+#define FUZZY_INPUTL_VAR_CURRENT_QUEUE "CurrentQueue"
+#define FUZZY_INPUTL_VAR_QUEUE_GROWED_FAST "QueueGrowedFast"
+
 
 #endif
