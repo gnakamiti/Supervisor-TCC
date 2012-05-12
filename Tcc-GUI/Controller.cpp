@@ -16,6 +16,10 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *>  logics,
 	this->logics.push_back(new ControllerLogic());
 	this->logics.push_back(new ControllerLogic());*/
 }
+void Controller::addControllerToSimilarList(Controller *c)
+{
+	this->similarControllers.push_back(c);
+}
 void Controller::deleteLogics()
 {
 	ControllerLogic *cl;

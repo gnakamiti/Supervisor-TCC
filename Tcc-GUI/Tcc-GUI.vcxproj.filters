@@ -68,6 +68,18 @@
     <ClCompile Include="Fuzzy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SupervisorLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Decisions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Decisions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -78,6 +90,12 @@
     </CustomBuild>
     <CustomBuild Include="mainwindow.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Supervisor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Decisions.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +111,6 @@
     <ClInclude Include="SumoClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Supervisor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -103,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Fuzzy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SupervisorLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

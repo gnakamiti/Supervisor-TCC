@@ -35,6 +35,7 @@ private:
 	std::string name;
 	std::vector<ControllerLogic *>  logics;
 	std::vector<std::string> controlledLanes;
+	std::vector<Controller *> similarControllers; //This is used by fuzzy!
 	bool active;
 	void deleteLogics();
 
@@ -49,6 +50,7 @@ public:
 	std::vector<ControllerLogic *> getLogics() { return logics; }
 	bool isActive() { return active; }
 	void setControllerLogics(std::vector<ControllerLogic *>);
+	void addControllerToSimilarList(Controller *);
 };
 
 

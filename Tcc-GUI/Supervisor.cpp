@@ -1,15 +1,24 @@
 #include "Supervisor.h"
 
-Supervisor::Supervisor() : decisions(this)
+Supervisor * Supervisor::self= nullptr;
+
+Supervisor * Supervisor::getInstance()
 {
+	if(self == nullptr)
+	{
+		self = new Supervisor();
+	}
+	return self;
 }
-Supervisor::Supervisor(int argc, char **argv): decisions(this)
+
+
+Supervisor::Supervisor()
 {
 	Controller *c;
 	std::vector<std::string> controllerNames;
-
-	this->argc = argc;
-	this->argv = argv;
+	/*
+	argc = argc;
+	argv = argv;*/
 	
 	threadPool = QThreadPool::globalInstance();
 
@@ -58,8 +67,9 @@ Supervisor::~Supervisor()
 
 void Supervisor::startThreads(void)
 {
-	
-	QApplication a(this->argc, this->argv);
+	//TALVEZ MUDAR AQUI OS PARAMETROS!
+	int i = 0;
+	QApplication a(i, NULL);
 
 	//DO NOT REMOVE THIS! OR IT WILL ERASE EVERYTHING!
 	this->decisions.setAutoDelete(false);
@@ -81,4 +91,3 @@ void Supervisor::startThreads(void)
 	
 				
 }
-

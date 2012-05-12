@@ -4,19 +4,26 @@
 #include "FuzzyLite.h"
 #include "FunctionTerm.h"
 #include "constants.h"
+#include <qstring.h>
 
 class Fuzzy
 {
 private:
 	fl::FuzzyEngine *fuzzyEngine;
+	//They are deleted by fuzzyEngine
+	fl::InputLVar *currentQueue; 
+	fl::InputLVar *carStream; 
+	fl::OutputLVar *adequationDegree; 
 
-	void initInputLVar(fl::InputLVar *, fl::InputLVar *);
-	void initOutputLVar(fl::OutputLVar *);
+	void initLVars(fl::InputLVar *, fl::InputLVar *, fl::OutputLVar *);
+	
 	void setRuleBlock(fl::RuleBlock *);
 
 public:
 	Fuzzy();
 	~Fuzzy();
+
+	fl::flScalar infer(int, int);
 };
 
 #endif
