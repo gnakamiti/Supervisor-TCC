@@ -4,15 +4,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <vld.h>
 //using namespace std;
 
 int main(int argc, char *argv[])
 {
-	int *i = nullptr;
-	delete i;
 	//Supervisor s(argc, argv);
 	Supervisor::getInstance()->startThreads();
-	
 
 	delete Supervisor::getInstance();
 	SupervisorLog::closeLog();

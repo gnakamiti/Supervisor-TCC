@@ -1,4 +1,6 @@
 #include "Supervisor.h"
+#include "mainwindow.h"
+
 
 Supervisor * Supervisor::self= nullptr;
 
@@ -48,20 +50,11 @@ Supervisor::Supervisor()
 
 Supervisor::~Supervisor()
 {
-	Controller *c;
+	deleteInVector(this->controllers);
 	sumoC.close();
 	
 	delete window;
 	window = nullptr;
-
-	for(int i = 0; i < controllers.size(); i++)
-	{
-		c = controllers.at(i);
-		delete c;
-		c = nullptr;
-		
-	}
-
 	
 }
 
@@ -72,22 +65,65 @@ void Supervisor::startThreads(void)
 	QApplication a(i, NULL);
 
 	//DO NOT REMOVE THIS! OR IT WILL ERASE EVERYTHING!
-	this->decisions.setAutoDelete(false);
+	//this->decisions.setAutoDelete(false);
 	
 	this->window = new MainWindow();
-	this->window->setControllersAndMutex(&this->controllers, &mutexControllerList);
+	//this->window->setControllersAndMutex(&this->controllers, &mutexControllerList);
 	this->window->show();
 	
-	
+	connect(this, SIGNAL(stopValueChanged(bool)), &this->sumoC, SLOT(setStop(bool)));
 
-	threadPool->start(&this->decisions);
+	//threadPool->start(&this->decisions);
+	this->decisions.start();
 
-	
+	this->sumoC.start();
+
 	a.exec();
 
-	threadPool->waitForDone();
+	//threadPool->waitForDone();
+	emit this->stopValueChanged(true);
 
-
-	
+	this->sumoC.wait();
+	this->decisions.quit();
+	//this->sumoC.quit();
 				
 }
+/*
+QMutex * Supervisor::getMutextControllerListRef()
+{
+	return &this->mutexControllerList;
+}
+
+std::vector<Controller *> * Supervisor::getControllersListRef()
+{
+	return &this->controllers;
+}
+*/
+void Supervisor::getControllersListClone(std::vector<Controller *> *clone)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+	
+	for(int i = 0; i < this->controllers.size(); i++)
+	{
+		clone->push_back(this->controllers.at(i)->clone());
+	}
+}
+
+void Supervisor::setQueueSizeForController(std::string controllerId, int queueSize)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+	Controller *c;
+
+	for(int i = 0; i < this->controllers.size(); i++)
+	{
+		c = this->controllers.at(i);
+
+		if(c->getName().compare(controllerId) == 0)
+		{
+			c->setQueueSize(queueSize);
+			break;
+		}
+		
+	}
+}
+

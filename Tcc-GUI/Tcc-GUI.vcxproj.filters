@@ -80,6 +80,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Decisions.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Supervisor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Supervisor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SumoClient.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SumoClient.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -97,6 +109,12 @@
     <CustomBuild Include="Decisions.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Fuzzy.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SumoClient.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
@@ -108,24 +126,24 @@
     <ClInclude Include="storage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SumoClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fuzzy.h">
+    <ClInclude Include="SupervisorLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SupervisorLog.h">
+    <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\fuzzylite\lib\FuzzyLites.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="..\vld.lib">
       <Filter>Resource Files</Filter>
     </Library>
   </ItemGroup>

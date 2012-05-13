@@ -1,23 +1,24 @@
 #ifndef _DECISIONS_H_
 #define _DECISIONS_H_
 
-#include <QRunnable>
+#include <QThread>
 #include <QTimer>
 #include <QObject>
 #include "Fuzzy.h"
 #include "constants.h"
 
-class Decisions:public QObject, public QRunnable
+class Supervisor;
+
+class Decisions:public QThread
 {
 	Q_OBJECT
-
-	private slots:
-		void fuzzyTimerTimeout();
 
 	private:
 		Fuzzy fuzzy;
 		QTimer *fuzzyTimer;
-			
+		
+private slots:
+	void fuzzyTimerTimeout();
 
 	public:
 		//Decisions(Supervisor *ml): self(ml) {}

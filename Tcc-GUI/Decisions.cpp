@@ -1,44 +1,45 @@
 #include "Decisions.h"
+#include "Supervisor.h"
 
 Decisions::Decisions()
 {
-	this->fuzzyTimer = new QTimer(this);
-	connect(this->fuzzyTimer, SIGNAL(timeout()), this, SLOT(fuzzyTimerTimeout()));
-
-	this->fuzzyTimer->start(FUZZY_TIMER_INTERVAL);
 }
 
 Decisions::~Decisions()
 {
-	
 	if(this->fuzzyTimer->isActive())
 		this->fuzzyTimer->stop();
 
 	delete this->fuzzyTimer;
 	this->fuzzyTimer = nullptr;
-	
 }
 void Decisions::run()
 {
-	/*QMutexLocker locker(&self->mutexControllerList);
-				self->sumoC.setControllerProgram(self->controllers.at(0)->getName(), "off");
-				self->controllers.at(0)->setControllerLogics(self->sumoC.getTrafficLightsDefinition(self->controllers.at(0)->getName()));
-				/*
-				for(int i = 0; i < 1000; i++)
-				{
-					self->sumoC.simulationStep();
-				}*/
-				//self->sumoC.simulationStep();
-}
+	this->fuzzyTimer = new QTimer();
+	connect(this->fuzzyTimer, SIGNAL(timeout()), this, SLOT(fuzzyTimerTimeout()));
+	this->fuzzyTimer->start(FUZZY_TIMER_INTERVAL);
 
+	exec();
+
+}
 
 void Decisions::fuzzyTimerTimeout()
 {
+	std::vector<Controller *> controllers;
 	fl::flScalar degree;
+	Controller *c;
 
-	degree = this->fuzzy.infer(0,0);
+	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	if(degree >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+	for(int i = 0; i < controllers.size(); i++)
 	{
+		c = controllers.at(i);
+		degree = this->fuzzy.infer(c->getQueueSize(), c->getCarStream());
+
+		if(degree >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+		{
+		}
 	}
+
+	deleteInVector(controllers);
 }

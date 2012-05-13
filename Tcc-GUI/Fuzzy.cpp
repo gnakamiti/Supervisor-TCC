@@ -1,5 +1,6 @@
 #include "Fuzzy.h"
 
+
 Fuzzy::Fuzzy()
 {
 	this->fuzzyEngine = new fl::FuzzyEngine();
@@ -21,6 +22,7 @@ Fuzzy::Fuzzy()
 
 	this->fuzzyEngine->addRuleBlock(ruleBlock);
 
+	
 	
 }
 //TODO - TA DANDO UM PARSE EXCEPTION!
@@ -118,10 +120,13 @@ void Fuzzy::initLVars(fl::InputLVar *currentQueue, fl::InputLVar *carStream,
 }
 
 
+
+
 Fuzzy::~Fuzzy()
 {
 	//The input/output vars are deleted when you delete the engine!
 	delete this->fuzzyEngine;
-
 	this->fuzzyEngine = nullptr;
+
+	
 }

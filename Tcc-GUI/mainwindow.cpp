@@ -1,8 +1,11 @@
 #include "mainwindow.h"
+#include "Supervisor.h"
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
+	std::vector<Controller *> controllers;
+
 	ui.setupUi(this);
 	timer = new QTimer(this);
 	ui.listWidget->setSortingEnabled(true);
@@ -12,35 +15,46 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnRefresh, SIGNAL(click()), this, SLOT(btnRefresh()));
 
 	currentRow = -1;
-	
-	//timer->start(TIMER_TIMEOUT);
+
+
+
+	Supervisor::getInstance()->getControllersListClone(&controllers);
+	this->listControllersInTheList(controllers);
+	deleteInVector(controllers);
+
 
 }
 //Set the controller props in the GUI
 void MainWindow::listClick(QListWidgetItem * item)
 {
-	//No one can use the controllers list now!
-	QMutexLocker locker(mutexControllerList);
+
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
 
 	currentRow = ui.listWidget->currentRow();
-	this->updateInterface(controllers->at(currentRow));
+	this->updateInterface(controllers.at(currentRow));
+	deleteInVector(controllers);
+	
 	
 }
 
 void MainWindow::phaseSelected(int index)
 {
-	
-	//No one can use the controllers list now!
-	QMutexLocker locker(mutexControllerList);
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	this->setPhaseInTheGui(this->controllers->at(this->currentRow)->getLogics().at(ui.comboProgram->currentIndex())->phases->at(index));	
+	this->setPhaseInTheGui(controllers.at(this->currentRow)->getLogics().at(ui.comboProgram->currentIndex())->phases->at(index));	
+	deleteInVector(controllers);
+	
 }
 void MainWindow::programSelected(int index)
 {
-	//No one can use the controllers list now!
-	QMutexLocker locker(mutexControllerList);
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	this->setProgramInTheGui(this->controllers->at(this->currentRow)->getLogics().at(index));
+	this->setProgramInTheGui(controllers.at(this->currentRow)->getLogics().at(index));
+	deleteInVector(controllers);
+	
 }
 
 void MainWindow::setProgramInTheGui(ControllerLogic *logic)
@@ -163,28 +177,29 @@ void MainWindow::timerTimeoutCheckControllersAlive()
 
 void MainWindow::btnRefresh()
 {
+	/*
 	if(this->currentRow != -1)
 	{
 		this->updateInterface(controllers->at(currentRow));
-	}
+	}*/
 }
 
 /**
   No need to use mutex here, because when I'm here i already got the lock
   or I guarantee that there is no race conditition!
 */
-void MainWindow::listControllersInTheList(std::vector<Controller *> *controllers)
+void MainWindow::listControllersInTheList(std::vector<Controller *> controllers)
 {
 	QString qString;
 	QListWidgetItem *item;
-	
-	QMutexLocker locker(mutexControllerList);
+
+	//QMutexLocker locker(mutexControllerList);
 	ui.listWidget->clear();
 
-	for(int row = 0; row < controllers->size(); row++)
+	for(int row = 0; row < controllers.size(); row++)
 	{
 		//This conversion is needed because, the class QListWidgetItem just accepts QString :(
-		qString = controllers->at(row)->getName().c_str();
+		qString = controllers.at(row)->getName().c_str();
 
 		item = new QListWidgetItem(qString);
 		ui.listWidget->addItem(item);
@@ -192,7 +207,7 @@ void MainWindow::listControllersInTheList(std::vector<Controller *> *controllers
 		
 	}
 }
-
+/*
 //Setting values
 void MainWindow::setControllersAndMutex(std::vector<Controller *> *controllers, QMutex *mutexControllerList)
 {
@@ -201,7 +216,7 @@ void MainWindow::setControllersAndMutex(std::vector<Controller *> *controllers, 
 	this->mutexControllerList = mutexControllerList;
 	this->listControllersInTheList(this->controllers);
 	
-}
+}*/
 
 MainWindow::~MainWindow()
 {

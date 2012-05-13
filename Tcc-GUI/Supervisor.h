@@ -1,7 +1,7 @@
 #ifndef _SUPERVISOR_H_
 #define _SUPERVISOR_H_
 
-#include "mainwindow.h"
+
 #include "SumoClient.h"
 #include "Controller.h"
 #include "SupervisorLog.h"
@@ -10,16 +10,18 @@
 #include <QThreadPool>
 #include <QMutexLocker>
 #include <QMutex>
+#include <QObject>
 #include "Decisions.h"
 
 
+class MainWindow; //For circular dependencies
 
-class Supervisor
+class Supervisor: public QObject
 {
+	Q_OBJECT
 
 private:
 	static Supervisor *self;
-	
 
 	SumoClient sumoC;
 	
@@ -30,7 +32,9 @@ private:
 	Decisions decisions;
 
 	std::vector<Controller *> controllers;
-	
+
+signals:
+     void stopValueChanged(bool newValue);
 
 
 public:
@@ -39,6 +43,14 @@ public:
 	void startThreads(void);
 
 	static Supervisor * getInstance();
+
+	//QMutex * getMutextControllerListRef();
+	//std::vector<Controller *>  * getControllersListRef();
+
+	void getControllersListClone(std::vector<Controller *> *);
+
+	void setQueueSizeForController(std::string, int);
+	
 	
 	
 };

@@ -1,9 +1,11 @@
 #include "SumoClient.h"
 #include <iostream>
+#include "Supervisor.h"
 
 SumoClient::SumoClient()
 {
 	s = new Socket(LOCAL_HOST, PORT_HOST);
+	this->stop = false;
 }
 
 SumoClient::~SumoClient()
@@ -125,10 +127,13 @@ void SumoClient::simulationStep(int step)
 	out.writeUnsignedByte(1+1+4);
 	out.writeUnsignedByte(SUMO_STEP);
 	out.writeInt(step);
-	std::cout << step;
-	
+	//std::cout << step;
+	socketLock.lock();
+
 	s->sendExact(out);
 	s->receiveExact(in);
+
+	socketLock.unlock();
 }
 //Only used for traffic lights functions for now.
 Storage * SumoClient::sendCommandForSumoTrafficLights(std::string controllerId, int flag)
@@ -213,6 +218,8 @@ void SumoClient::close()
 	msg.writeUnsignedByte(1 + 1);
 	msg.writeUnsignedByte(CLOSE_SUMO);
 
+	socketLock.lock();
+
 	s->sendExact(msg);
 	s->receiveExact(inMsg);
 	s->close();
@@ -220,6 +227,8 @@ void SumoClient::close()
 	delete s;
 
 	s = nullptr;
+
+	socketLock.unlock();
 }
 
 void SumoClient::setControllerProgram(std::string controllerID, std::string programID)
@@ -253,4 +262,112 @@ void SumoClient::setControllerProgram(std::string controllerID, std::string prog
 
 	s->sendExact(out);
 	s->receiveExact(in);
+}
+int SumoClient::getLaneQueueSize(std::string laneId)
+{
+	Storage in,out;
+	int length,flag;
+
+	flag = SUMO_GET_QUEUE_SIZE;
+
+	length = 1+1+1+4+laneId.size();
+	
+
+	if(length <= 255)
+	{
+		out.writeUnsignedByte(length);
+		out.writeUnsignedByte(SUMO_LANE_VARIABLE);
+		out.writeUnsignedByte(flag);
+		out.writeString(laneId);
+		
+	}
+	else
+	{
+		out.writeUnsignedByte(0);
+		out.writeInt(length+4);
+		out.writeUnsignedByte(SUMO_LANE_VARIABLE);
+		out.writeUnsignedByte(flag);
+		out.writeString(laneId);
+	}
+
+	socketLock.lock();
+
+	s->sendExact(out);
+	s->receiveExact(in);
+
+	socketLock.unlock();
+	
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readString();
+
+
+	if(in.readUnsignedByte() <= 0)
+		in.readInt();
+
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readString();
+	in.readUnsignedByte();
+
+	return in.readInt();
+}
+
+void SumoClient::setStop(bool newValue)
+{
+	stopLock.lock();
+
+	this->stop = newValue;
+
+	stopLock.unlock();
+}
+
+void SumoClient::run()
+{
+	Supervisor *supervisor;
+	std::vector<Controller *> controllers;
+	Controller *controller;
+	std::vector<std::string> controlledLanes;
+	int queueSize;
+	
+	stopLock.lock();
+
+	while(this->stop == false)
+	{
+		stopLock.unlock();
+		
+		supervisor = Supervisor::getInstance();
+
+		supervisor->getControllersListClone(&controllers);
+
+
+		this->simulationStep();
+
+		
+
+
+		for(int i = 0; i < controllers.size(); i++)
+		{
+			queueSize = 0;
+			controller = controllers.at(i);
+			controlledLanes = controller->getControlledLanes();
+
+			for(int j = 0; j < controlledLanes.size(); j++)
+			{
+				queueSize += this->getLaneQueueSize(controlledLanes.at(j));
+			}
+
+			supervisor->setQueueSizeForController(controller->getName(), queueSize);
+			controlledLanes.clear();
+		}
+
+		
+		
+
+		deleteInVector(controllers);
+		controllers.clear();
+
+		stopLock.lock();
+	}
 }
