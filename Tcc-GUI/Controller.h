@@ -47,6 +47,7 @@ private:
 	bool active;
 	int queueSize;
 	int carStream;
+	int queuePerLane;
 
 	//void deleteLogics();
 
@@ -65,8 +66,10 @@ public:
 	std::vector<ControllerLogic *> getLogics() { return logics; }
 	int getQueueSize() { return queueSize; }
 	int getCarStream() { return carStream; }
+	int getQueuePerLane() { return queuePerLane; }
+	void setQueuePerLane(int n) { queuePerLane = n; }
 	void setCarStream(int n) { carStream = n; }
-	void setQueueSize(int n) { queueSize = n; }
+	void setQueueSize(int n) { queueSize = n; this->setQueuePerLane((int)(n / this->getControlledLanes().size())); }
 	bool isActive() { return active; }
 	void setControllerLogics(std::vector<ControllerLogic *>);
 	void addControllerToSimilarList(Controller *);

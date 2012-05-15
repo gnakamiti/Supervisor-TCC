@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <vld.h>
+
+#ifdef WIN32 //Detect memory leaks, only for windows!
+	#include <vld.h>
+#endif
 //using namespace std;
 
 int main(int argc, char *argv[])

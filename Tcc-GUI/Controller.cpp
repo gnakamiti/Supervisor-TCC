@@ -48,6 +48,7 @@ Controller::Controller(const Controller &copy)
 	controlledLanes = copy.controlledLanes;
 	queueSize = copy.queueSize;
 	carStream = copy.carStream;
+	queuePerLane = copy.queuePerLane;
 
 	for(int i = 0; i < copy.logics.size(); i++)
 	{

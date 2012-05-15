@@ -117,7 +117,11 @@ std::vector<ControllerLogic *>  SumoClient::getTrafficLightsDefinition(std::stri
 
 void SumoClient::connect()
 {
+	socketLock.lock();
+
 	s->connect();
+
+	socketLock.unlock();
 }
 
 void SumoClient::simulationStep(int step)
@@ -162,9 +166,12 @@ Storage * SumoClient::sendCommandForSumoTrafficLights(std::string controllerId, 
 		out.writeUnsignedByte(flag);
 		out.writeString(controllerId);
 	}
+	socketLock.lock();
 
 	s->sendExact(out);
 	s->receiveExact(*in);
+
+	socketLock.unlock();
 
 	//REMOVING GARBAGE FROM THE MESSAGE!
 
@@ -260,8 +267,12 @@ void SumoClient::setControllerProgram(std::string controllerID, std::string prog
 	out.writeUnsignedByte(SUMO_TYPE_STRING);
 	out.writeString(programID);
 
+	socketLock.lock();
+
 	s->sendExact(out);
 	s->receiveExact(in);
+
+	socketLock.unlock();
 }
 int SumoClient::getLaneQueueSize(std::string laneId)
 {
@@ -357,7 +368,8 @@ void SumoClient::run()
 			{
 				queueSize += this->getLaneQueueSize(controlledLanes.at(j));
 			}
-
+			//PARA PEGAR O FLUXO, PEGAR OS DETECTORES E1 DE CADA FAIXA E FAZER A SOMA PARA SABER NO TOTAL!
+			//VER LINHAS 166 DE TLSCONTROLLER
 			supervisor->setQueueSizeForController(controller->getName(), queueSize);
 			controlledLanes.clear();
 		}

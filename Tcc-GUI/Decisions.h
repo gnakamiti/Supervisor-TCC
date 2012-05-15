@@ -16,7 +16,7 @@ class Decisions:public QThread
 	private:
 		Fuzzy fuzzy;
 		QTimer *fuzzyTimer;
-		
+
 private slots:
 	void fuzzyTimerTimeout();
 
