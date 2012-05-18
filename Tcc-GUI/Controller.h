@@ -15,10 +15,11 @@ typedef struct LaneStruct
 typedef struct StreetStruct
 {
 	std::vector<Lane> lanes;
-	int queueSize;
-	int queueSizePerLane;
-	int carStream;
 	std::string streetName;
+	std::string situation;
+	//int queueSizePerLane;
+	int queueSize;
+	int carStream;
 } Street;
 
 class Phase
@@ -57,15 +58,15 @@ class Controller
 private:
 	std::string name;
 	std::vector<ControllerLogic *>  logics;
-	std::vector<Controller *> similarControllers; //This is used by fuzzy! but not yet....
-	std::vector<Lane> lanes;
+	//std::vector<Controller *> similarControllers; //This is used by fuzzy! but not yet....
+	//std::vector<Lane> lanes;
 	std::vector<Street> streets;
 	bool active;
-	//int queueSize;
-	//int carStream;
-	//int queuePerLane;
+//	int queueSize;
+//	int carStream;
+//	int queuePerLane;
 
-	void createStreets();
+	void createStreets(std::vector<Lane>);
 	std::string laneToStreet(std::string);
 	//void deleteLogics();
 
@@ -81,16 +82,19 @@ public:
 	void setActive(bool b) { active = b; }
 	std::string getName() { return name; }
 	std::vector<ControllerLogic *> getLogics() { return logics; }
-	std::vector<Lane> getLanes() { return lanes; }
-	//int getQueueSize() { return queueSize; }
-	//int getCarStream() { return carStream; }
-	//int getQueuePerLane() { return queuePerLane; }
-	//void setQueuePerLane(int n) { queuePerLane = n; }
-	//void setCarStream(int n) { carStream += n; }
-	//void setQueueSize(int n) { queueSize = n; this->setQueuePerLane((int)(n / this->getLanes().size())); }
+	//std::vector<Lane> getLanes() { return lanes; }
+//	int getQueueSize() { return queueSize; }
+//	int getCarStream() { return carStream; }
+//	int getQueuePerLane() { return queuePerLane; }
+//	void setQueuePerLane(int n) { queuePerLane = n; }
+//	void setCarStream(int n) { carStream += n; }
+//	void setQueueSize(int n) { queueSize = n; this->setQueuePerLane((int)(n / this->getLanes().size())); }
 	bool isActive() { return active; }
 	void setControllerLogics(std::vector<ControllerLogic *>);
-	void addControllerToSimilarList(Controller *);
+	//void addControllerToSimilarList(Controller *);
+	//Isso aqui me causou problemas, acostumado com referencias em java :(
+	//Eu estava apenas retornando uma copia!
+	std::vector<Street> * getControlledStreets() { return &streets; }
 
 	Controller *clone();
 };

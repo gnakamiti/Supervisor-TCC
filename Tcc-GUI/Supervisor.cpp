@@ -127,11 +127,12 @@ void Supervisor::getControllersListClone(std::vector<Controller *> *clone)
 		clone->push_back(this->controllers.at(i)->clone());
 	}
 }
-
-void Supervisor::setQueueSizeAndStreamForController(std::string controllerId, int queueSize, int carStream)
+//WHEN I ENTER HERE I MUST HAVE  mutexControllerList LOCK!
+Street * Supervisor::getStreetByName(std::string controllerId, std::string streetName)
 {
-	QMutexLocker locker(&this->mutexControllerList);
 	Controller *c;
+	std::vector<Street> *streets;
+	Street *street;
 
 	for(int i = 0; i < this->controllers.size(); i++)
 	{
@@ -139,11 +140,41 @@ void Supervisor::setQueueSizeAndStreamForController(std::string controllerId, in
 
 		if(c->getName().compare(controllerId) == 0)
 		{
-			c->setQueueSize(queueSize);
-			c->setCarStream(carStream);
+			streets = c->getControlledStreets();
+
+			for(int k = 0; k < streets->size(); k++)
+			{
+				//street = streets->at(k);
+				if(streets->at(k).streetName.compare(streetName) == 0)
+				{
+					street = &streets->at(k);
+					break;
+				}
+			}
 			break;
 		}
 		
 	}
+
+	return street;
+}
+void Supervisor::setQueueSizeAndStreamForController
+	(std::string controllerId, std::string streetName, int queueSize, int carStream)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+
+	Street *street = this->getStreetByName(controllerId, streetName);
+
+	street->carStream += carStream;
+	street->queueSize = queueSize;
+}
+void Supervisor::setSituationForStreet
+	(std::string controllerId, std::string streetName, std::string situation)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+
+	Street *street = this->getStreetByName(controllerId, streetName);
+
+	street->situation = situation;
 }
 

@@ -353,44 +353,57 @@ void SumoClient::run()
 	std::vector<Controller *> controllers;
 	Controller *controller;
 	std::vector<Lane> controlledLanes;
+	std::vector<Street> *controlledStreets;
+	Lane lane;
+	Street street;
 	int queueSize, carStream;
-	
-	stopLock.lock();
 
+	//TALVEZ VOLTAR ISSO PRA DENTRO DO LOOP
+	supervisor = Supervisor::getInstance();
+
+	stopLock.lock();
 	while(this->stop == false)
 	{
 		stopLock.unlock();
 		
-		supervisor = Supervisor::getInstance();
+		
 
+		//TALVEZ EU POSSA TIRAR ESSA CLONE, POIS ESSA THREAD NUNCA PARA
+		//E EU SO ATUALIZO PROPRIEDADES DOS CONTROLADORES
+		//ALEM DISSO SERIA UM GRANDE GANHO DE MEMORIA!
 		supervisor->getControllersListClone(&controllers);
-
 
 		this->simulationStep();
 
-		
-
-
 		for(int i = 0; i < controllers.size(); i++)
 		{
-			queueSize = 0;
-			carStream = 0;
 			controller = controllers.at(i);
-			controlledLanes = controller->getLanes();
+			controlledStreets = controller->getControlledStreets();
 
-			for(int j = 0; j < controlledLanes.size(); j++)
+			for(int j = 0; j < controlledStreets->size(); j++)
 			{
-				queueSize += this->getQueueSizeOrFlowForALane(controlledLanes.at(j).laneName, SUMO_GET_QUEUE_SIZE, SUMO_LANE_VARIABLE);
-				carStream += this->getQueueSizeOrFlowForALane(controlledLanes.at(j).detectorName, SUMO_GET_CAR_FLOW, SUMO_INDUCTION_LOOP);
-			}
-			//PARA PEGAR O FLUXO, PEGAR OS DETECTORES E1 DE CADA FAIXA E FAZER A SOMA PARA SABER NO TOTAL!
-			//VER LINHAS 166 DE TLSCONTROLLER
-			supervisor->setQueueSizeAndStreamForController(controller->getName(), queueSize, carStream);
-			controlledLanes.clear();
-		}
+				queueSize = 0;
+				carStream = 0;
+				street = controlledStreets->at(j);
+				controlledLanes = street.lanes;
 
-		
-		
+				for(int k = 0; k < controlledLanes.size(); k++)
+				{
+					lane = controlledLanes.at(k);
+
+					queueSize += this->getQueueSizeOrFlowForALane
+						(lane.laneName, SUMO_GET_QUEUE_SIZE, SUMO_LANE_VARIABLE);
+
+					carStream += this->getQueueSizeOrFlowForALane
+						(lane.detectorName, SUMO_GET_CAR_FLOW, SUMO_INDUCTION_LOOP);
+				}
+				supervisor->setQueueSizeAndStreamForController
+					(controller->getName(), street.streetName, queueSize, carStream);
+				controlledLanes.clear();
+			}
+
+			//controlledStreets.clear();
+		}
 
 		deleteInVector(controllers);
 		controllers.clear();

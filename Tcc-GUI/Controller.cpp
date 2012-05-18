@@ -10,10 +10,8 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, 
 	this->name = name;
 	this->setControllerLogics(logics);
 	
-	this->lanes = lanes;
-	this->carStream = 0;
-	this->queueSize = -2;
-	this->createStreets();
+	//this->lanes = lanes;
+	this->createStreets(lanes);
 }
 
 std::string Controller::laneToStreet(std::string lane)
@@ -22,7 +20,7 @@ std::string Controller::laneToStreet(std::string lane)
 	return lane.substr(0, lane.find(findStr));
 }
 
-void Controller::createStreets()
+void Controller::createStreets(std::vector<Lane> lanes)
 {
 	Street street;
 	Lane lane;
@@ -43,8 +41,8 @@ void Controller::createStreets()
 		{
 			street.carStream = 0;
 			street.queueSize = 0;
-			street.queueSizePerLane = 0;
 			street.streetName = lastLane;
+			street.situation = "REGULAR";
 			this->streets.push_back(street);
 			//the new lane
 			street.lanes.clear();
@@ -55,14 +53,15 @@ void Controller::createStreets()
 	}
 	street.carStream = 0;
 	street.queueSize = 0;
-	street.queueSizePerLane = 0;
+	street.situation = "REGULAR";
 	street.streetName = lastLane;
 	this->streets.push_back(street);
 }
+/*
 void Controller::addControllerToSimilarList(Controller *c)
 {
 	this->similarControllers.push_back(c);
-}
+}*/
 void Controller::setControllerLogics(std::vector<ControllerLogic *> logics)
 {
 	//Because im going to clear the vector
@@ -92,26 +91,26 @@ Controller::Controller(const Controller &copy)
 	name = copy.name;
 	active = copy.active;
 //	controlledLanes = copy.controlledLanes;
-	queueSize = copy.queueSize;
-	carStream = copy.carStream;
-	queuePerLane = copy.queuePerLane;
-	lanes = copy.lanes;
+//	queueSize = copy.queueSize;
+//	carStream = copy.carStream;
+//	queuePerLane = copy.queuePerLane;
+//	lanes = copy.lanes;
 	streets = copy.streets;
 	for(int i = 0; i < copy.logics.size(); i++)
 	{
 		logics.push_back(copy.logics.at(i)->clone());
 	}
-
+	/*
 	for(int i = 0; i < copy.similarControllers.size(); i++)
 	{
 		similarControllers.push_back(copy.similarControllers.at(i)->clone());
-	}
+	}*/
 
 }
 Controller::~Controller()
 {
 	deleteInVector(this->logics);
-	deleteInVector(this->similarControllers);
+	//deleteInVector(this->similarControllers);
 }
 
 ControllerLogic::ControllerLogic()

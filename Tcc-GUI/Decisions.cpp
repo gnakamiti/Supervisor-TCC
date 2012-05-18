@@ -37,17 +37,32 @@ void Decisions::fuzzyTimerTimeout()
 	std::vector<Controller *> controllers;
 	fl::flScalar degree;
 	Controller *cI, *cJ;
-	int queueSizeI, queueSizeJ, carStreamI, carStreamJ, streamFinal, queueFinal;
+	std::vector<Street> *controlledStreetsI, *controlledStreetsJ;
+	//int queueSizeI, queueSizeJ, carStreamI, carStreamJ, streamFinal, queueFinal;
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
 	for(int i = 0; i < controllers.size(); i++)
 	{
 		cI = controllers.at(i);
-		queueSizeI = cI->getQueuePerLane();
-		carStreamI = cI->getCarStream();
+		controlledStreetsI = cI->getControlledStreets();
+		
+		for(int j = 0; j < controlledStreetsI->size(); j++)
+		{
+			degree = this->fuzzyControllerSituation->infer
+				(controlledStreetsI->at(j).queueSize);
 
-		degree = this->fuzzyControllerSituation->infer(queueSizeI);
+			//I'm bad if the invere of degree is bad
+			if(degree <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
+			{
+				Supervisor::getInstance()->
+					setSituationForStreet(cI->getName(), 
+					controlledStreetsI->at(j).streetName,
+					"BAD");
+			}
+		}
+
+		/*
 		//I'm bad if the invere of degree is bad
 		if(degree <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
 		{
@@ -61,14 +76,14 @@ void Decisions::fuzzyTimerTimeout()
 
 				cJ = controllers.at(j);
 
-				queueSizeJ = cJ->getQueuePerLane();
+				//queueSizeJ = cJ->getQueuePerLane();
 				queueFinal = (queueSizeI - queueSizeJ);
 
 				//I will only calculate similarity if my queue is bigger than the another controller
 				if(queueSizeI < queueSizeJ)
 					continue;
 
-				carStreamJ = cJ->getCarStream();
+				//carStreamJ = cJ->getCarStream();
 				streamFinal = abs((carStreamI - carStreamJ));
 			
 
@@ -85,7 +100,7 @@ void Decisions::fuzzyTimerTimeout()
 					SupervisorLog::getInstance()->writeOnLog(similarOutput);
 				}
 			}
-		}
+		}*/
 	}
 
 	deleteInVector(controllers);

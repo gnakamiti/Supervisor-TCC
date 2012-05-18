@@ -96,8 +96,17 @@ void MainWindow::updateInterface(Controller *controller)
 	Phase *phase;
 	std::vector<Phase *> *phases;
 
-	std::vector<Lane> controlledLanes = controller->getLanes();
+	std::vector<Lane> controlledLanes;
+	std::vector<Street> *controlledStreets = controller->getControlledStreets();
 	std::vector<ControllerLogic *>  logics = controller->getLogics();
+
+	//Because I was usint lane before, and I don't wanna change it.
+	//easier like this....
+	for(int i = 0; i < controlledStreets->size(); i++)
+	{
+		controlledLanes.insert(controlledLanes.end(), controlledStreets->at(i).lanes.begin(), 
+			controlledStreets->at(i).lanes.end());
+	}
 
 
 	//We need to disconnect the signals or we will have a deadlock!

@@ -125,7 +125,7 @@ fl::flScalar Fuzzy::infer(int queueSize, int carStream)
 	this->fuzzyEngine->process();
 
 	value = this->adequationDegree->output().defuzzify();
-
+	
 	return value;
 }
 fl::flScalar Fuzzy::infer(int queueSize)
@@ -138,7 +138,7 @@ fl::flScalar Fuzzy::infer(int queueSize)
 	this->fuzzyEngine->process();
 
 	value = this->adequationDegree->output().defuzzify();
-
+	std::string a = this->adequationDegree->output().toString();
 	return value;
 }
 

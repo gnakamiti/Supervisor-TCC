@@ -33,6 +33,8 @@ private:
 
 	std::vector<Controller *> controllers;
 
+	Street * getStreetByName(std::string, std::string);
+
 signals:
      void stopValueChanged(bool newValue);
 
@@ -49,8 +51,9 @@ public:
 
 	void getControllersListClone(std::vector<Controller *> *);
 
-	void setQueueSizeAndStreamForController(std::string, int, int);
-	
+	void setQueueSizeAndStreamForController(std::string, std::string, int, int);
+
+	void setSituationForStreet(std::string, std::string, std::string);
 	
 	
 	

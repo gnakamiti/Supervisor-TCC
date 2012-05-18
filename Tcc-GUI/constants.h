@@ -58,5 +58,4 @@
 
 #define LOG_FILE_NAME "SUPERVISOR_LOG.txt"
 
-
 #endif
