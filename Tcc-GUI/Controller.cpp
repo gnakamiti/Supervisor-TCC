@@ -4,15 +4,61 @@ Controller::Controller()
 {
 }
 
-Controller::Controller(std::string name, std::vector<ControllerLogic *>  logics, std::vector<std::string> controlledLanes)
+
+Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, std::vector<Lane> lanes)
 {
 	this->name = name;
 	this->setControllerLogics(logics);
-	this->controlledLanes = controlledLanes;
-	this->carStream = -1;
+	
+	this->lanes = lanes;
+	this->carStream = 0;
 	this->queueSize = -2;
+	this->createStreets();
 }
 
+std::string Controller::laneToStreet(std::string lane)
+{
+	std::string findStr = "E";
+	return lane.substr(0, lane.find(findStr));
+}
+
+void Controller::createStreets()
+{
+	Street street;
+	Lane lane;
+	std::string actualLaneName;
+	std::string lastLane = lanes.at(0).laneName;
+
+	lastLane = this->laneToStreet(lastLane);
+
+	for(int i = 0; i < lanes.size(); i++)
+	{
+		lane = lanes.at(i);
+		actualLaneName = this->laneToStreet(lane.laneName);
+		if(lastLane.compare(actualLaneName) == 0)
+		{
+			street.lanes.push_back(lane);
+		}
+		else
+		{
+			street.carStream = 0;
+			street.queueSize = 0;
+			street.queueSizePerLane = 0;
+			street.streetName = lastLane;
+			this->streets.push_back(street);
+			//the new lane
+			street.lanes.clear();
+			street.lanes.push_back(lane);
+		}
+
+		lastLane = actualLaneName;
+	}
+	street.carStream = 0;
+	street.queueSize = 0;
+	street.queueSizePerLane = 0;
+	street.streetName = lastLane;
+	this->streets.push_back(street);
+}
 void Controller::addControllerToSimilarList(Controller *c)
 {
 	this->similarControllers.push_back(c);
@@ -45,11 +91,12 @@ Controller::Controller(const Controller &copy)
 {
 	name = copy.name;
 	active = copy.active;
-	controlledLanes = copy.controlledLanes;
+//	controlledLanes = copy.controlledLanes;
 	queueSize = copy.queueSize;
 	carStream = copy.carStream;
 	queuePerLane = copy.queuePerLane;
-
+	lanes = copy.lanes;
+	streets = copy.streets;
 	for(int i = 0; i < copy.logics.size(); i++)
 	{
 		logics.push_back(copy.logics.at(i)->clone());

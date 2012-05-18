@@ -274,12 +274,12 @@ void SumoClient::setControllerProgram(std::string controllerID, std::string prog
 
 	socketLock.unlock();
 }
-int SumoClient::getLaneQueueSize(std::string laneId)
+int SumoClient::getQueueSizeOrFlowForALane(std::string laneId, int flag, int domain)
 {
 	Storage in,out;
-	int length,flag;
+	int length;
 
-	flag = SUMO_GET_QUEUE_SIZE;
+	//flag = SUMO_GET_QUEUE_SIZE;
 
 	length = 1+1+1+4+laneId.size();
 	
@@ -287,7 +287,7 @@ int SumoClient::getLaneQueueSize(std::string laneId)
 	if(length <= 255)
 	{
 		out.writeUnsignedByte(length);
-		out.writeUnsignedByte(SUMO_LANE_VARIABLE);
+		out.writeUnsignedByte(domain);
 		out.writeUnsignedByte(flag);
 		out.writeString(laneId);
 		
@@ -296,7 +296,7 @@ int SumoClient::getLaneQueueSize(std::string laneId)
 	{
 		out.writeUnsignedByte(0);
 		out.writeInt(length+4);
-		out.writeUnsignedByte(SUMO_LANE_VARIABLE);
+		out.writeUnsignedByte(domain);
 		out.writeUnsignedByte(flag);
 		out.writeString(laneId);
 	}
@@ -333,14 +333,27 @@ void SumoClient::setStop(bool newValue)
 
 	stopLock.unlock();
 }
+/*
+int SumoClient::getCarStreamByDetector(std::string)
+{
+	Storage in,out;
+
+
+	socketLock.lock();
+
+	s->sendExact(out);
+	s->receiveExact(in);
+
+	socketLock.unlock();
+}*/
 
 void SumoClient::run()
 {
 	Supervisor *supervisor;
 	std::vector<Controller *> controllers;
 	Controller *controller;
-	std::vector<std::string> controlledLanes;
-	int queueSize;
+	std::vector<Lane> controlledLanes;
+	int queueSize, carStream;
 	
 	stopLock.lock();
 
@@ -361,16 +374,18 @@ void SumoClient::run()
 		for(int i = 0; i < controllers.size(); i++)
 		{
 			queueSize = 0;
+			carStream = 0;
 			controller = controllers.at(i);
-			controlledLanes = controller->getControlledLanes();
+			controlledLanes = controller->getLanes();
 
 			for(int j = 0; j < controlledLanes.size(); j++)
 			{
-				queueSize += this->getLaneQueueSize(controlledLanes.at(j));
+				queueSize += this->getQueueSizeOrFlowForALane(controlledLanes.at(j).laneName, SUMO_GET_QUEUE_SIZE, SUMO_LANE_VARIABLE);
+				carStream += this->getQueueSizeOrFlowForALane(controlledLanes.at(j).detectorName, SUMO_GET_CAR_FLOW, SUMO_INDUCTION_LOOP);
 			}
 			//PARA PEGAR O FLUXO, PEGAR OS DETECTORES E1 DE CADA FAIXA E FAZER A SOMA PARA SABER NO TOTAL!
 			//VER LINHAS 166 DE TLSCONTROLLER
-			supervisor->setQueueSizeForController(controller->getName(), queueSize);
+			supervisor->setQueueSizeAndStreamForController(controller->getName(), queueSize, carStream);
 			controlledLanes.clear();
 		}
 

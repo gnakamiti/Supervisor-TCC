@@ -22,9 +22,10 @@ private:
 	QMutex socketLock;
 	QMutex stopLock;
 	bool stop;
-	Storage * sendCommandForSumoTrafficLights(std::string, int );
+	Storage * sendCommandForSumoTrafficLights(std::string, int);
 
-	int getLaneQueueSize(std::string);
+	int getQueueSizeOrFlowForALane(std::string, int, int);
+	
 
 public slots:
      void setStop(bool newValue);

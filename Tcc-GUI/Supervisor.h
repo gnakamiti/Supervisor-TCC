@@ -49,7 +49,8 @@ public:
 
 	void getControllersListClone(std::vector<Controller *> *);
 
-	void setQueueSizeForController(std::string, int);
+	void setQueueSizeAndStreamForController(std::string, int, int);
+	
 	
 	
 	

@@ -96,7 +96,7 @@ void MainWindow::updateInterface(Controller *controller)
 	Phase *phase;
 	std::vector<Phase *> *phases;
 
-	std::vector<std::string> controlledLanes = controller->getControlledLanes();
+	std::vector<Lane> controlledLanes = controller->getLanes();
 	std::vector<ControllerLogic *>  logics = controller->getLogics();
 
 
@@ -121,7 +121,7 @@ void MainWindow::updateInterface(Controller *controller)
 
 	for(int i = 0; i < controlledLanes.size(); i++)
 	{
-		qString = controlledLanes.at(i).c_str();
+		qString = controlledLanes.at(i).laneName.c_str();
 
 		item = new QListWidgetItem(qString);
 		ui.listControlledLanes->addItem(item);

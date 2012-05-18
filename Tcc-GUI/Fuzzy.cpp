@@ -1,32 +1,72 @@
 #include "Fuzzy.h"
 
-
 Fuzzy::Fuzzy()
+{
+}
+
+Fuzzy::Fuzzy(int fuzzyCase)
 {
 	this->fuzzyEngine = new fl::FuzzyEngine();
 
 	this->currentQueue = new fl::InputLVar(FUZZY_INPUTL_VAR_CURRENT_QUEUE);
-	this->carStream = new fl::InputLVar(FUZZY_INPUTL_VAR_CAR_STREAM);
+
+	if(fuzzyCase == FUZZY_USE_CAR_STREAM)
+		this->carStream = new fl::InputLVar(FUZZY_INPUTL_VAR_CAR_STREAM);
+
 	this->adequationDegree = new fl::OutputLVar(FUZZY_INPUTL_VAR_QUEUE_AD_DEGREE);
 
 	//Deleted by fuzzy engine
 	fl::RuleBlock *ruleBlock = new fl::RuleBlock();
 
-	this->initLVars(currentQueue, carStream, adequationDegree);
+	this->initLVars(currentQueue, carStream, adequationDegree, fuzzyCase);
 
 	this->fuzzyEngine->addInputLVar(this->currentQueue);
-	this->fuzzyEngine->addInputLVar(this->carStream);
+
+	if(fuzzyCase == FUZZY_USE_CAR_STREAM)
+		this->fuzzyEngine->addInputLVar(this->carStream);
+
 	this->fuzzyEngine->addOutputLVar(this->adequationDegree);
 
-	this->setRuleBlock(ruleBlock);
+	if(fuzzyCase == FUZZY_USE_CAR_STREAM)
+		this->setRuleBlockWithStream(ruleBlock);
+	else
+		this->setRuleBlockNoStream(ruleBlock);
 
 	this->fuzzyEngine->addRuleBlock(ruleBlock);
 
 	
 	
 }
-//TODO - TA DANDO UM PARSE EXCEPTION!
-void Fuzzy::setRuleBlock(fl::RuleBlock *ruleBlock)
+
+void  Fuzzy::setRuleBlockNoStream(fl::RuleBlock *ruleBlock)
+{
+	QString qStringRuleBase, qStringRuleToBeAdded;
+
+	char fuzzyInputNames[FUZZY_INPUT_SIZE][FUZZY_STR_SIZE] = {FUZZY_INPUT_NOTHING, 
+		FUZZY_INPUT_SMALL, FUZZY_INPUT_REGULAR, FUZZY_INPUT_BIG, FUZZY_INPUT_ENORMOUS};
+
+	char fuzzyOutputNames[FUZZY_INPUT_SIZE][FUZZY_STR_SIZE] = {FUZZY_INPUT_ENORMOUS, 
+		FUZZY_INPUT_BIG, FUZZY_INPUT_REGULAR, FUZZY_INPUT_SMALL, FUZZY_INPUT_NOTHING};
+
+	//Creating a generic rule string.
+	//C++ won't let me string + string + string :(((((((
+	qStringRuleBase = "if ";
+	qStringRuleBase += FUZZY_INPUTL_VAR_CURRENT_QUEUE;
+	qStringRuleBase += " is %1 then ";
+	qStringRuleBase += FUZZY_INPUTL_VAR_QUEUE_AD_DEGREE;
+	qStringRuleBase += " is %2";
+
+	for(int i = 0; i < FUZZY_INPUT_SIZE; i++)
+	{
+		qStringRuleToBeAdded = qStringRuleBase.arg(fuzzyInputNames[i]).
+				arg(fuzzyOutputNames[i]);
+
+		ruleBlock->addRule(new fl::MamdaniRule(qStringRuleToBeAdded
+					.toStdString(), *(this->fuzzyEngine)));
+	}
+}
+
+void Fuzzy::setRuleBlockWithStream(fl::RuleBlock *ruleBlock)
 {
 	QString qStringRuleBase, qStringRuleToBeAdded;
 
@@ -41,7 +81,7 @@ void Fuzzy::setRuleBlock(fl::RuleBlock *ruleBlock)
 	  {FUZZY_INPUT_BIG, FUZZY_INPUT_BIG, FUZZY_INPUT_REGULAR, FUZZY_INPUT_NOTHING, FUZZY_INPUT_NOTHING},
 	  {FUZZY_INPUT_BIG, FUZZY_INPUT_BIG, FUZZY_INPUT_REGULAR, FUZZY_INPUT_NOTHING, FUZZY_INPUT_NOTHING},
 	};
-
+	
 	//Creating a generic rule string.
 	//C++ won't let me string + string + string :(((((((
 	qStringRuleBase = "if ";
@@ -51,14 +91,18 @@ void Fuzzy::setRuleBlock(fl::RuleBlock *ruleBlock)
 	qStringRuleBase += " is %2 then ";
 	qStringRuleBase += FUZZY_INPUTL_VAR_QUEUE_AD_DEGREE;
 	qStringRuleBase += " is %3";
+	
+	
 
 	for(int i = 0; i < FUZZY_INPUT_SIZE; i++)
 	{
 		for(int j = 0; j < FUZZY_INPUT_SIZE; j++)
 		{
-				//replacing the %1, %2 and %3
-				qStringRuleToBeAdded = qStringRuleBase.arg(fuzzyInputNames[i]).
-					arg(fuzzyInputNames[j]).arg(fuzzyOutPutNames[i][j]);
+			//replacing the %1, %2 and %3
+			qStringRuleToBeAdded = qStringRuleBase.arg(fuzzyInputNames[i]).
+				arg(fuzzyInputNames[j]).arg(fuzzyOutPutNames[i][j]);
+			
+			
 				
 				ruleBlock->addRule(new fl::MamdaniRule(qStringRuleToBeAdded
 					.toStdString(), *(this->fuzzyEngine)));
@@ -84,9 +128,22 @@ fl::flScalar Fuzzy::infer(int queueSize, int carStream)
 
 	return value;
 }
+fl::flScalar Fuzzy::infer(int queueSize)
+{
+	fl::flScalar value, inputQueue;
+
+	inputQueue = (fl::flScalar)queueSize;
+
+	this->currentQueue->setInput(inputQueue);
+	this->fuzzyEngine->process();
+
+	value = this->adequationDegree->output().defuzzify();
+
+	return value;
+}
 
 void Fuzzy::initLVars(fl::InputLVar *currentQueue, fl::InputLVar *carStream, 
-	fl::OutputLVar *adequationDegree)
+	fl::OutputLVar *adequationDegree, int fuzzyCase)
 {
 	//Queue Terms
 	currentQueue->addTerm(new fl::ShoulderTerm(FUZZY_INPUT_NOTHING, 3, 6, true));
@@ -100,12 +157,14 @@ void Fuzzy::initLVars(fl::InputLVar *currentQueue, fl::InputLVar *carStream,
 
 	//car stream terms
 
-	
-	carStream->addTerm(new fl::ShoulderTerm(FUZZY_INPUT_NOTHING, 100, 250, true));
-	carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_SMALL, 100, 400));
-	carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_REGULAR, 250, 550));
-	carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_BIG, 400, 700));
-	carStream->addTerm(new fl::ShoulderTerm(FUZZY_INPUT_ENORMOUS, 550, 700, false));
+	if(fuzzyCase == FUZZY_USE_CAR_STREAM)
+	{
+		carStream->addTerm(new fl::ShoulderTerm(FUZZY_INPUT_NOTHING, 100, 250, true));
+		carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_SMALL, 100, 400));
+		carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_REGULAR, 250, 550));
+		carStream->addTerm(new fl::TriangularTerm(FUZZY_INPUT_BIG, 400, 700));
+		carStream->addTerm(new fl::ShoulderTerm(FUZZY_INPUT_ENORMOUS, 550, 700, false));
+	}
 
 	//end car stream terms
 
@@ -127,6 +186,4 @@ Fuzzy::~Fuzzy()
 	//The input/output vars are deleted when you delete the engine!
 	delete this->fuzzyEngine;
 	this->fuzzyEngine = nullptr;
-
-	
 }

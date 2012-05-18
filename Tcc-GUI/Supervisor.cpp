@@ -18,6 +18,10 @@ Supervisor::Supervisor()
 {
 	Controller *c;
 	std::vector<std::string> controllerNames;
+	std::vector<std::string> controlledLanes;
+	std::vector<std::string> detectorNamePerLane;
+	std::vector<Lane> lanes;
+
 	/*
 	argc = argc;
 	argv = argv;*/
@@ -39,11 +43,26 @@ Supervisor::Supervisor()
 
 	for(std::vector<std::string>::const_iterator it = controllerNames.begin(); it!=controllerNames.end() ; it++)
 	{
-		c = new Controller(*it, sumoC.getTrafficLightsDefinition((*it)), sumoC.getControllerLanes((*it)));
+		controlledLanes = sumoC.getControllerLanes((*it));
+
+		for(int i = 0; i < controlledLanes.size(); i++)
+		{
+			Lane lane;
+			lane.laneName = controlledLanes.at(i);
+			lane.detectorName = "e1det_";
+			lane.detectorName += lane.laneName;
+			lanes.push_back(lane);
+		}
+
+		c = new Controller(*it, sumoC.getTrafficLightsDefinition((*it)), lanes);
 		c->setActive(true);
 		//sumoC.getControllerLinks(*it);
 
 		this->controllers.push_back(c);
+
+		controlledLanes.clear();
+		detectorNamePerLane.clear();
+		lanes.clear();
 	}
 	
 }
@@ -109,7 +128,7 @@ void Supervisor::getControllersListClone(std::vector<Controller *> *clone)
 	}
 }
 
-void Supervisor::setQueueSizeForController(std::string controllerId, int queueSize)
+void Supervisor::setQueueSizeAndStreamForController(std::string controllerId, int queueSize, int carStream)
 {
 	QMutexLocker locker(&this->mutexControllerList);
 	Controller *c;
@@ -121,6 +140,7 @@ void Supervisor::setQueueSizeForController(std::string controllerId, int queueSi
 		if(c->getName().compare(controllerId) == 0)
 		{
 			c->setQueueSize(queueSize);
+			c->setCarStream(carStream);
 			break;
 		}
 		

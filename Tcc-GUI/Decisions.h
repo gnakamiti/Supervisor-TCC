@@ -14,7 +14,8 @@ class Decisions:public QThread
 	Q_OBJECT
 
 	private:
-		Fuzzy fuzzy;
+		Fuzzy *fuzzySimilarControllers;
+		Fuzzy *fuzzyControllerSituation;
 		QTimer *fuzzyTimer;
 
 private slots:

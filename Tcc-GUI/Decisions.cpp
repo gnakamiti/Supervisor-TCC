@@ -5,6 +5,8 @@
 
 Decisions::Decisions()
 {
+	this->fuzzySimilarControllers = new Fuzzy(FUZZY_USE_CAR_STREAM);
+	this->fuzzyControllerSituation = new Fuzzy(FUZZY_DONT_USE_CAR_STREAM);
 }
 
 Decisions::~Decisions()
@@ -13,6 +15,11 @@ Decisions::~Decisions()
 		this->fuzzyTimer->stop();
 
 	delete this->fuzzyTimer;
+	delete this->fuzzyControllerSituation;
+	delete this->fuzzySimilarControllers;
+
+	this->fuzzyControllerSituation = nullptr;
+	this->fuzzySimilarControllers = nullptr;
 	this->fuzzyTimer = nullptr;
 }
 void Decisions::run()
@@ -40,36 +47,43 @@ void Decisions::fuzzyTimerTimeout()
 		queueSizeI = cI->getQueuePerLane();
 		carStreamI = cI->getCarStream();
 
-		for(int j = 0; j < controllers.size(); j++)
+		degree = this->fuzzyControllerSituation->infer(queueSizeI);
+		//I'm bad if the invere of degree is bad
+		if(degree <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
 		{
-			
-			if(i == j) //Do not compare equal controllers
-				continue;
-
-			cJ = controllers.at(j);
-
-			queueSizeJ = cJ->getQueuePerLane();
-			queueFinal = (queueSizeI - queueSizeJ);
-
-			//I will only calculate similarity if my queue is bigger than the another controller
-			if(queueSizeI < queueSizeJ)
-				continue;
-
-			carStreamJ = cJ->getCarStream();
-			streamFinal = abs((carStreamI - carStreamJ));
-			
-
-			degree = this->fuzzy.infer(queueFinal, streamFinal);
-
-			if(degree >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+			//I'm in a bad situation. Who is similar to me?
+			//Maybe it can help!
+			for(int j = 0; j < controllers.size(); j++)
 			{
-				std::string similarOutput = "";
-				similarOutput += "Controller ";
-				similarOutput += cI->getName();
-				similarOutput += " is similar to ";
-				similarOutput += cJ->getName();
-				similarOutput += ".";
-				SupervisorLog::getInstance()->writeOnLog(similarOutput);
+			
+				if(i == j) //Do not compare equal controllers
+					continue;
+
+				cJ = controllers.at(j);
+
+				queueSizeJ = cJ->getQueuePerLane();
+				queueFinal = (queueSizeI - queueSizeJ);
+
+				//I will only calculate similarity if my queue is bigger than the another controller
+				if(queueSizeI < queueSizeJ)
+					continue;
+
+				carStreamJ = cJ->getCarStream();
+				streamFinal = abs((carStreamI - carStreamJ));
+			
+
+				degree = this->fuzzySimilarControllers->infer(queueFinal, streamFinal);
+
+				if(degree >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+				{
+					std::string similarOutput = "";
+					similarOutput += "Controller ";
+					similarOutput += cI->getName();
+					similarOutput += " is similar to ";
+					similarOutput += cJ->getName();
+					similarOutput += ".";
+					SupervisorLog::getInstance()->writeOnLog(similarOutput);
+				}
 			}
 		}
 	}

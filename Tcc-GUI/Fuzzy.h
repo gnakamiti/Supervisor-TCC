@@ -20,17 +20,20 @@ private:
 	fl::InputLVar *carStream; 
 	fl::OutputLVar *adequationDegree;
 
-	void initLVars(fl::InputLVar *, fl::InputLVar *, fl::OutputLVar *);
+	void initLVars(fl::InputLVar *, fl::InputLVar *, fl::OutputLVar *, int);
 	
-	void setRuleBlock(fl::RuleBlock *);
-	
+	void setRuleBlockWithStream(fl::RuleBlock *);
+	void setRuleBlockNoStream(fl::RuleBlock *);
 
 
 public:
 	Fuzzy();
+	Fuzzy(int);
+
 	~Fuzzy();
 
 	fl::flScalar infer(int, int);
+	fl::flScalar infer(int);
 };
 
 #endif
