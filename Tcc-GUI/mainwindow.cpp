@@ -8,34 +8,94 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	ui.setupUi(this);
 	timer = new QTimer(this);
-	ui.listWidget->setSortingEnabled(true);
+
+	timer->setInterval(GUI_TIMER_UPDATE_UI);
+
+	ui.listWidget->setSortingEnabled(false);
+	ui.listControlledLanes->setSortingEnabled(false);
+	ui.listControlledStreets->setSortingEnabled(false);
     
-	//connect(timer, SIGNAL(timeout()), this, SLOT(timerTimeoutCheckControllersAlive()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(timeoutUpdateUI()));
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClick(QListWidgetItem *)));
-	connect(ui.btnRefresh, SIGNAL(click()), this, SLOT(btnRefresh()));
+	connect(ui.listControlledStreets, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickStreets(QListWidgetItem *)));
+	//connect(ui.btnRefresh, SIGNAL(click()), this, SLOT(btnRefresh()));
 
-	currentRow = -1;
-
+	currentRowController = -1;
+	currentRowStreet = -1;
 
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 	this->listControllersInTheList(controllers);
 	deleteInVector(controllers);
 
-
+	timer->start();
+	
 }
 //Set the controller props in the GUI
 void MainWindow::listClick(QListWidgetItem * item)
 {
-
+	this->currentRowStreet = -1;
 	std::vector<Controller *> controllers;
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	currentRow = ui.listWidget->currentRow();
-	this->updateInterface(controllers.at(currentRow));
+	currentRowController = ui.listWidget->currentRow();
+	this->updateInterface(controllers.at(currentRowController));
 	deleteInVector(controllers);
 	
 	
+}
+
+void MainWindow::listClickStreets(QListWidgetItem * item)
+{
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
+	currentRowStreet = ui.listControlledStreets->currentRow();
+	this->updateStreetProps(controllers.at(currentRowController)->getControlledStreets()->at(currentRowStreet));
+	deleteInVector(controllers);
+}
+QString MainWindow::setColorForStreetSituation(QString situation)
+{
+	QString color;
+
+	if(situation.compare(FUZZY_OUTPUT_VALUE_SHOW_SCREEN_NOTHING) == 0 ||
+		situation.compare(FUZZY_OUTPUT_VALUE_SHOW_SCREEN_SMALL) == 0)
+	{
+		color = "green";
+	}
+	else if(situation.compare(FUZZY_OUTPUT_VALUE_SHOW_SCREEN_REGULAR) == 0)
+	{
+		color = "yellow";
+	}
+	else
+	{
+		color = "red";
+	}
+
+	return color;
+}
+void MainWindow::updateStreetProps(Street street)
+{
+	QString qString;
+	QListWidgetItem *item;
+
+	ui.txtCarStream->setText(QString::number(street.carStream));
+
+	ui.txtQueueSize->setText(QString::number(street.queueSize));
+	qString = street.situation.c_str();
+
+	ui.lblStreetStatusValue->
+		setText("<font color='"+setColorForStreetSituation(qString)+"'>"+qString+"</font>");
+
+	ui.listControlledLanes->clear();
+
+	for(int i = 0; i < street.lanes.size(); i++)
+	{
+		
+		qString = street.lanes.at(i).laneName.c_str();
+
+		item = new QListWidgetItem(qString);
+		ui.listControlledLanes->addItem(item);
+	}
 }
 
 void MainWindow::phaseSelected(int index)
@@ -43,7 +103,7 @@ void MainWindow::phaseSelected(int index)
 	std::vector<Controller *> controllers;
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	this->setPhaseInTheGui(controllers.at(this->currentRow)->getLogics().at(ui.comboProgram->currentIndex())->phases->at(index));	
+	this->setPhaseInTheGui(controllers.at(this->currentRowController)->getLogics().at(ui.comboProgram->currentIndex())->phases->at(index));	
 	deleteInVector(controllers);
 	
 }
@@ -52,7 +112,7 @@ void MainWindow::programSelected(int index)
 	std::vector<Controller *> controllers;
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	this->setProgramInTheGui(controllers.at(this->currentRow)->getLogics().at(index));
+	this->setProgramInTheGui(controllers.at(this->currentRowController)->getLogics().at(index));
 	deleteInVector(controllers);
 	
 }
@@ -96,17 +156,18 @@ void MainWindow::updateInterface(Controller *controller)
 	Phase *phase;
 	std::vector<Phase *> *phases;
 
-	std::vector<Lane> controlledLanes;
+	//std::vector<Lane> controlledLanes;
 	std::vector<Street> *controlledStreets = controller->getControlledStreets();
 	std::vector<ControllerLogic *>  logics = controller->getLogics();
 
+	/*
 	//Because I was usint lane before, and I don't wanna change it.
 	//easier like this....
 	for(int i = 0; i < controlledStreets->size(); i++)
 	{
 		controlledLanes.insert(controlledLanes.end(), controlledStreets->at(i).lanes.begin(), 
 			controlledStreets->at(i).lanes.end());
-	}
+	}*/
 
 
 	//We need to disconnect the signals or we will have a deadlock!
@@ -116,8 +177,13 @@ void MainWindow::updateInterface(Controller *controller)
 
 	ui.txtControllerName->setText(controller->getName().c_str());
 	
-
+	ui.txtQueueSize->setText("");
+	ui.txtCarStream->setText("");
+	ui.lblStreetStatusValue->setText("");
 	ui.listControlledLanes->clear();
+	ui.listControlledStreets->clear();
+	ui.comboProgramPhase->clear();
+	ui.comboProgram->clear();
 
 	if(controller->isActive())
 	{
@@ -128,16 +194,20 @@ void MainWindow::updateInterface(Controller *controller)
 		ui.lblStatusValue->setText("<font color='red'>Offline</font>");
 	}
 
-	for(int i = 0; i < controlledLanes.size(); i++)
+	
+
+	for(int i = 0; i < controlledStreets->size(); i++)
 	{
-		qString = controlledLanes.at(i).laneName.c_str();
+		//controlledStreets->at(i);
+		
+		qString = controlledStreets->at(i).streetName.c_str();
 
 		item = new QListWidgetItem(qString);
-		ui.listControlledLanes->addItem(item);
+		ui.listControlledStreets->addItem(item);
 	}
 
 
-	ui.comboProgram->clear();
+	
 
 	for(int i = 0; i < logics.size(); i++)
 	{
@@ -149,7 +219,7 @@ void MainWindow::updateInterface(Controller *controller)
 		this->setProgramInTheGui(logic);
 		phases = logic->phases;
 
-		ui.comboProgramPhase->clear();
+		
 
 		for(int k = 0; k < phases->size(); k++)
 		{
@@ -183,16 +253,16 @@ void MainWindow::timerTimeoutCheckControllersAlive()
 	//To stop!
 	//timer->stop();
 }*/
-
+/*
 void MainWindow::btnRefresh()
 {
-	/*
+	
 	if(this->currentRow != -1)
 	{
 		this->updateInterface(controllers->at(currentRow));
-	}*/
+	}
 }
-
+*/
 /**
   No need to use mutex here, because when I'm here i already got the lock
   or I guarantee that there is no race conditition!
@@ -226,6 +296,25 @@ void MainWindow::setControllersAndMutex(std::vector<Controller *> *controllers, 
 	this->listControllersInTheList(this->controllers);
 	
 }*/
+//TODO IMPLEMENTAR AQUI
+void MainWindow::timeoutUpdateUI()
+{
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
+
+	if(this->currentRowController != -1)
+	{
+		this->updateInterface(controllers.at(currentRowController));
+	}
+
+	if(this->currentRowStreet != -1)
+	{
+		this->updateStreetProps(controllers.at(currentRowController)->getControlledStreets()->at(currentRowStreet));
+		ui.listControlledStreets->setCurrentRow(this->currentRowStreet);
+	}
+
+	deleteInVector(controllers);
+}
 
 MainWindow::~MainWindow()
 {

@@ -31,14 +31,32 @@ void Decisions::run()
 	exec();
 
 }
+std::vector<int> Decisions::sumTotalQueueAndStreamForController(Controller *c)
+{
+	int queue = 0, stream = 0;
+	std::vector<int> result;
+	std::vector<Street> *streets = c->getControlledStreets();
+	std::vector<Lane> lanes;
 
+	for(int i = 0; i < streets->size(); i++)
+	{
+		queue += streets->at(i).queueSize;
+		stream += streets->at(i).carStream;
+	}
+
+	result.push_back(queue);
+	result.push_back(stream);
+
+	return result;
+}
 void Decisions::fuzzyTimerTimeout()
 {
 	std::vector<Controller *> controllers;
-	fl::flScalar degree;
+	FuzzyResult fuzzyResultI, fuzzyResultCompare;
 	Controller *cI, *cJ;
 	std::vector<Street> *controlledStreetsI, *controlledStreetsJ;
-	//int queueSizeI, queueSizeJ, carStreamI, carStreamJ, streamFinal, queueFinal;
+	int queueFinal, streamFinal;
+	std::vector<int> resultI, resultJ;
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
@@ -49,58 +67,48 @@ void Decisions::fuzzyTimerTimeout()
 		
 		for(int j = 0; j < controlledStreetsI->size(); j++)
 		{
-			degree = this->fuzzyControllerSituation->infer
+			fuzzyResultI = this->fuzzyControllerSituation->infer
 				(controlledStreetsI->at(j).queueSize);
 
-			//I'm bad if the invere of degree is bad
-			if(degree <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
-			{
-				Supervisor::getInstance()->
+			Supervisor::getInstance()->
 					setSituationForStreet(cI->getName(), 
 					controlledStreetsI->at(j).streetName,
-					"BAD");
-			}
-		}
+					fuzzyResultI.LinguisticValue);
 
-		/*
-		//I'm bad if the invere of degree is bad
-		if(degree <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
-		{
-			//I'm in a bad situation. Who is similar to me?
-			//Maybe it can help!
-			for(int j = 0; j < controllers.size(); j++)
+			//I'm bad if the invere of degree is bad
+			if(fuzzyResultI.value <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
 			{
-			
-				if(i == j) //Do not compare equal controllers
-					continue;
-
-				cJ = controllers.at(j);
-
-				//queueSizeJ = cJ->getQueuePerLane();
-				queueFinal = (queueSizeI - queueSizeJ);
-
-				//I will only calculate similarity if my queue is bigger than the another controller
-				if(queueSizeI < queueSizeJ)
-					continue;
-
-				//carStreamJ = cJ->getCarStream();
-				streamFinal = abs((carStreamI - carStreamJ));
-			
-
-				degree = this->fuzzySimilarControllers->infer(queueFinal, streamFinal);
-
-				if(degree >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+				for(int k = 0; k < controllers.size(); k++)
 				{
-					std::string similarOutput = "";
-					similarOutput += "Controller ";
-					similarOutput += cI->getName();
-					similarOutput += " is similar to ";
-					similarOutput += cJ->getName();
-					similarOutput += ".";
-					SupervisorLog::getInstance()->writeOnLog(similarOutput);
+					//I'm not comparing myself
+					if(i == k)
+						continue;
+
+					cJ = controllers.at(k);
+
+					resultI = this->sumTotalQueueAndStreamForController(cI);
+					resultJ = this->sumTotalQueueAndStreamForController(cJ);
+
+					queueFinal = resultI.at(0) - resultJ.at(0);
+					streamFinal = abs((resultI.at(1) - resultJ.at(1)));
+
+					fuzzyResultCompare = this->fuzzySimilarControllers->infer(queueFinal, streamFinal);
+
+					if(fuzzyResultCompare.value >= FUZZY_SIMILAR_CONTROLLER_TRESHOLD)
+					{
+						std::string similarOutput = "";
+						similarOutput += "Controller ";
+						similarOutput += cI->getName();
+						similarOutput += " is similar to ";
+						similarOutput += cJ->getName();
+						similarOutput += ".\n***\n";
+						SupervisorLog::getInstance()->writeOnLog(similarOutput);
+					}
+					resultI.clear();
+					resultJ.clear();
 				}
 			}
-		}*/
+		}
 	}
 
 	deleteInVector(controllers);

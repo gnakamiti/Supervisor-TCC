@@ -28,19 +28,22 @@ private:
 	QTimer *timer; //Deleted in this class
 	//std::vector<Controller *> *controllers; //Deleted in supervisor
 	//QMutex *mutexControllerList; //Deleted in supervisor
-	int currentRow; //Current selected controller
+	int currentRowController; //Current selected controller
+	int currentRowStreet;
 
 	void updateInterface(Controller *);
 	void listControllersInTheList(std::vector<Controller *> );
 	void setPhaseInTheGui(Phase *);
 	void setProgramInTheGui(ControllerLogic *);
-	
+	void updateStreetProps(Street);
+	QString setColorForStreetSituation(QString);
 
 private slots:
-	//void timerTimeoutCheckControllersAlive();
+	void timeoutUpdateUI();
 	void listClick(QListWidgetItem *);
+	void listClickStreets(QListWidgetItem *);
 	void phaseSelected(int);
-	void btnRefresh();
+	//void btnRefresh();
 	void programSelected(int);
 	
 };

@@ -34,7 +34,11 @@ Fuzzy::Fuzzy(int fuzzyCase)
 
 	this->fuzzyEngine->addRuleBlock(ruleBlock);
 
-	
+	fuzzyOutValuesToShow[FUZZY_INPUT_NOTHING] = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_ENOURMOUS;
+	fuzzyOutValuesToShow[FUZZY_INPUT_SMALL] = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_BIG;
+	fuzzyOutValuesToShow[FUZZY_INPUT_REGULAR] = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_REGULAR;
+	fuzzyOutValuesToShow[FUZZY_INPUT_BIG] = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_SMALL;
+	fuzzyOutValuesToShow[FUZZY_INPUT_ENORMOUS] = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_NOTHING;
 	
 }
 
@@ -113,9 +117,10 @@ void Fuzzy::setRuleBlockWithStream(fl::RuleBlock *ruleBlock)
 	
 }
 
-fl::flScalar Fuzzy::infer(int queueSize, int carStream)
+FuzzyResult Fuzzy::infer(int queueSize, int carStream)
 {
-	fl::flScalar value, inputQueue, inputStream;
+	fl::flScalar inputQueue, inputStream;
+	FuzzyResult result;
 
 	inputQueue = (fl::flScalar)queueSize;
 	inputStream = (fl::flScalar)carStream;
@@ -124,22 +129,58 @@ fl::flScalar Fuzzy::infer(int queueSize, int carStream)
 	this->carStream->setInput(inputStream);
 	this->fuzzyEngine->process();
 
-	value = this->adequationDegree->output().defuzzify();
+	result.value = this->adequationDegree->output().defuzzify();
+	//Not used for this one
+	result.LinguisticValue = "";
 	
-	return value;
+	return result;
 }
-fl::flScalar Fuzzy::infer(int queueSize)
+FuzzyResult Fuzzy::infer(int queueSize)
 {
-	fl::flScalar value, inputQueue;
+	fl::flScalar inputQueue;
+	FuzzyResult result;
 
 	inputQueue = (fl::flScalar)queueSize;
 
 	this->currentQueue->setInput(inputQueue);
 	this->fuzzyEngine->process();
 
-	value = this->adequationDegree->output().defuzzify();
-	std::string a = this->adequationDegree->output().toString();
-	return value;
+	result.value = this->adequationDegree->output().defuzzify();
+	result.LinguisticValue = this->
+		parseOutPutString(this->adequationDegree->fuzzify(result.value));
+
+	return result;
+}
+//Modify the string to a more human readeble way
+std::string Fuzzy::parseOutPutString(std::string output)
+{
+	//QString has better functions, YAY QT! :)
+	QString qOutput = output.c_str();
+	QString qActualString, qActualString2;
+	std::string result;
+	QStringList strList = qOutput.split("+");
+	fl::flScalar value = -50.0;
+
+	for(int i = 0; i < strList.size(); i++)
+	{
+		qActualString = strList.at(i);
+		QStringList strList2 = qActualString.split("/");
+
+		for(int j = 0; j < strList2.size(); j++)
+		{
+			qActualString2 = strList2.at(j);
+
+			if(value < qActualString2.toDouble())
+			{
+				value = qActualString2.toDouble();
+				result = strList2.at((j+1)).trimmed().toStdString();
+			}
+		}
+
+		strList2.clear();
+	}
+	
+	return fuzzyOutValuesToShow[result];
 }
 
 void Fuzzy::initLVars(fl::InputLVar *currentQueue, fl::InputLVar *carStream, 

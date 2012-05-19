@@ -18,8 +18,10 @@ class Decisions:public QThread
 		Fuzzy *fuzzyControllerSituation;
 		QTimer *fuzzyTimer;
 
-private slots:
-	void fuzzyTimerTimeout();
+		std::vector<int> sumTotalQueueAndStreamForController(Controller *);
+
+	private slots:
+		void fuzzyTimerTimeout();
 
 	public:
 		//Decisions(Supervisor *ml): self(ml) {}

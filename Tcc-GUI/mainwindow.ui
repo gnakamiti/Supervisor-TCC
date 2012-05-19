@@ -57,7 +57,7 @@
    <widget class="QLabel" name="lblControlledLanes">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>630</x>
       <y>60</y>
       <width>141</width>
       <height>21</height>
@@ -70,8 +70,8 @@
    <widget class="QListWidget" name="listControlledLanes">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>80</y>
+      <x>630</x>
+      <y>90</y>
       <width>331</width>
       <height>192</height>
      </rect>
@@ -81,7 +81,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>280</y>
+      <y>370</y>
       <width>671</width>
       <height>20</height>
      </rect>
@@ -94,7 +94,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>300</y>
+      <y>400</y>
       <width>671</width>
       <height>241</height>
      </rect>
@@ -174,7 +174,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Avaliable programs:</string>
+      <string>Avaliable Programs:</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBoxPhases">
@@ -344,14 +344,14 @@
    <widget class="QLabel" name="lblStatus">
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>590</x>
       <y>30</y>
-      <width>61</width>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Status:</string>
+     <string>Controller Status:</string>
     </property>
    </widget>
    <widget class="QLabel" name="lblStatusValue">
@@ -387,21 +387,129 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnRefresh">
+   <widget class="QListWidget" name="listControlledStreets">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>230</y>
-      <width>131</width>
+      <x>300</x>
+      <y>90</y>
+      <width>301</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblControlledStreets">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>60</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Controlled Streets:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblQueueSize">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>310</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Queue Size:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblCarStream">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>350</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Car Stream:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblStreetStatus">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>310</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Street Status:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblStreetStatusValue">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>300</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtQueueSize">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>310</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtCarStream">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>350</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnShowMap">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>550</y>
+      <width>121</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Refresh</string>
+     <string>Map</string>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>refresh.png</normaloff>refresh.png</iconset>
+      <normaloff>map2.png</normaloff>map2.png</iconset>
     </property>
    </widget>
   </widget>

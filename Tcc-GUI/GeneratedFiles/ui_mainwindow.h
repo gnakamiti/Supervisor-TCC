@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 12. May 14:20:51 2012
+** Created: Sat 19. May 17:24:44 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -64,7 +64,15 @@ public:
     QLabel *lblStatus;
     QLabel *lblStatusValue;
     QLineEdit *txtControllerName;
-    QPushButton *btnRefresh;
+    QListWidget *listControlledStreets;
+    QLabel *lblControlledStreets;
+    QLabel *lblQueueSize;
+    QLabel *lblCarStream;
+    QLabel *lblStreetStatus;
+    QLabel *lblStreetStatusValue;
+    QLineEdit *txtQueueSize;
+    QLineEdit *txtCarStream;
+    QPushButton *btnShowMap;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QToolBar *mainToolBar;
@@ -91,18 +99,18 @@ public:
         lblControllerName->setGeometry(QRect(300, 30, 161, 16));
         lblControlledLanes = new QLabel(centralWidget);
         lblControlledLanes->setObjectName(QString::fromUtf8("lblControlledLanes"));
-        lblControlledLanes->setGeometry(QRect(300, 60, 141, 21));
+        lblControlledLanes->setGeometry(QRect(630, 60, 141, 21));
         listControlledLanes = new QListWidget(centralWidget);
         listControlledLanes->setObjectName(QString::fromUtf8("listControlledLanes"));
-        listControlledLanes->setGeometry(QRect(300, 80, 331, 192));
+        listControlledLanes->setGeometry(QRect(630, 90, 331, 192));
         line = new QFrame(centralWidget);
         line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(300, 280, 671, 20));
+        line->setGeometry(QRect(300, 370, 671, 20));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
         groupBoxControllersProgram = new QGroupBox(centralWidget);
         groupBoxControllersProgram->setObjectName(QString::fromUtf8("groupBoxControllersProgram"));
-        groupBoxControllersProgram->setGeometry(QRect(300, 300, 671, 241));
+        groupBoxControllersProgram->setGeometry(QRect(300, 400, 671, 241));
         lblProgramId = new QLabel(groupBoxControllersProgram);
         lblProgramId->setObjectName(QString::fromUtf8("lblProgramId"));
         lblProgramId->setGeometry(QRect(10, 30, 71, 16));
@@ -168,7 +176,7 @@ public:
         lblCurrentPhase->setGeometry(QRect(320, 60, 91, 16));
         lblStatus = new QLabel(centralWidget);
         lblStatus->setObjectName(QString::fromUtf8("lblStatus"));
-        lblStatus->setGeometry(QRect(650, 30, 61, 21));
+        lblStatus->setGeometry(QRect(590, 30, 121, 21));
         lblStatusValue = new QLabel(centralWidget);
         lblStatusValue->setObjectName(QString::fromUtf8("lblStatusValue"));
         lblStatusValue->setGeometry(QRect(700, 20, 201, 31));
@@ -181,12 +189,39 @@ public:
         txtControllerName->setObjectName(QString::fromUtf8("txtControllerName"));
         txtControllerName->setGeometry(QRect(380, 30, 151, 22));
         txtControllerName->setReadOnly(true);
-        btnRefresh = new QPushButton(centralWidget);
-        btnRefresh->setObjectName(QString::fromUtf8("btnRefresh"));
-        btnRefresh->setGeometry(QRect(840, 230, 131, 51));
+        listControlledStreets = new QListWidget(centralWidget);
+        listControlledStreets->setObjectName(QString::fromUtf8("listControlledStreets"));
+        listControlledStreets->setGeometry(QRect(300, 90, 301, 192));
+        lblControlledStreets = new QLabel(centralWidget);
+        lblControlledStreets->setObjectName(QString::fromUtf8("lblControlledStreets"));
+        lblControlledStreets->setGeometry(QRect(300, 60, 111, 16));
+        lblQueueSize = new QLabel(centralWidget);
+        lblQueueSize->setObjectName(QString::fromUtf8("lblQueueSize"));
+        lblQueueSize->setGeometry(QRect(310, 310, 71, 16));
+        lblCarStream = new QLabel(centralWidget);
+        lblCarStream->setObjectName(QString::fromUtf8("lblCarStream"));
+        lblCarStream->setGeometry(QRect(310, 350, 71, 16));
+        lblStreetStatus = new QLabel(centralWidget);
+        lblStreetStatus->setObjectName(QString::fromUtf8("lblStreetStatus"));
+        lblStreetStatus->setGeometry(QRect(590, 310, 91, 20));
+        lblStreetStatusValue = new QLabel(centralWidget);
+        lblStreetStatusValue->setObjectName(QString::fromUtf8("lblStreetStatusValue"));
+        lblStreetStatusValue->setGeometry(QRect(690, 300, 201, 31));
+        lblStreetStatusValue->setFont(font);
+        txtQueueSize = new QLineEdit(centralWidget);
+        txtQueueSize->setObjectName(QString::fromUtf8("txtQueueSize"));
+        txtQueueSize->setGeometry(QRect(400, 310, 113, 22));
+        txtQueueSize->setReadOnly(true);
+        txtCarStream = new QLineEdit(centralWidget);
+        txtCarStream->setObjectName(QString::fromUtf8("txtCarStream"));
+        txtCarStream->setGeometry(QRect(400, 350, 113, 22));
+        txtCarStream->setReadOnly(true);
+        btnShowMap = new QPushButton(centralWidget);
+        btnShowMap->setObjectName(QString::fromUtf8("btnShowMap"));
+        btnShowMap->setGeometry(QRect(10, 550, 121, 51));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("refresh.png"), QSize(), QIcon::Normal, QIcon::Off);
-        btnRefresh->setIcon(icon1);
+        icon1.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnShowMap->setIcon(icon1);
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -217,7 +252,7 @@ public:
         groupBoxControllersProgram->setTitle(QApplication::translate("MainWindowClass", "Controller's Program", 0, QApplication::UnicodeUTF8));
         lblProgramId->setText(QApplication::translate("MainWindowClass", "Program ID:", 0, QApplication::UnicodeUTF8));
         lblProgramType->setText(QApplication::translate("MainWindowClass", "Program Type:", 0, QApplication::UnicodeUTF8));
-        lblAvaliablePrograms->setText(QApplication::translate("MainWindowClass", "Avaliable programs:", 0, QApplication::UnicodeUTF8));
+        lblAvaliablePrograms->setText(QApplication::translate("MainWindowClass", "Avaliable Programs:", 0, QApplication::UnicodeUTF8));
         groupBoxPhases->setTitle(QApplication::translate("MainWindowClass", "Phases", 0, QApplication::UnicodeUTF8));
         lblDuration->setText(QApplication::translate("MainWindowClass", "Duration:", 0, QApplication::UnicodeUTF8));
         lblDuration2->setText(QApplication::translate("MainWindowClass", "Duration 2:", 0, QApplication::UnicodeUTF8));
@@ -225,9 +260,14 @@ public:
         lblPhaseDef->setText(QApplication::translate("MainWindowClass", "Phase Definition:", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindowClass", "Avaliable Phases:", 0, QApplication::UnicodeUTF8));
         lblCurrentPhase->setText(QApplication::translate("MainWindowClass", "Current Phase:", 0, QApplication::UnicodeUTF8));
-        lblStatus->setText(QApplication::translate("MainWindowClass", "Status:", 0, QApplication::UnicodeUTF8));
+        lblStatus->setText(QApplication::translate("MainWindowClass", "Controller Status:", 0, QApplication::UnicodeUTF8));
         lblStatusValue->setText(QString());
-        btnRefresh->setText(QApplication::translate("MainWindowClass", "Refresh", 0, QApplication::UnicodeUTF8));
+        lblControlledStreets->setText(QApplication::translate("MainWindowClass", "Controlled Streets:", 0, QApplication::UnicodeUTF8));
+        lblQueueSize->setText(QApplication::translate("MainWindowClass", "Queue Size:", 0, QApplication::UnicodeUTF8));
+        lblCarStream->setText(QApplication::translate("MainWindowClass", "Car Stream:", 0, QApplication::UnicodeUTF8));
+        lblStreetStatus->setText(QApplication::translate("MainWindowClass", "Street Status:", 0, QApplication::UnicodeUTF8));
+        lblStreetStatusValue->setText(QString());
+        btnShowMap->setText(QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
         menuAbout->setTitle(QApplication::translate("MainWindowClass", "About", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

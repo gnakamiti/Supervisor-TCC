@@ -42,7 +42,7 @@ void Controller::createStreets(std::vector<Lane> lanes)
 			street.carStream = 0;
 			street.queueSize = 0;
 			street.streetName = lastLane;
-			street.situation = "REGULAR";
+			street.situation = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_NOTHING;
 			this->streets.push_back(street);
 			//the new lane
 			street.lanes.clear();
@@ -53,7 +53,7 @@ void Controller::createStreets(std::vector<Lane> lanes)
 	}
 	street.carStream = 0;
 	street.queueSize = 0;
-	street.situation = "REGULAR";
+	street.situation = FUZZY_OUTPUT_VALUE_SHOW_SCREEN_NOTHING;
 	street.streetName = lastLane;
 	this->streets.push_back(street);
 }
