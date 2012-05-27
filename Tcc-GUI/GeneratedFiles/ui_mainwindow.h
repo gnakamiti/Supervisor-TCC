@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 19. May 17:24:44 2012
+** Created: Sun 27. May 19:55:15 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,7 +15,6 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QComboBox>
-#include <QtGui/QFrame>
 #include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -24,10 +23,11 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
-#include <QtGui/QPushButton>
 #include <QtGui/QStatusBar>
+#include <QtGui/QTabWidget>
 #include <QtGui/QToolBar>
 #include <QtGui/QWidget>
+#include <QtWebKit/QWebView>
 
 QT_BEGIN_NAMESPACE
 
@@ -37,10 +37,8 @@ public:
     QWidget *centralWidget;
     QListWidget *listWidget;
     QLabel *lblController;
-    QLabel *lblControllerName;
-    QLabel *lblControlledLanes;
-    QListWidget *listControlledLanes;
-    QFrame *line;
+    QTabWidget *tabWidget;
+    QWidget *tab;
     QGroupBox *groupBoxControllersProgram;
     QLabel *lblProgramId;
     QLabel *lblProgramType;
@@ -61,18 +59,22 @@ public:
     QComboBox *comboProgramPhase;
     QLineEdit *txtCurrentPhase;
     QLabel *lblCurrentPhase;
-    QLabel *lblStatus;
-    QLabel *lblStatusValue;
-    QLineEdit *txtControllerName;
     QListWidget *listControlledStreets;
+    QListWidget *listControlledLanes;
     QLabel *lblControlledStreets;
-    QLabel *lblQueueSize;
-    QLabel *lblCarStream;
+    QLabel *lblControlledLanes;
+    QLabel *lblStatusValue;
+    QLabel *lblStatus;
+    QLineEdit *txtControllerName;
+    QLabel *lblControllerName;
     QLabel *lblStreetStatus;
     QLabel *lblStreetStatusValue;
+    QLabel *lblQueueSize;
     QLineEdit *txtQueueSize;
+    QLabel *lblCarStream;
     QLineEdit *txtCarStream;
-    QPushButton *btnShowMap;
+    QWidget *tab_2;
+    QWebView *gMaps;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QToolBar *mainToolBar;
@@ -82,7 +84,7 @@ public:
     {
         if (MainWindowClass->objectName().isEmpty())
             MainWindowClass->setObjectName(QString::fromUtf8("MainWindowClass"));
-        MainWindowClass->resize(978, 711);
+        MainWindowClass->resize(1413, 745);
         QIcon icon;
         icon.addFile(QString::fromUtf8("appIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindowClass->setWindowIcon(icon);
@@ -90,27 +92,18 @@ public:
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         listWidget = new QListWidget(centralWidget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
-        listWidget->setGeometry(QRect(10, 30, 281, 511));
+        listWidget->setGeometry(QRect(10, 30, 261, 511));
         lblController = new QLabel(centralWidget);
         lblController->setObjectName(QString::fromUtf8("lblController"));
         lblController->setGeometry(QRect(10, 10, 81, 21));
-        lblControllerName = new QLabel(centralWidget);
-        lblControllerName->setObjectName(QString::fromUtf8("lblControllerName"));
-        lblControllerName->setGeometry(QRect(300, 30, 161, 16));
-        lblControlledLanes = new QLabel(centralWidget);
-        lblControlledLanes->setObjectName(QString::fromUtf8("lblControlledLanes"));
-        lblControlledLanes->setGeometry(QRect(630, 60, 141, 21));
-        listControlledLanes = new QListWidget(centralWidget);
-        listControlledLanes->setObjectName(QString::fromUtf8("listControlledLanes"));
-        listControlledLanes->setGeometry(QRect(630, 90, 331, 192));
-        line = new QFrame(centralWidget);
-        line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(300, 370, 671, 20));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-        groupBoxControllersProgram = new QGroupBox(centralWidget);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        tabWidget->setGeometry(QRect(280, 0, 1131, 681));
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        groupBoxControllersProgram = new QGroupBox(tab);
         groupBoxControllersProgram->setObjectName(QString::fromUtf8("groupBoxControllersProgram"));
-        groupBoxControllersProgram->setGeometry(QRect(300, 400, 671, 241));
+        groupBoxControllersProgram->setGeometry(QRect(20, 400, 941, 241));
         lblProgramId = new QLabel(groupBoxControllersProgram);
         lblProgramId->setObjectName(QString::fromUtf8("lblProgramId"));
         lblProgramId->setGeometry(QRect(10, 30, 71, 16));
@@ -119,7 +112,7 @@ public:
         lblProgramType->setGeometry(QRect(10, 60, 91, 16));
         comboProgram = new QComboBox(groupBoxControllersProgram);
         comboProgram->setObjectName(QString::fromUtf8("comboProgram"));
-        comboProgram->setGeometry(QRect(462, 20, 171, 22));
+        comboProgram->setGeometry(QRect(730, 20, 171, 22));
         txtProgramId = new QLineEdit(groupBoxControllersProgram);
         txtProgramId->setObjectName(QString::fromUtf8("txtProgramId"));
         txtProgramId->setGeometry(QRect(110, 30, 113, 22));
@@ -130,10 +123,10 @@ public:
         txtProgramType->setReadOnly(true);
         lblAvaliablePrograms = new QLabel(groupBoxControllersProgram);
         lblAvaliablePrograms->setObjectName(QString::fromUtf8("lblAvaliablePrograms"));
-        lblAvaliablePrograms->setGeometry(QRect(320, 20, 131, 20));
+        lblAvaliablePrograms->setGeometry(QRect(580, 20, 131, 20));
         groupBoxPhases = new QGroupBox(groupBoxControllersProgram);
         groupBoxPhases->setObjectName(QString::fromUtf8("groupBoxPhases"));
-        groupBoxPhases->setGeometry(QRect(10, 80, 661, 151));
+        groupBoxPhases->setGeometry(QRect(10, 90, 901, 141));
         lblDuration = new QLabel(groupBoxPhases);
         lblDuration->setObjectName(QString::fromUtf8("lblDuration"));
         lblDuration->setGeometry(QRect(10, 30, 61, 16));
@@ -157,75 +150,90 @@ public:
         txtPhaseDuration3->setReadOnly(true);
         lblPhaseDef = new QLabel(groupBoxPhases);
         lblPhaseDef->setObjectName(QString::fromUtf8("lblPhaseDef"));
-        lblPhaseDef->setGeometry(QRect(250, 30, 101, 16));
+        lblPhaseDef->setGeometry(QRect(480, 20, 101, 16));
         txtPhaseDef = new QLineEdit(groupBoxPhases);
         txtPhaseDef->setObjectName(QString::fromUtf8("txtPhaseDef"));
-        txtPhaseDef->setGeometry(QRect(360, 30, 261, 22));
+        txtPhaseDef->setGeometry(QRect(600, 20, 261, 22));
         txtPhaseDef->setReadOnly(true);
         label = new QLabel(groupBoxPhases);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(250, 110, 101, 16));
+        label->setGeometry(QRect(480, 100, 101, 16));
         comboProgramPhase = new QComboBox(groupBoxPhases);
         comboProgramPhase->setObjectName(QString::fromUtf8("comboProgramPhase"));
-        comboProgramPhase->setGeometry(QRect(360, 110, 171, 22));
+        comboProgramPhase->setGeometry(QRect(600, 100, 171, 22));
         txtCurrentPhase = new QLineEdit(groupBoxControllersProgram);
         txtCurrentPhase->setObjectName(QString::fromUtf8("txtCurrentPhase"));
-        txtCurrentPhase->setGeometry(QRect(460, 50, 171, 22));
+        txtCurrentPhase->setGeometry(QRect(730, 50, 171, 22));
         lblCurrentPhase = new QLabel(groupBoxControllersProgram);
         lblCurrentPhase->setObjectName(QString::fromUtf8("lblCurrentPhase"));
-        lblCurrentPhase->setGeometry(QRect(320, 60, 91, 16));
-        lblStatus = new QLabel(centralWidget);
-        lblStatus->setObjectName(QString::fromUtf8("lblStatus"));
-        lblStatus->setGeometry(QRect(590, 30, 121, 21));
-        lblStatusValue = new QLabel(centralWidget);
+        lblCurrentPhase->setGeometry(QRect(580, 60, 91, 16));
+        listControlledStreets = new QListWidget(tab);
+        listControlledStreets->setObjectName(QString::fromUtf8("listControlledStreets"));
+        listControlledStreets->setGeometry(QRect(40, 170, 301, 192));
+        listControlledLanes = new QListWidget(tab);
+        listControlledLanes->setObjectName(QString::fromUtf8("listControlledLanes"));
+        listControlledLanes->setGeometry(QRect(420, 170, 331, 192));
+        lblControlledStreets = new QLabel(tab);
+        lblControlledStreets->setObjectName(QString::fromUtf8("lblControlledStreets"));
+        lblControlledStreets->setGeometry(QRect(10, 140, 111, 16));
+        lblControlledLanes = new QLabel(tab);
+        lblControlledLanes->setObjectName(QString::fromUtf8("lblControlledLanes"));
+        lblControlledLanes->setGeometry(QRect(410, 140, 141, 21));
+        lblStatusValue = new QLabel(tab);
         lblStatusValue->setObjectName(QString::fromUtf8("lblStatusValue"));
-        lblStatusValue->setGeometry(QRect(700, 20, 201, 31));
+        lblStatusValue->setGeometry(QRect(130, 50, 201, 31));
         QFont font;
         font.setPointSize(14);
         font.setBold(true);
         font.setWeight(75);
         lblStatusValue->setFont(font);
-        txtControllerName = new QLineEdit(centralWidget);
+        lblStatus = new QLabel(tab);
+        lblStatus->setObjectName(QString::fromUtf8("lblStatus"));
+        lblStatus->setGeometry(QRect(10, 50, 121, 21));
+        txtControllerName = new QLineEdit(tab);
         txtControllerName->setObjectName(QString::fromUtf8("txtControllerName"));
-        txtControllerName->setGeometry(QRect(380, 30, 151, 22));
+        txtControllerName->setGeometry(QRect(100, 10, 151, 22));
         txtControllerName->setReadOnly(true);
-        listControlledStreets = new QListWidget(centralWidget);
-        listControlledStreets->setObjectName(QString::fromUtf8("listControlledStreets"));
-        listControlledStreets->setGeometry(QRect(300, 90, 301, 192));
-        lblControlledStreets = new QLabel(centralWidget);
-        lblControlledStreets->setObjectName(QString::fromUtf8("lblControlledStreets"));
-        lblControlledStreets->setGeometry(QRect(300, 60, 111, 16));
-        lblQueueSize = new QLabel(centralWidget);
-        lblQueueSize->setObjectName(QString::fromUtf8("lblQueueSize"));
-        lblQueueSize->setGeometry(QRect(310, 310, 71, 16));
-        lblCarStream = new QLabel(centralWidget);
-        lblCarStream->setObjectName(QString::fromUtf8("lblCarStream"));
-        lblCarStream->setGeometry(QRect(310, 350, 71, 16));
-        lblStreetStatus = new QLabel(centralWidget);
+        lblControllerName = new QLabel(tab);
+        lblControllerName->setObjectName(QString::fromUtf8("lblControllerName"));
+        lblControllerName->setGeometry(QRect(10, 10, 161, 16));
+        lblStreetStatus = new QLabel(tab);
         lblStreetStatus->setObjectName(QString::fromUtf8("lblStreetStatus"));
-        lblStreetStatus->setGeometry(QRect(590, 310, 91, 20));
-        lblStreetStatusValue = new QLabel(centralWidget);
+        lblStreetStatus->setGeometry(QRect(10, 90, 91, 20));
+        lblStreetStatusValue = new QLabel(tab);
         lblStreetStatusValue->setObjectName(QString::fromUtf8("lblStreetStatusValue"));
-        lblStreetStatusValue->setGeometry(QRect(690, 300, 201, 31));
+        lblStreetStatusValue->setGeometry(QRect(100, 80, 201, 31));
         lblStreetStatusValue->setFont(font);
-        txtQueueSize = new QLineEdit(centralWidget);
+        lblQueueSize = new QLabel(tab);
+        lblQueueSize->setObjectName(QString::fromUtf8("lblQueueSize"));
+        lblQueueSize->setGeometry(QRect(460, 20, 71, 16));
+        txtQueueSize = new QLineEdit(tab);
         txtQueueSize->setObjectName(QString::fromUtf8("txtQueueSize"));
-        txtQueueSize->setGeometry(QRect(400, 310, 113, 22));
+        txtQueueSize->setGeometry(QRect(540, 20, 113, 22));
         txtQueueSize->setReadOnly(true);
-        txtCarStream = new QLineEdit(centralWidget);
+        lblCarStream = new QLabel(tab);
+        lblCarStream->setObjectName(QString::fromUtf8("lblCarStream"));
+        lblCarStream->setGeometry(QRect(460, 50, 71, 16));
+        txtCarStream = new QLineEdit(tab);
         txtCarStream->setObjectName(QString::fromUtf8("txtCarStream"));
-        txtCarStream->setGeometry(QRect(400, 350, 113, 22));
+        txtCarStream->setGeometry(QRect(540, 50, 113, 22));
         txtCarStream->setReadOnly(true);
-        btnShowMap = new QPushButton(centralWidget);
-        btnShowMap->setObjectName(QString::fromUtf8("btnShowMap"));
-        btnShowMap->setGeometry(QRect(10, 550, 121, 51));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
-        btnShowMap->setIcon(icon1);
+        icon1.addFile(QString::fromUtf8("network.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab, icon1, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        gMaps = new QWebView(tab_2);
+        gMaps->setObjectName(QString::fromUtf8("gMaps"));
+        gMaps->setGeometry(QRect(0, 0, 1131, 651));
+        gMaps->setUrl(QUrl(QString::fromUtf8("about:blank")));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_2, icon2, QString());
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 978, 26));
+        menuBar->setGeometry(QRect(0, 0, 1413, 26));
         menuAbout = new QMenu(menuBar);
         menuAbout->setObjectName(QString::fromUtf8("menuAbout"));
         MainWindowClass->setMenuBar(menuBar);
@@ -240,6 +248,9 @@ public:
 
         retranslateUi(MainWindowClass);
 
+        tabWidget->setCurrentIndex(0);
+
+
         QMetaObject::connectSlotsByName(MainWindowClass);
     } // setupUi
 
@@ -247,8 +258,6 @@ public:
     {
         MainWindowClass->setWindowTitle(QApplication::translate("MainWindowClass", "Supervision of controllers ", 0, QApplication::UnicodeUTF8));
         lblController->setText(QApplication::translate("MainWindowClass", "Controllers", 0, QApplication::UnicodeUTF8));
-        lblControllerName->setText(QApplication::translate("MainWindowClass", "Controller ID:", 0, QApplication::UnicodeUTF8));
-        lblControlledLanes->setText(QApplication::translate("MainWindowClass", "Controlled Lanes:", 0, QApplication::UnicodeUTF8));
         groupBoxControllersProgram->setTitle(QApplication::translate("MainWindowClass", "Controller's Program", 0, QApplication::UnicodeUTF8));
         lblProgramId->setText(QApplication::translate("MainWindowClass", "Program ID:", 0, QApplication::UnicodeUTF8));
         lblProgramType->setText(QApplication::translate("MainWindowClass", "Program Type:", 0, QApplication::UnicodeUTF8));
@@ -260,14 +269,17 @@ public:
         lblPhaseDef->setText(QApplication::translate("MainWindowClass", "Phase Definition:", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindowClass", "Avaliable Phases:", 0, QApplication::UnicodeUTF8));
         lblCurrentPhase->setText(QApplication::translate("MainWindowClass", "Current Phase:", 0, QApplication::UnicodeUTF8));
-        lblStatus->setText(QApplication::translate("MainWindowClass", "Controller Status:", 0, QApplication::UnicodeUTF8));
-        lblStatusValue->setText(QString());
         lblControlledStreets->setText(QApplication::translate("MainWindowClass", "Controlled Streets:", 0, QApplication::UnicodeUTF8));
-        lblQueueSize->setText(QApplication::translate("MainWindowClass", "Queue Size:", 0, QApplication::UnicodeUTF8));
-        lblCarStream->setText(QApplication::translate("MainWindowClass", "Car Stream:", 0, QApplication::UnicodeUTF8));
+        lblControlledLanes->setText(QApplication::translate("MainWindowClass", "Controlled Lanes:", 0, QApplication::UnicodeUTF8));
+        lblStatusValue->setText(QString());
+        lblStatus->setText(QApplication::translate("MainWindowClass", "Controller Status:", 0, QApplication::UnicodeUTF8));
+        lblControllerName->setText(QApplication::translate("MainWindowClass", "Controller ID:", 0, QApplication::UnicodeUTF8));
         lblStreetStatus->setText(QApplication::translate("MainWindowClass", "Street Status:", 0, QApplication::UnicodeUTF8));
         lblStreetStatusValue->setText(QString());
-        btnShowMap->setText(QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
+        lblQueueSize->setText(QApplication::translate("MainWindowClass", "Queue Size:", 0, QApplication::UnicodeUTF8));
+        lblCarStream->setText(QApplication::translate("MainWindowClass", "Car Stream:", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindowClass", "General Information", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
         menuAbout->setTitle(QApplication::translate("MainWindowClass", "About", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

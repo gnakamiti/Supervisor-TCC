@@ -17,7 +17,6 @@ typedef struct StreetStruct
 	std::vector<Lane> lanes;
 	std::string streetName;
 	std::string situation;
-	//int queueSizePerLane;
 	int queueSize;
 	int carStream;
 } Street;

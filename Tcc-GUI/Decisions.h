@@ -11,27 +11,25 @@ class Supervisor;
 
 class Decisions:public QThread
 {
+	
 	Q_OBJECT
-
-	private:
-		Fuzzy *fuzzySimilarControllers;
-		Fuzzy *fuzzyControllerSituation;
-		QTimer *fuzzyTimer;
-
-		std::vector<int> sumTotalQueueAndStreamForController(Controller *);
-
 	private slots:
 		void fuzzyTimerTimeout();
 
+	private:
+		std::vector<int> sumTotalQueueAndStreamForController(Controller *);
+		QTimer *fuzzyTimer;
+		Fuzzy *fuzzyControllerSituation;
+		Fuzzy *fuzzySimilarControllers;
+
 	public:
-		//Decisions(Supervisor *ml): self(ml) {}
-		//Supervisor *self;
 		Decisions();
 		~Decisions();
 		/*
 			This is a thread!
 		*/
 		void run();
+
 			
 
 };

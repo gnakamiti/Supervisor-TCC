@@ -13,7 +13,6 @@
 #include <QObject>
 #include "Decisions.h"
 
-
 class MainWindow; //For circular dependencies
 
 class Supervisor: public QObject
@@ -24,8 +23,6 @@ private:
 	static Supervisor *self;
 
 	SumoClient sumoC;
-	
-	QThreadPool *threadPool;
 	
 	MainWindow *window;
 	QMutex mutexControllerList;
@@ -46,14 +43,13 @@ public:
 
 	static Supervisor * getInstance();
 
-	//QMutex * getMutextControllerListRef();
-	//std::vector<Controller *>  * getControllersListRef();
-
 	void getControllersListClone(std::vector<Controller *> *);
 
 	void setQueueSizeAndStreamForController(std::string, std::string, int, int);
 
 	void setSituationForStreet(std::string, std::string, std::string);
+
+	Controller * getControllerByName(std::string);
 	
 	
 	

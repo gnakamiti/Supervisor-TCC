@@ -25,8 +25,6 @@ Supervisor::Supervisor()
 	/*
 	argc = argc;
 	argv = argv;*/
-	
-	threadPool = QThreadPool::globalInstance();
 
 	try
 	{
@@ -56,7 +54,6 @@ Supervisor::Supervisor()
 
 		c = new Controller(*it, sumoC.getTrafficLightsDefinition((*it)), lanes);
 		c->setActive(true);
-		//sumoC.getControllerLinks(*it);
 
 		this->controllers.push_back(c);
 
@@ -107,17 +104,7 @@ void Supervisor::startThreads(void)
 	//this->sumoC.quit();
 				
 }
-/*
-QMutex * Supervisor::getMutextControllerListRef()
-{
-	return &this->mutexControllerList;
-}
 
-std::vector<Controller *> * Supervisor::getControllersListRef()
-{
-	return &this->controllers;
-}
-*/
 void Supervisor::getControllersListClone(std::vector<Controller *> *clone)
 {
 	QMutexLocker locker(&this->mutexControllerList);
@@ -162,11 +149,18 @@ void Supervisor::setQueueSizeAndStreamForController
 	(std::string controllerId, std::string streetName, int queueSize, int carStream)
 {
 	QMutexLocker locker(&this->mutexControllerList);
+	QString queue, stream, controller;
 
 	Street *street = this->getStreetByName(controllerId, streetName);
 
 	street->carStream += carStream;
 	street->queueSize = queueSize;
+	
+	controller = controllerId.c_str();
+	queue = QString::number(queueSize);
+	stream = QString::number(carStream);
+
+	
 }
 void Supervisor::setSituationForStreet
 	(std::string controllerId, std::string streetName, std::string situation)
@@ -176,5 +170,22 @@ void Supervisor::setSituationForStreet
 	Street *street = this->getStreetByName(controllerId, streetName);
 
 	street->situation = situation;
+}
+
+Controller * Supervisor::getControllerByName(std::string controllerName)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+	Controller *c = nullptr;
+
+	for(int i = 0; i < this->controllers.size(); i++)
+	{
+		if(this->controllers.at(i)->getName().compare(controllerName) == 0)
+		{
+			c = this->controllers.at(i)->clone();
+			break;
+		}
+	}
+
+	return c;
 }
 

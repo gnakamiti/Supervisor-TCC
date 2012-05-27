@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?&key=AIzaSyA-BcgUCyuKtJivtu6dgW1yBTmZW6X6ZWg&sensor=false">
+    </script>
+
+    <script type="text/javascript">
+        var controllers = {};
+        var map;
+        //Draws the map
+        //This is called via C++
+      function initialize() {
+		
+		//var geocoder = new google.maps.Geocoder();
+        
+
+        var myOptions = {
+          center: new google.maps.LatLng(-22.898943,-47.0627),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"),
+			  myOptions);
+			
+		/*	
+		new google.maps.Marker({
+		    map: map,
+            position: new google.maps.LatLng(-22.898943,-47.0627)
+		});
+		new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-22.89922,-47.062539)
+		});
+
+		new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-22.897841,-47.061987)
+		});
+
+		new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-22.897678,-47.062212)
+		});
+		new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-22.900656,-47.063617)
+		});
+		new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-22.900789,-47.06315)
+		});*/
+
+      
+        //geocoder.geocode({'address': 'av. joao batista morato do canto, campinas, sao paulo, brasil'}, geoCodeCallBack);
+		//setLabelForMarker('Hello man!');
+    }
+
+    function intDivision(numerator, denominator) {
+        // In JavaScript, dividing integer values yields a floating point result (unlike in Java, C++, C)
+        // To find the integer quotient, reduce the numerator by the remainder first, then divide.
+        var remainder = numerator % denominator;
+        var quotient = (numerator - remainder) / denominator;
+
+        return quotient;
+    }
+
+    function setLabelForMarker(markerName, text) {
+        var infowindow = new google.maps.InfoWindow({
+            content: text,
+            width: 200,
+            height: 200
+        });
+        infowindow.open(map, controllers[markerName]);
+    }
+
+    function showInfo(event) {
+        var myLatLng = event.latLng;
+        var controller;
+        var controllerInfo;
+        var max;
+        var aux;
+        var text = '<div id="content" style="margin-left:15px;'+
+			'margin-top:3px;overflow:hidden;">';
+        
+
+        for(var key in controllers){
+            if (controllers[key].getPosition() == myLatLng) {
+                controller = controllers[key].getTitle();
+                break;
+            }
+        }
+
+        //qtBridge is an exposed QT object!
+        controllerInfo = qtBridge.getInformationForController(controller);
+
+        if (controllerInfo.length <= 0) {
+            text += '<div id="bodyContent"><font style="color:red;font:20px tahoma;margin-left:5px;">';
+            text += 'Could not retrieve information, sorry.';
+            text += '</font></div></div>';
+            setLabelForMarker(controller, text);
+            return;
+        }
+
+        max = intDivision(controllerInfo.length, 4);
+        aux = 0;
+
+        text += '<div id="bodyContent"><font style="color:darkblue;font:15px tahoma;margin-left:5px;">';
+        text += 'Controller:<bold>'+controller+'</bold><br><br>';
+
+        for (var i = 0; i < max; i++) {
+            
+            text += 'Street Name:';
+            text += controllerInfo[aux++];
+            text += '<br>';
+            text += 'Situation:';
+            text += controllerInfo[aux++];
+            text += '<br>';
+            text += 'Queue Size:';
+            text += controllerInfo[aux++];
+            text += '<br>';
+            text += 'Car Stream:';
+            text += controllerInfo[aux++];
+            text += '<br>';
+            text += '------------------<br>';
+        }
+
+        text += '</font></div></div>'; //For the content div
+
+        setLabelForMarker(controller, text);
+    }
+
+   
+
+    //Set controller on the map.
+    //This is called via C++
+    function setController(controllerName, lat, long) {
+       
+        controllers[controllerName] = 
+        new google.maps.Marker({
+            map: map,
+            title: controllerName,
+            position: new google.maps.LatLng(Number(lat), Number(long))
+        });
+
+        google.maps.event.addListener(controllers[controllerName], 'click', showInfo);
+        
+    }
+
+  
+ /*
+      function geoCodeCallBack(results, status)
+      {
+   
+	if(status == google.maps.GeocoderStatus.OK)
+        {
+	
+           map.setCenter(results[0].geometry.location);
+	   var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+	  });
+
+
+        }
+        else
+        {
+          alert('Could not load the map - reason: '+ status);
+        }
+      }*/
+    </script>
+
+  </head>
+  <body>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+  </body>
+</html>
+<!--onload="initialize()"  no body!-->

@@ -18,11 +18,13 @@ class SumoClient: public QThread
 	Q_OBJECT
 
 private:
+
 	Socket *s;
 	QMutex socketLock;
 	QMutex stopLock;
 	bool stop;
 	Storage * sendCommandForSumoTrafficLights(std::string, int);
+	
 
 	int getQueueSizeOrFlowForALane(std::string, int, int);
 	

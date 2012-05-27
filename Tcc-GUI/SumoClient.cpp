@@ -360,18 +360,15 @@ void SumoClient::run()
 
 	//TALVEZ VOLTAR ISSO PRA DENTRO DO LOOP
 	supervisor = Supervisor::getInstance();
+	//TALVEZ EU POSSA TIRAR ESSA CLONE, POIS ESSA THREAD NUNCA PARA
+	//E EU SO ATUALIZO PROPRIEDADES DOS CONTROLADORES
+	//ALEM DISSO SERIA UM GRANDE GANHO DE MEMORIA!
+	supervisor->getControllersListClone(&controllers);
 
 	stopLock.lock();
 	while(this->stop == false)
 	{
 		stopLock.unlock();
-		
-		
-
-		//TALVEZ EU POSSA TIRAR ESSA CLONE, POIS ESSA THREAD NUNCA PARA
-		//E EU SO ATUALIZO PROPRIEDADES DOS CONTROLADORES
-		//ALEM DISSO SERIA UM GRANDE GANHO DE MEMORIA!
-		supervisor->getControllersListClone(&controllers);
 
 		this->simulationStep();
 
@@ -405,9 +402,10 @@ void SumoClient::run()
 			//controlledStreets.clear();
 		}
 
-		deleteInVector(controllers);
-		controllers.clear();
+		
 
 		stopLock.lock();
 	}
+	deleteInVector(controllers);
+	controllers.clear();
 }

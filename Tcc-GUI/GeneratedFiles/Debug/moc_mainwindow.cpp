@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sat 19. May 16:45:10 2012
+** Created: Sun 27. May 19:56:02 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,11 @@ static const uint qt_meta_data_MainWindow[] = {
       58,   11,   11,   11, 0x08,
       93,   11,   11,   11, 0x08,
      112,   11,   11,   11, 0x08,
+     133,   11,   11,   11, 0x08,
+     153,   11,   11,   11, 0x0a,
+
+ // methods: signature, parameters, type, tag, flags
+     207,   11,  195,   11, 0x02,
 
        0        // eod
 };
@@ -45,6 +50,9 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "listClick(QListWidgetItem*)\0"
     "listClickStreets(QListWidgetItem*)\0"
     "phaseSelected(int)\0programSelected(int)\0"
+    "initializeMap(bool)\0"
+    "mainFrame_javaScriptWindowObjectCleared()\0"
+    "QStringList\0getInformationForController(QString)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -58,6 +66,10 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->listClickStreets((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         case 3: _t->phaseSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 4: _t->programSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: _t->initializeMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 6: _t->mainFrame_javaScriptWindowObjectCleared(); break;
+        case 7: { QStringList _r = _t->getInformationForController((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< QStringList*>(_a[0]) = _r; }  break;
         default: ;
         }
     }
@@ -95,9 +107,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 8;
     }
     return _id;
 }

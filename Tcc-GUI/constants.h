@@ -66,4 +66,7 @@
 
 #define GUI_TIMER_UPDATE_UI 2000
 
+#define GUI_MAP_FILE_LOCATION "maps.html"
+#define CONTROLLER_CFG_LOCATION "controllersPos.cfg"
+
 #endif

@@ -38,6 +38,7 @@ namespace tcpip
 class Storage
 {
 
+
 public:
 	typedef std::vector<unsigned char> StorageType;
 

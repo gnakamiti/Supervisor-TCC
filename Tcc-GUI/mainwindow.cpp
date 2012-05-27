@@ -8,6 +8,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	ui.setupUi(this);
 	timer = new QTimer(this);
+	mapWidget = new QWidget();
+//	gMaps.setupUi(mapWidget);
+
+	webPage = new myWebPage();
+	ui.gMaps->setPage(webPage);
 
 	timer->setInterval(GUI_TIMER_UPDATE_UI);
 
@@ -18,8 +23,13 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	connect(timer, SIGNAL(timeout()), this, SLOT(timeoutUpdateUI()));
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClick(QListWidgetItem *)));
 	connect(ui.listControlledStreets, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickStreets(QListWidgetItem *)));
+	//connect(ui.btnShowMap, SIGNAL(clicked()), this, SLOT(btnMapPush()));
+	//javascript - load map when everything is ready
+	connect(ui.gMaps, SIGNAL(loadFinished(bool)), this, SLOT(initializeMap(bool)));
+	//javascript - be able to call c++ from javascript
+	connect(ui.gMaps->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(mainFrame_javaScriptWindowObjectCleared()));
 	//connect(ui.btnRefresh, SIGNAL(click()), this, SLOT(btnRefresh()));
-
+	
 	currentRowController = -1;
 	currentRowStreet = -1;
 
@@ -29,8 +39,85 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	deleteInVector(controllers);
 
 	timer->start();
-	
+
+	QUrl url(GUI_MAP_FILE_LOCATION);
+
+	ui.gMaps->setUrl(url);
 }
+
+void MainWindow::initializeMap(bool b)
+{
+	QString function;
+	ControllerCFG cfg;
+	std::vector<ControllerLatLng> controllersLatLng;
+	ControllerLatLng actual;
+	controllersLatLng = cfg.getLatLng();
+
+	ui.gMaps->page()->mainFrame()->evaluateJavaScript("initialize()");
+
+	for(int i = 0; i < controllersLatLng.size(); i++)
+	{
+		actual = controllersLatLng.at(i);
+		function = "setController('"+actual.name+"','"+actual.lat+"','"+actual.lng+"')";
+		ui.gMaps->page()->mainFrame()->evaluateJavaScript(function);
+	}
+
+}
+
+QStringList MainWindow::getInformationForController(QString controllerName)
+{
+	QStringList valuesToReturn;
+	std::vector<Street> *streets;
+	Street street;
+	Controller * c = Supervisor::getInstance()->
+		getControllerByName(controllerName.toStdString());
+	
+	if(c == nullptr) //I didnt find the controller!
+		return valuesToReturn;
+	
+	streets = c->getControlledStreets();
+
+	for(int i = 0; i < streets->size(); i++)
+	{
+		street = streets->at(i);
+
+		valuesToReturn.push_back(QString(street.streetName.c_str()));
+		valuesToReturn.push_back(QString(street.situation.c_str()));
+		valuesToReturn.push_back(QString::number(street.queueSize));
+		valuesToReturn.push_back(QString::number(street.carStream));
+	}
+
+	delete c;
+	c = nullptr;
+
+	return valuesToReturn;
+}
+
+void MainWindow::mainFrame_javaScriptWindowObjectCleared() {
+    ui.gMaps->page()->mainFrame()->addToJavaScriptWindowObject("qtBridge", this);
+}
+
+
+void MainWindow::updateGoogleMapsMarker(QString controllerName, QString queue, QString stream)
+{
+	QString  text;
+
+	text = "Controller:"+controllerName
+		+"<br>Queue Size is:"+queue+"<br>"
+		+"Car Stream:"+stream;
+
+	ui.gMaps->page()->mainFrame()->
+		evaluateJavaScript("setLabelForMarker('"+controllerName+"','"+text+"')");
+}
+/*
+void MainWindow::btnMapPush()
+{
+	QUrl url(GUI_MAP_FILE_LOCATION);
+
+	ui.gMaps->setUrl(url);
+	
+	this->mapWidget->show();
+}*/
 //Set the controller props in the GUI
 void MainWindow::listClick(QListWidgetItem * item)
 {
@@ -296,7 +383,7 @@ void MainWindow::setControllersAndMutex(std::vector<Controller *> *controllers, 
 	this->listControllersInTheList(this->controllers);
 	
 }*/
-//TODO IMPLEMENTAR AQUI
+
 void MainWindow::timeoutUpdateUI()
 {
 	std::vector<Controller *> controllers;
@@ -323,4 +410,7 @@ MainWindow::~MainWindow()
 
 	delete timer;
 	timer = nullptr;
+
+	delete mapWidget;
+	mapWidget = nullptr;
 }
