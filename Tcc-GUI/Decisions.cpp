@@ -59,7 +59,7 @@ void Decisions::fuzzyTimerTimeout()
 	std::vector<int> resultI, resultJ;
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
-
+	SupervisorLog::getInstance()->writeOnLog("----- Begin -----");
 	for(int i = 0; i < controllers.size(); i++)
 	{
 		cI = controllers.at(i);
@@ -78,6 +78,7 @@ void Decisions::fuzzyTimerTimeout()
 			//I'm bad if the invere of degree is bad
 			if(fuzzyResultI.value <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
 			{
+				
 				for(int k = 0; k < controllers.size(); k++)
 				{
 					//I'm not comparing myself
@@ -110,6 +111,6 @@ void Decisions::fuzzyTimerTimeout()
 			}
 		}
 	}
-
+	SupervisorLog::getInstance()->writeOnLog("----- End -----");
 	deleteInVector(controllers);
 }
