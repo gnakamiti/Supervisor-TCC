@@ -49,6 +49,8 @@ public:
 
 	void setSituationForStreet(std::string, std::string, std::string);
 
+	void setTrafficLightProgramForController(std::string, std::vector<ControllerLogic *>);
+
 	Controller * getControllerByName(std::string);
 	
 	

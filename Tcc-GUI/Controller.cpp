@@ -12,6 +12,11 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, 
 	
 	//this->lanes = lanes;
 	this->createStreets(lanes);
+
+	newPhaseDurations[0] = 10;
+	newPhaseDurations[1] = 20;
+	newPhaseDurations[2] = 30;
+	newPhaseDurations[3] = 40;
 }
 
 std::string Controller::laneToStreet(std::string lane)
@@ -96,6 +101,8 @@ Controller::Controller(const Controller &copy)
 //	queuePerLane = copy.queuePerLane;
 //	lanes = copy.lanes;
 	streets = copy.streets;
+	newPhaseDurations = copy.newPhaseDurations;
+
 	for(int i = 0; i < copy.logics.size(); i++)
 	{
 		logics.push_back(copy.logics.at(i)->clone());
@@ -178,4 +185,48 @@ ControllerLogic::ControllerLogic(const ControllerLogic &copy)
 ControllerLogic * ControllerLogic::clone()
 {
 	return new ControllerLogic(*this);
+}
+
+ControllerLogic ControllerLogic::createLogicForSumo()
+{
+	std::vector<Phase *> *phases = new std::vector<Phase *>();
+	ControllerLogic logic;
+	Phase *phase;
+
+	logic.subID = "newLogic1";
+	logic.currentPhaseIndex = 0;
+	logic.phases = phases;
+
+	phase = new Phase();
+	phase->phaseDef = "GGGGrrr";
+	phase->duration = 0;
+	phase->duration1 = 0;
+	phase->duration2 = 0;
+	phases->push_back(phase);
+
+	phase = new Phase();
+	phase->phaseDef = "yyyyrrr";
+	phase->duration = 0;
+	phase->duration1 = 0;
+	phase->duration2 = 0;
+	phases->push_back(phase);
+
+	phase = new Phase();
+	phase->phaseDef = "rrrrGGG";
+	phase->duration = 0;
+	phase->duration1 = 0;
+	phase->duration2 = 0;
+	phases->push_back(phase);
+
+	phase = new Phase();
+	phase->phaseDef = "rrrryyy";
+	phase->duration = 0;
+	phase->duration1 = 0;
+	phase->duration2 = 0;
+	phases->push_back(phase);
+
+
+
+
+	return logic;
 }

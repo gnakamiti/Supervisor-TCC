@@ -43,6 +43,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	QUrl url(GUI_MAP_FILE_LOCATION);
 
 	ui.gMaps->setUrl(url);
+
+	ui.lblTL1->setTextFormat(Qt::RichText);
+	ui.lblTL2->setTextFormat(Qt::RichText);
+
+   ui.lblTL1->setText("<img src=\"light_red.png\">");
+   ui.lblTL2->setText("<img src=\"light_red.png\">");
 }
 
 void MainWindow::initializeMap(bool b)
@@ -293,6 +299,13 @@ void MainWindow::updateInterface(Controller *controller)
 		ui.listControlledStreets->addItem(item);
 	}
 
+	if(controlledStreets->size() == 2)
+	{
+		qString = controlledStreets->at(0).streetName.c_str();
+		ui.lblControlledStreet1->setText(qString);
+		qString = controlledStreets->at(1).streetName.c_str();
+		ui.lblControlledStreet2->setText(qString);
+	}
 
 	
 
@@ -312,8 +325,10 @@ void MainWindow::updateInterface(Controller *controller)
 		{
 			phase = phases->at(i);
 			ui.comboProgramPhase->addItem(QString::number(k));
-			this->setPhaseInTheGui(phase);
 		}
+
+		this->setPhaseInTheGui(phases->at(logic->currentPhaseIndex));
+		ui.comboProgramPhase->setCurrentIndex(logic->currentPhaseIndex);
 	}
 	//Now we can connect again
 	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
@@ -392,6 +407,7 @@ void MainWindow::timeoutUpdateUI()
 	if(this->currentRowController != -1)
 	{
 		this->updateInterface(controllers.at(currentRowController));
+		this->updateTrafficLight(controllers.at(currentRowController));
 	}
 
 	if(this->currentRowStreet != -1)
@@ -402,7 +418,64 @@ void MainWindow::timeoutUpdateUI()
 
 	deleteInVector(controllers);
 }
+void MainWindow::updateTrafficLight(Controller *c)
+{
 
+	//Only works if 2 traffic lights
+
+	if(c->getControlledStreets()->size() != 2)
+		return;
+
+   int currentProgram = 0;
+   std::vector<ControllerLogic *> logics = c->getLogics();
+   int currentPhase = logics.at(currentProgram)->currentPhaseIndex;
+   QString img;
+   int count = 1;
+
+   QString phaseDef(logics.at(currentProgram)->phases->at(currentPhase)->phaseDef.c_str());
+  
+   phaseDef = phaseDef.toLower();
+
+   QChar current = '8';
+
+   for(int i = 0; i < phaseDef.size(); i++)
+   {
+	   if(phaseDef.at(i) != current)
+	   {
+		   current = phaseDef.at(i);
+
+		   if(current == 'r')//red
+		   {
+			   img = "light_red";
+		   }
+		   else if(current == 'y') //yellow
+		   {
+			   img = "light_yellow";
+		   }
+		   else  //green
+		   {
+			   img = "light_green";
+		   }
+
+		   if(count == 1)
+		   {
+			   ui.lblTL1->setText("<img src=\""+img+".png\">");
+			   count++;
+		   }
+		   else
+		   {
+			   ui.lblTL2->setText("<img src=\""+img+".png\">");
+			   break;
+		   }
+	   }
+   }
+   
+   
+   
+   
+   
+
+}
 MainWindow::~MainWindow()
 {
 	if(timer->isActive() == true)

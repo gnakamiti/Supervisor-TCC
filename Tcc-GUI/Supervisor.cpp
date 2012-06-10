@@ -93,7 +93,9 @@ void Supervisor::startThreads(void)
 	this->decisions.start();
 
 	this->sumoC.start();
+	
 
+	//this->sumoC.setProgram(this->controllers.at(0)->getName(), ControllerLogic::createLogicForSumo());
 	a.exec();
 
 	//threadPool->waitForDone();
@@ -170,6 +172,20 @@ void Supervisor::setSituationForStreet
 	Street *street = this->getStreetByName(controllerId, streetName);
 
 	street->situation = situation;
+}
+
+void Supervisor::setTrafficLightProgramForController(std::string controllerName, std::vector<ControllerLogic *> logics){
+
+	QMutexLocker locker(&this->mutexControllerList);
+
+	for(int i = 0; i < this->controllers.size(); i++)
+	{
+		if(this->controllers.at(i)->getName().compare(controllerName) == 0)
+		{
+			this->controllers.at(i)->setControllerLogics(logics);
+			break;
+		}
+	}
 }
 
 Controller * Supervisor::getControllerByName(std::string controllerName)

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
 #include "constants.h"
 #include "Utils.h"
 
@@ -50,6 +51,8 @@ public:
 	std::string intToStrType();
 
 	ControllerLogic *clone();
+
+	static ControllerLogic createLogicForSumo();
 };
 
 class Controller
@@ -64,7 +67,9 @@ private:
 //	int queueSize;
 //	int carStream;
 //	int queuePerLane;
-
+	//New phase duration for a phase
+	//key = phase and value = phase duration
+	std::map<int, int> newPhaseDurations;
 	void createStreets(std::vector<Lane>);
 	std::string laneToStreet(std::string);
 	//void deleteLogics();
@@ -94,6 +99,7 @@ public:
 	//Isso aqui me causou problemas, acostumado com referencias em java :(
 	//Eu estava apenas retornando uma copia!
 	std::vector<Street> * getControlledStreets() { return &streets; }
+	std::map<int, int> getNewPhaseDuration() { return newPhaseDurations; }
 
 	Controller *clone();
 };

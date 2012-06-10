@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtGui>
 #include <QtGui/QMainWindow>
 #include <QTimer>
 #include <QMutexLocker>
@@ -56,6 +57,8 @@ private:
 	void updateStreetProps(Street);
 	QString setColorForStreetSituation(QString);
 	void updateGoogleMapsMarker(QString, QString, QString);
+
+	void updateTrafficLight(Controller *);
 	
 
 private slots:

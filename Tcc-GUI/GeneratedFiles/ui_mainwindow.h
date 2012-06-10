@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 27. May 19:55:15 2012
+** Created: Sun 10. Jun 16:36:26 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -73,6 +73,11 @@ public:
     QLineEdit *txtQueueSize;
     QLabel *lblCarStream;
     QLineEdit *txtCarStream;
+    QLabel *lblTL1;
+    QLabel *lblTL2;
+    QLabel *lblControlledStreet1;
+    QLabel *lblControlledStreet2;
+    QWidget *tab_3;
     QWidget *tab_2;
     QWebView *gMaps;
     QMenuBar *menuBar;
@@ -92,13 +97,13 @@ public:
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         listWidget = new QListWidget(centralWidget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
-        listWidget->setGeometry(QRect(10, 30, 261, 511));
+        listWidget->setGeometry(QRect(10, 30, 261, 641));
         lblController = new QLabel(centralWidget);
         lblController->setObjectName(QString::fromUtf8("lblController"));
         lblController->setGeometry(QRect(10, 10, 81, 21));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(280, 0, 1131, 681));
+        tabWidget->setGeometry(QRect(280, 0, 1121, 681));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         groupBoxControllersProgram = new QGroupBox(tab);
@@ -163,7 +168,8 @@ public:
         comboProgramPhase->setGeometry(QRect(600, 100, 171, 22));
         txtCurrentPhase = new QLineEdit(groupBoxControllersProgram);
         txtCurrentPhase->setObjectName(QString::fromUtf8("txtCurrentPhase"));
-        txtCurrentPhase->setGeometry(QRect(730, 50, 171, 22));
+        txtCurrentPhase->setGeometry(QRect(730, 60, 171, 22));
+        txtCurrentPhase->setReadOnly(true);
         lblCurrentPhase = new QLabel(groupBoxControllersProgram);
         lblCurrentPhase->setObjectName(QString::fromUtf8("lblCurrentPhase"));
         lblCurrentPhase->setGeometry(QRect(580, 60, 91, 16));
@@ -172,13 +178,13 @@ public:
         listControlledStreets->setGeometry(QRect(40, 170, 301, 192));
         listControlledLanes = new QListWidget(tab);
         listControlledLanes->setObjectName(QString::fromUtf8("listControlledLanes"));
-        listControlledLanes->setGeometry(QRect(420, 170, 331, 192));
+        listControlledLanes->setGeometry(QRect(400, 170, 331, 192));
         lblControlledStreets = new QLabel(tab);
         lblControlledStreets->setObjectName(QString::fromUtf8("lblControlledStreets"));
         lblControlledStreets->setGeometry(QRect(10, 140, 111, 16));
         lblControlledLanes = new QLabel(tab);
         lblControlledLanes->setObjectName(QString::fromUtf8("lblControlledLanes"));
-        lblControlledLanes->setGeometry(QRect(410, 140, 141, 21));
+        lblControlledLanes->setGeometry(QRect(400, 140, 141, 21));
         lblStatusValue = new QLabel(tab);
         lblStatusValue->setObjectName(QString::fromUtf8("lblStatusValue"));
         lblStatusValue->setGeometry(QRect(130, 50, 201, 31));
@@ -218,18 +224,35 @@ public:
         txtCarStream->setObjectName(QString::fromUtf8("txtCarStream"));
         txtCarStream->setGeometry(QRect(540, 50, 113, 22));
         txtCarStream->setReadOnly(true);
+        lblTL1 = new QLabel(tab);
+        lblTL1->setObjectName(QString::fromUtf8("lblTL1"));
+        lblTL1->setGeometry(QRect(750, 180, 139, 160));
+        lblTL2 = new QLabel(tab);
+        lblTL2->setObjectName(QString::fromUtf8("lblTL2"));
+        lblTL2->setGeometry(QRect(920, 180, 139, 160));
+        lblControlledStreet1 = new QLabel(tab);
+        lblControlledStreet1->setObjectName(QString::fromUtf8("lblControlledStreet1"));
+        lblControlledStreet1->setGeometry(QRect(750, 140, 161, 16));
+        lblControlledStreet2 = new QLabel(tab);
+        lblControlledStreet2->setObjectName(QString::fromUtf8("lblControlledStreet2"));
+        lblControlledStreet2->setGeometry(QRect(920, 140, 181, 16));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8("network.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab, icon1, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("control.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_3, icon2, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         gMaps = new QWebView(tab_2);
         gMaps->setObjectName(QString::fromUtf8("gMaps"));
         gMaps->setGeometry(QRect(0, 0, 1131, 651));
         gMaps->setUrl(QUrl(QString::fromUtf8("about:blank")));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
-        tabWidget->addTab(tab_2, icon2, QString());
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_2, icon3, QString());
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -278,7 +301,12 @@ public:
         lblStreetStatusValue->setText(QString());
         lblQueueSize->setText(QApplication::translate("MainWindowClass", "Queue Size:", 0, QApplication::UnicodeUTF8));
         lblCarStream->setText(QApplication::translate("MainWindowClass", "Car Stream:", 0, QApplication::UnicodeUTF8));
+        lblTL1->setText(QString());
+        lblTL2->setText(QString());
+        lblControlledStreet1->setText(QString());
+        lblControlledStreet2->setText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindowClass", "General Information", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindowClass", "Commands", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
         menuAbout->setTitle(QApplication::translate("MainWindowClass", "About", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

@@ -6,6 +6,7 @@
 
 #include "constants.h"
 #include <QThread>
+#include <map>
 #include <QMutex>
 
 using namespace tcpip;
@@ -27,6 +28,8 @@ private:
 	
 
 	int getQueueSizeOrFlowForALane(std::string, int, int);
+
+	void changePhaseDurationIfAskedTo(Controller *);
 	
 
 public slots:
@@ -45,6 +48,11 @@ public:
 	std::vector<std::string> getControllerLanes(std::string);
 	void getControllerLinks(std::string);
 	void setControllerProgram(std::string, std::string);
+
+	void setPhaseDuration(std::string, int);
+
+
+	void setProgram(std::string, ControllerLogic);
 
 	void run();
 

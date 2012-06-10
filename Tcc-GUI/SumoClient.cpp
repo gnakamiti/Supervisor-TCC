@@ -347,6 +347,149 @@ int SumoClient::getCarStreamByDetector(std::string)
 	socketLock.unlock();
 }*/
 
+void SumoClient::setPhaseDuration(std::string controllerName, int duration)
+{
+	Storage in,out;
+	int length = 1 + 4;
+
+	length += 1+1+1+4+controllerName.size();
+
+	if(length <= 255)
+	{
+		out.writeUnsignedByte(length);
+		out.writeUnsignedByte(SUMO_SET_TRAFFIC_LIGHTS_VALUE);
+		out.writeUnsignedByte(SUMO_PHASE_DURATION);
+		out.writeString(controllerName);
+		
+	}
+	else
+	{
+		out.writeUnsignedByte(0);
+		out.writeInt(length+4);
+		out.writeUnsignedByte(SUMO_SET_TRAFFIC_LIGHTS_VALUE);
+		out.writeUnsignedByte(SUMO_PHASE_DURATION);
+		out.writeString(controllerName);
+	}
+	//Its in miliseconds!
+	duration *= 1000;
+
+	out.writeUnsignedByte(SUMO_INT_TYPE);
+	out.writeInt(duration);
+
+	socketLock.lock();
+
+	s->sendExact(out);
+	s->receiveExact(in);
+
+	socketLock.unlock();
+
+}
+
+void SumoClient::changePhaseDurationIfAskedTo(Controller *c)
+{
+	
+	std::map<int, int> newPhases = c->getNewPhaseDuration();
+	std::map<int,int>::iterator it;
+
+	if(c->getLogics().size() > 0)
+	{
+		it = newPhases.find(c->getLogics().at(0)->currentPhaseIndex);
+
+		//I have the key in the map, so it means i must update the duration
+		if(it != newPhases.end())
+		{
+			//Update duration
+			this->setPhaseDuration(c->getName(), it->second);
+
+			//Remove from the map
+			newPhases.erase(it);
+		}
+	}
+
+	
+}
+
+void SumoClient::setProgram(std::string controllerId, ControllerLogic newLogic)
+{
+	Storage in, out;
+	int length, itemNo;
+	std::vector<Phase *> *phases = newLogic.phases;
+	Phase *p;
+
+	length = 1+4 + 1+4+newLogic.subID.size()+ 1+4 + 1+4 + 1+4 + 1+4; // tls parameter
+
+	itemNo = 1+1+1+1+1;
+
+	for(int i = 0; i < phases->size(); i++)
+	{
+		length += 1+4 + 1+4 + 1+4 + 1+4+phases->at(i)->phaseDef.size();
+        itemNo += 4;
+	}
+
+	length += 1+1+1+4+controllerId.size();
+
+	if(length <= 255)
+	{
+		out.writeUnsignedByte(length);
+		out.writeUnsignedByte(0xc2);
+		out.writeUnsignedByte(0x2c);
+		out.writeString(controllerId);
+		
+	}
+	else
+	{
+		out.writeUnsignedByte(0);
+		out.writeInt(length+4);
+		out.writeUnsignedByte(0xc2);
+		out.writeUnsignedByte(0x2c);
+		out.writeString(controllerId);
+	}
+
+	out.writeUnsignedByte(0x0F);
+	out.writeInt(itemNo);
+
+	out.writeUnsignedByte(0x0C);
+	out.writeString(newLogic.subID);
+
+	out.writeUnsignedByte(SUMO_INT_TYPE);
+	out.writeInt(0);
+
+	out.writeUnsignedByte(0x0F);
+	out.writeInt(0);
+
+	out.writeUnsignedByte(SUMO_INT_TYPE);
+	out.writeInt(newLogic.currentPhaseIndex);
+
+	out.writeUnsignedByte(SUMO_INT_TYPE);
+	out.writeInt(phases->size());
+
+
+
+	for(int i = 0; i < phases->size(); i++)
+	{
+		p = phases->at(i);
+
+		out.writeUnsignedByte(SUMO_INT_TYPE);
+		out.writeInt(p->duration);
+
+		out.writeUnsignedByte(SUMO_INT_TYPE);
+		out.writeInt(p->duration1);
+		
+		out.writeUnsignedByte(SUMO_INT_TYPE);
+		out.writeInt(p->duration2);
+
+		out.writeUnsignedByte(0x0C);
+		out.writeString(p->phaseDef);
+	}
+
+	socketLock.lock();
+
+	s->sendExact(out);
+	s->receiveExact(in);
+
+	socketLock.unlock();
+}
+
 void SumoClient::run()
 {
 	Supervisor *supervisor;
@@ -375,6 +518,9 @@ void SumoClient::run()
 		for(int i = 0; i < controllers.size(); i++)
 		{
 			controller = controllers.at(i);
+
+			//changePhaseDurationIfAskedTo(controller);
+			
 			controlledStreets = controller->getControlledStreets();
 
 			for(int j = 0; j < controlledStreets->size(); j++)
@@ -399,7 +545,8 @@ void SumoClient::run()
 				controlledLanes.clear();
 			}
 
-			//controlledStreets.clear();
+			supervisor->setTrafficLightProgramForController(controller->getName(),
+				this->getTrafficLightsDefinition(controller->getName()));
 		}
 
 		
