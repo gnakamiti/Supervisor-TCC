@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 10. Jun 16:36:26 2012
+** Created: Mon 11. Jun 19:03:57 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -91,7 +91,7 @@ public:
             MainWindowClass->setObjectName(QString::fromUtf8("MainWindowClass"));
         MainWindowClass->resize(1413, 745);
         QIcon icon;
-        icon.addFile(QString::fromUtf8("appIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/MainWindow/images/appIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindowClass->setWindowIcon(icon);
         centralWidget = new QWidget(MainWindowClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
@@ -237,12 +237,12 @@ public:
         lblControlledStreet2->setObjectName(QString::fromUtf8("lblControlledStreet2"));
         lblControlledStreet2->setGeometry(QRect(920, 140, 181, 16));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("network.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/MainWindow/images/network.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab, icon1, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("control.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/MainWindow/images/control.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab_3, icon2, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -251,7 +251,7 @@ public:
         gMaps->setGeometry(QRect(0, 0, 1131, 651));
         gMaps->setUrl(QUrl(QString::fromUtf8("about:blank")));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("map2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/MainWindow/images/map2.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab_2, icon3, QString());
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);

@@ -14,8 +14,8 @@
    <string>Supervision of controllers </string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>appIcon.png</normaloff>appIcon.png</iconset>
+   <iconset resource="mainwindow.qrc">
+    <normaloff>:/MainWindow/images/appIcon.png</normaloff>:/MainWindow/images/appIcon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListWidget" name="listWidget">
@@ -55,8 +55,8 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="icon">
-      <iconset>
-       <normaloff>network.png</normaloff>network.png</iconset>
+      <iconset resource="mainwindow.qrc">
+       <normaloff>:/MainWindow/images/network.png</normaloff>:/MainWindow/images/network.png</iconset>
      </attribute>
      <attribute name="title">
       <string>General Information</string>
@@ -560,8 +560,8 @@
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="icon">
-      <iconset>
-       <normaloff>control.png</normaloff>control.png</iconset>
+      <iconset resource="mainwindow.qrc">
+       <normaloff>:/MainWindow/images/control.png</normaloff>:/MainWindow/images/control.png</iconset>
      </attribute>
      <attribute name="title">
       <string>Commands</string>
@@ -569,8 +569,8 @@
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="icon">
-      <iconset>
-       <normaloff>map2.png</normaloff>map2.png</iconset>
+      <iconset resource="mainwindow.qrc">
+       <normaloff>:/MainWindow/images/map2.png</normaloff>:/MainWindow/images/map2.png</iconset>
      </attribute>
      <attribute name="title">
       <string>Map</string>

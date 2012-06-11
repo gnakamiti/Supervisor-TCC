@@ -47,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui.lblTL1->setTextFormat(Qt::RichText);
 	ui.lblTL2->setTextFormat(Qt::RichText);
 
-   ui.lblTL1->setText("<img src=\"light_red.png\">");
-   ui.lblTL2->setText("<img src=\"light_red.png\">");
+   ui.lblTL1->setText("<img src=\":/MainWindow/light_red.png\">");
+   ui.lblTL2->setText("<img src=\":/MainWindow/light_red.png\">");
 }
 
 void MainWindow::initializeMap(bool b)
@@ -459,12 +459,12 @@ void MainWindow::updateTrafficLight(Controller *c)
 
 		   if(count == 1)
 		   {
-			   ui.lblTL1->setText("<img src=\""+img+".png\">");
+			   ui.lblTL1->setText("<img src=\":/MainWindow/"+img+".png\">");
 			   count++;
 		   }
 		   else
 		   {
-			   ui.lblTL2->setText("<img src=\""+img+".png\">");
+			   ui.lblTL2->setText("<img src=\":/MainWindow/"+img+".png\">");
 			   break;
 		   }
 	   }
