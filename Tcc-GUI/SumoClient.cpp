@@ -409,7 +409,7 @@ void SumoClient::changePhaseDurationIfAskedTo(Controller *c)
 	
 }
 
-void SumoClient::setProgram(std::string controllerId, ControllerLogic newLogic)
+void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic newLogic)
 {
 	Storage in, out;
 	int length, itemNo;
@@ -489,6 +489,59 @@ void SumoClient::setProgram(std::string controllerId, ControllerLogic newLogic)
 
 	socketLock.unlock();
 }
+std::string SumoClient::getCurrentLogicForController(std::string controllerId)
+{
+	Storage in, out;
+	std::string programId;
+
+	int length;
+
+	length = 1+1+1+4+controllerId.size();
+	
+
+	if(length <= 255)
+	{
+		out.writeUnsignedByte(length);
+		out.writeUnsignedByte(SUMO_TRAFFIC_LIGHTS);
+		out.writeUnsignedByte(SUMO_CURRENT_PROGRAM);
+		out.writeString(controllerId);
+		
+	}
+	else
+	{
+		out.writeUnsignedByte(0);
+		out.writeInt(length+4);
+		out.writeUnsignedByte(SUMO_TRAFFIC_LIGHTS);
+		out.writeUnsignedByte(SUMO_CURRENT_PROGRAM);
+		out.writeString(controllerId);
+	}
+
+	socketLock.lock();
+
+	s->sendExact(out);
+	s->receiveExact(in);
+
+	socketLock.unlock();
+
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readString();
+
+	if(in.readUnsignedByte() <= 0)
+		in.readInt();
+
+	in.readUnsignedByte();
+	in.readUnsignedByte();
+	in.readString();
+	in.readUnsignedByte();
+
+	programId = in.readString();
+
+	return programId;
+}
+
+
 
 void SumoClient::run()
 {
@@ -547,6 +600,9 @@ void SumoClient::run()
 
 			supervisor->setTrafficLightProgramForController(controller->getName(),
 				this->getTrafficLightsDefinition(controller->getName()));
+
+			supervisor->setCurrentProgramForController(controller->getName(),
+				getCurrentLogicForController(controller->getName()));
 		}
 
 		

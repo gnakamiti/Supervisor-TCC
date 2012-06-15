@@ -102,6 +102,7 @@ Controller::Controller(const Controller &copy)
 //	lanes = copy.lanes;
 	streets = copy.streets;
 	newPhaseDurations = copy.newPhaseDurations;
+	currentLogicId = copy.currentLogicId;
 
 	for(int i = 0; i < copy.logics.size(); i++)
 	{
@@ -114,6 +115,25 @@ Controller::Controller(const Controller &copy)
 	}*/
 
 }
+
+ControllerLogic * Controller::getCurrentLogic()
+{
+	ControllerLogic *actual, *ret = nullptr;
+
+	for(int i = 0; i < logics.size(); i++)
+	{
+		actual = logics.at(i);
+
+		if(actual->subID.compare(currentLogicId) == 0)
+		{
+			ret = actual;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 Controller::~Controller()
 {
 	deleteInVector(this->logics);
@@ -199,34 +219,31 @@ ControllerLogic ControllerLogic::createLogicForSumo()
 
 	phase = new Phase();
 	phase->phaseDef = "GGGGrrr";
-	phase->duration = 0;
-	phase->duration1 = 0;
-	phase->duration2 = 0;
+	phase->duration = 10;
+	phase->duration1 = 10;
+	phase->duration2 = 10;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "yyyyrrr";
-	phase->duration = 0;
-	phase->duration1 = 0;
-	phase->duration2 = 0;
+	phase->duration = 10;
+	phase->duration1 = 10;
+	phase->duration2 = 10;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "rrrrGGG";
-	phase->duration = 0;
-	phase->duration1 = 0;
-	phase->duration2 = 0;
+	phase->duration = 10;
+	phase->duration1 = 10;
+	phase->duration2 = 10;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "rrrryyy";
-	phase->duration = 0;
-	phase->duration1 = 0;
-	phase->duration2 = 0;
+	phase->duration = 10;
+	phase->duration1 = 10;
+	phase->duration2 = 10;
 	phases->push_back(phase);
-
-
-
 
 	return logic;
 }

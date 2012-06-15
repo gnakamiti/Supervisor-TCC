@@ -47,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui.lblTL1->setTextFormat(Qt::RichText);
 	ui.lblTL2->setTextFormat(Qt::RichText);
 
-   ui.lblTL1->setText("<img src=\":/MainWindow/light_red.png\">");
-   ui.lblTL2->setText("<img src=\":/MainWindow/light_red.png\">");
+    ui.lblTL1->setText("<img src=\":/MainWindow/light_red.png\">");
+    ui.lblTL2->setText("<img src=\":/MainWindow/light_red.png\">");
 }
 
 void MainWindow::initializeMap(bool b)
@@ -287,8 +287,6 @@ void MainWindow::updateInterface(Controller *controller)
 		ui.lblStatusValue->setText("<font color='red'>Offline</font>");
 	}
 
-	
-
 	for(int i = 0; i < controlledStreets->size(); i++)
 	{
 		//controlledStreets->at(i);
@@ -307,29 +305,29 @@ void MainWindow::updateInterface(Controller *controller)
 		ui.lblControlledStreet2->setText(qString);
 	}
 
-	
+	qString = controller->getCurrentLogicAsString().c_str();
+	ui.txtCurrentProgram->setText(qString);
 
 	for(int i = 0; i < logics.size(); i++)
 	{
 		logic = logics.at(i);
-		
-		
+
 		qString = logic->subID.c_str();
 		ui.comboProgram->addItem(qString);
-		this->setProgramInTheGui(logic);
-		phases = logic->phases;
-
-		
-
-		for(int k = 0; k < phases->size(); k++)
-		{
-			phase = phases->at(i);
-			ui.comboProgramPhase->addItem(QString::number(k));
-		}
-
-		this->setPhaseInTheGui(phases->at(logic->currentPhaseIndex));
-		ui.comboProgramPhase->setCurrentIndex(logic->currentPhaseIndex);
 	}
+
+	this->setProgramInTheGui(logic);
+
+	phases = logic->phases;
+
+	for(int k = 0; k < phases->size(); k++)
+	{
+		phase = phases->at(k);
+		ui.comboProgramPhase->addItem(QString::number(k));
+	}
+
+	this->setPhaseInTheGui(phases->at(logic->currentPhaseIndex));
+	ui.comboProgramPhase->setCurrentIndex(logic->currentPhaseIndex);
 	//Now we can connect again
 	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
 	connect(ui.comboProgram, SIGNAL(currentIndexChanged(int)), this, SLOT(programSelected(int)));

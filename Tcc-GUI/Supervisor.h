@@ -52,6 +52,7 @@ public:
 	void setTrafficLightProgramForController(std::string, std::vector<ControllerLogic *>);
 
 	Controller * getControllerByName(std::string);
+	void setCurrentProgramForController(std::string , std::string );
 	
 	
 	

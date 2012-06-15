@@ -94,8 +94,9 @@ void Supervisor::startThreads(void)
 
 	this->sumoC.start();
 	
-
-	//this->sumoC.setProgram(this->controllers.at(0)->getName(), ControllerLogic::createLogicForSumo());
+	ControllerLogic  l = ControllerLogic::createLogicForSumo();
+	this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); //PAU TA AQUI!
+	//this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), l.subID);
 	a.exec();
 
 	//threadPool->waitForDone();
@@ -121,7 +122,7 @@ Street * Supervisor::getStreetByName(std::string controllerId, std::string stree
 {
 	Controller *c;
 	std::vector<Street> *streets;
-	Street *street;
+	Street *street = nullptr;
 
 	for(int i = 0; i < this->controllers.size(); i++)
 	{
@@ -151,17 +152,15 @@ void Supervisor::setQueueSizeAndStreamForController
 	(std::string controllerId, std::string streetName, int queueSize, int carStream)
 {
 	QMutexLocker locker(&this->mutexControllerList);
-	QString queue, stream, controller;
 
 	Street *street = this->getStreetByName(controllerId, streetName);
 
+	if(street == nullptr)
+		throw "FUCK THE STREET IS NULL - method setQueueSizeAndStreamForController";
+	
 	street->carStream += carStream;
 	street->queueSize = queueSize;
 	
-	controller = controllerId.c_str();
-	queue = QString::number(queueSize);
-	stream = QString::number(carStream);
-
 	
 }
 void Supervisor::setSituationForStreet
@@ -171,7 +170,12 @@ void Supervisor::setSituationForStreet
 
 	Street *street = this->getStreetByName(controllerId, streetName);
 
+	if(street == nullptr)
+		throw "FUCK THE STREET IS NULL - method setSituationForStreet";
+	
 	street->situation = situation;
+	
+	
 }
 
 void Supervisor::setTrafficLightProgramForController(std::string controllerName, std::vector<ControllerLogic *> logics){
@@ -184,6 +188,22 @@ void Supervisor::setTrafficLightProgramForController(std::string controllerName,
 		{
 			this->controllers.at(i)->setControllerLogics(logics);
 			break;
+		}
+	}
+}
+
+void Supervisor::setCurrentProgramForController(std::string controllerId, std::string programId)
+{
+	QMutexLocker locker(&this->mutexControllerList);
+
+	Controller *c;
+
+	for(int i = 0; i < this->controllers.size(); i++)
+	{
+		c = controllers.at(i);
+		if(c->getName().compare(controllerId) == 0)
+		{
+			c->setCurrentLogicId(programId);
 		}
 	}
 }

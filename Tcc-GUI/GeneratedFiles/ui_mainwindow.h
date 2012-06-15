@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 11. Jun 19:03:57 2012
+** Created: Thu 14. Jun 22:24:17 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -57,8 +57,6 @@ public:
     QLineEdit *txtPhaseDef;
     QLabel *label;
     QComboBox *comboProgramPhase;
-    QLineEdit *txtCurrentPhase;
-    QLabel *lblCurrentPhase;
     QListWidget *listControlledStreets;
     QListWidget *listControlledLanes;
     QLabel *lblControlledStreets;
@@ -77,6 +75,10 @@ public:
     QLabel *lblTL2;
     QLabel *lblControlledStreet1;
     QLabel *lblControlledStreet2;
+    QLabel *label_2;
+    QLineEdit *txtCurrentProgram;
+    QLabel *lblCurrentPhase;
+    QLineEdit *txtCurrentPhase;
     QWidget *tab_3;
     QWidget *tab_2;
     QWebView *gMaps;
@@ -166,13 +168,6 @@ public:
         comboProgramPhase = new QComboBox(groupBoxPhases);
         comboProgramPhase->setObjectName(QString::fromUtf8("comboProgramPhase"));
         comboProgramPhase->setGeometry(QRect(600, 100, 171, 22));
-        txtCurrentPhase = new QLineEdit(groupBoxControllersProgram);
-        txtCurrentPhase->setObjectName(QString::fromUtf8("txtCurrentPhase"));
-        txtCurrentPhase->setGeometry(QRect(730, 60, 171, 22));
-        txtCurrentPhase->setReadOnly(true);
-        lblCurrentPhase = new QLabel(groupBoxControllersProgram);
-        lblCurrentPhase->setObjectName(QString::fromUtf8("lblCurrentPhase"));
-        lblCurrentPhase->setGeometry(QRect(580, 60, 91, 16));
         listControlledStreets = new QListWidget(tab);
         listControlledStreets->setObjectName(QString::fromUtf8("listControlledStreets"));
         listControlledStreets->setGeometry(QRect(40, 170, 301, 192));
@@ -215,14 +210,14 @@ public:
         lblQueueSize->setGeometry(QRect(460, 20, 71, 16));
         txtQueueSize = new QLineEdit(tab);
         txtQueueSize->setObjectName(QString::fromUtf8("txtQueueSize"));
-        txtQueueSize->setGeometry(QRect(540, 20, 113, 22));
+        txtQueueSize->setGeometry(QRect(570, 20, 113, 22));
         txtQueueSize->setReadOnly(true);
         lblCarStream = new QLabel(tab);
         lblCarStream->setObjectName(QString::fromUtf8("lblCarStream"));
         lblCarStream->setGeometry(QRect(460, 50, 71, 16));
         txtCarStream = new QLineEdit(tab);
         txtCarStream->setObjectName(QString::fromUtf8("txtCarStream"));
-        txtCarStream->setGeometry(QRect(540, 50, 113, 22));
+        txtCarStream->setGeometry(QRect(570, 50, 113, 22));
         txtCarStream->setReadOnly(true);
         lblTL1 = new QLabel(tab);
         lblTL1->setObjectName(QString::fromUtf8("lblTL1"));
@@ -236,6 +231,20 @@ public:
         lblControlledStreet2 = new QLabel(tab);
         lblControlledStreet2->setObjectName(QString::fromUtf8("lblControlledStreet2"));
         lblControlledStreet2->setGeometry(QRect(920, 140, 181, 16));
+        label_2 = new QLabel(tab);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(460, 80, 101, 16));
+        txtCurrentProgram = new QLineEdit(tab);
+        txtCurrentProgram->setObjectName(QString::fromUtf8("txtCurrentProgram"));
+        txtCurrentProgram->setGeometry(QRect(570, 80, 113, 22));
+        txtCurrentProgram->setReadOnly(true);
+        lblCurrentPhase = new QLabel(tab);
+        lblCurrentPhase->setObjectName(QString::fromUtf8("lblCurrentPhase"));
+        lblCurrentPhase->setGeometry(QRect(460, 110, 91, 16));
+        txtCurrentPhase = new QLineEdit(tab);
+        txtCurrentPhase->setObjectName(QString::fromUtf8("txtCurrentPhase"));
+        txtCurrentPhase->setGeometry(QRect(570, 110, 113, 22));
+        txtCurrentPhase->setReadOnly(true);
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/MainWindow/images/network.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab, icon1, QString());
@@ -291,7 +300,6 @@ public:
         lblDuration3->setText(QApplication::translate("MainWindowClass", "Duration 3:", 0, QApplication::UnicodeUTF8));
         lblPhaseDef->setText(QApplication::translate("MainWindowClass", "Phase Definition:", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindowClass", "Avaliable Phases:", 0, QApplication::UnicodeUTF8));
-        lblCurrentPhase->setText(QApplication::translate("MainWindowClass", "Current Phase:", 0, QApplication::UnicodeUTF8));
         lblControlledStreets->setText(QApplication::translate("MainWindowClass", "Controlled Streets:", 0, QApplication::UnicodeUTF8));
         lblControlledLanes->setText(QApplication::translate("MainWindowClass", "Controlled Lanes:", 0, QApplication::UnicodeUTF8));
         lblStatusValue->setText(QString());
@@ -305,6 +313,8 @@ public:
         lblTL2->setText(QString());
         lblControlledStreet1->setText(QString());
         lblControlledStreet2->setText(QString());
+        label_2->setText(QApplication::translate("MainWindowClass", "Current Program:", 0, QApplication::UnicodeUTF8));
+        lblCurrentPhase->setText(QApplication::translate("MainWindowClass", "Current Phase:", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindowClass", "General Information", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindowClass", "Commands", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));

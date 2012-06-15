@@ -288,32 +288,6 @@
         </property>
        </widget>
       </widget>
-      <widget class="QLineEdit" name="txtCurrentPhase">
-       <property name="geometry">
-        <rect>
-         <x>730</x>
-         <y>60</y>
-         <width>171</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="lblCurrentPhase">
-       <property name="geometry">
-        <rect>
-         <x>580</x>
-         <y>60</y>
-         <width>91</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Current Phase:</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QListWidget" name="listControlledStreets">
       <property name="geometry">
@@ -469,7 +443,7 @@
      <widget class="QLineEdit" name="txtQueueSize">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>570</x>
         <y>20</y>
         <width>113</width>
         <height>22</height>
@@ -495,7 +469,7 @@
      <widget class="QLineEdit" name="txtCarStream">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>570</x>
         <y>50</y>
         <width>113</width>
         <height>22</height>
@@ -555,6 +529,58 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>80</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Current Program:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtCurrentProgram">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>80</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblCurrentPhase">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>110</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Current Phase:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtCurrentPhase">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>110</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

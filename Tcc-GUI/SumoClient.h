@@ -48,11 +48,12 @@ public:
 	std::vector<std::string> getControllerLanes(std::string);
 	void getControllerLinks(std::string);
 	void setControllerProgram(std::string, std::string);
+	std::string getCurrentLogicForController(std::string);
 
 	void setPhaseDuration(std::string, int);
 
 
-	void setProgram(std::string, ControllerLogic);
+	void sendNewProgram(std::string, ControllerLogic);
 
 	void run();
 

@@ -63,6 +63,7 @@ private:
 	//std::vector<Controller *> similarControllers; //This is used by fuzzy! but not yet....
 	//std::vector<Lane> lanes;
 	std::vector<Street> streets;
+	std::string currentLogicId;
 	bool active;
 //	int queueSize;
 //	int carStream;
@@ -100,6 +101,9 @@ public:
 	//Eu estava apenas retornando uma copia!
 	std::vector<Street> * getControlledStreets() { return &streets; }
 	std::map<int, int> getNewPhaseDuration() { return newPhaseDurations; }
+	ControllerLogic * getCurrentLogic();
+	std::string getCurrentLogicAsString() { return currentLogicId; }
+	void setCurrentLogicId(std::string c) { currentLogicId = c; }
 
 	Controller *clone();
 };
