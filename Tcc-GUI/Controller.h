@@ -52,7 +52,7 @@ public:
 
 	ControllerLogic *clone();
 
-	static ControllerLogic createLogicForSumo();
+	static ControllerLogic * createLogicForSumo();
 };
 
 class Controller

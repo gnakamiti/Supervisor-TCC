@@ -207,15 +207,19 @@ ControllerLogic * ControllerLogic::clone()
 	return new ControllerLogic(*this);
 }
 
-ControllerLogic ControllerLogic::createLogicForSumo()
+ControllerLogic * ControllerLogic::createLogicForSumo()
 {
 	std::vector<Phase *> *phases = new std::vector<Phase *>();
-	ControllerLogic logic;
+	ControllerLogic *logic = new ControllerLogic();
 	Phase *phase;
 
-	logic.subID = "newLogic1";
-	logic.currentPhaseIndex = 0;
-	logic.phases = phases;
+
+
+	logic->subID = "newLogic";
+	logic->currentPhaseIndex = 0;
+	logic->type = 0;
+	logic->subParameter = 0;
+	logic->phases = phases;
 
 	phase = new Phase();
 	phase->phaseDef = "GGGGrrr";

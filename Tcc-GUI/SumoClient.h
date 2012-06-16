@@ -53,7 +53,7 @@ public:
 	void setPhaseDuration(std::string, int);
 
 
-	void sendNewProgram(std::string, ControllerLogic);
+	void sendNewProgram(std::string, ControllerLogic *);
 
 	void run();
 

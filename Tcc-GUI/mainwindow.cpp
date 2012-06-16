@@ -325,12 +325,16 @@ void MainWindow::updateInterface(Controller *controller)
 		phase = phases->at(k);
 		ui.comboProgramPhase->addItem(QString::number(k));
 	}
+	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
+	connect(ui.comboProgram, SIGNAL(currentIndexChanged(int)), this, SLOT(programSelected(int)));
+
+	if(logic->subID.compare("off") == 0)
+		return;
 
 	this->setPhaseInTheGui(phases->at(logic->currentPhaseIndex));
 	ui.comboProgramPhase->setCurrentIndex(logic->currentPhaseIndex);
 	//Now we can connect again
-	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
-	connect(ui.comboProgram, SIGNAL(currentIndexChanged(int)), this, SLOT(programSelected(int)));
+	
 }
 /*
 //Check if the controllers are alive!
@@ -424,13 +428,16 @@ void MainWindow::updateTrafficLight(Controller *c)
 	if(c->getControlledStreets()->size() != 2)
 		return;
 
-   int currentProgram = 0;
-   std::vector<ControllerLogic *> logics = c->getLogics();
-   int currentPhase = logics.at(currentProgram)->currentPhaseIndex;
+   ControllerLogic * logic = c->getCurrentLogic();
+
+   if(logic->subID.compare("off") == 0)
+	   return;
+
+   int currentPhase = logic->currentPhaseIndex;
    QString img;
    int count = 1;
 
-   QString phaseDef(logics.at(currentProgram)->phases->at(currentPhase)->phaseDef.c_str());
+   QString phaseDef(logic->phases->at(currentPhase)->phaseDef.c_str());
   
    phaseDef = phaseDef.toLower();
 

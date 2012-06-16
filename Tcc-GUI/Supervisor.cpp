@@ -94,9 +94,9 @@ void Supervisor::startThreads(void)
 
 	this->sumoC.start();
 	
-	ControllerLogic  l = ControllerLogic::createLogicForSumo();
-	this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); //PAU TA AQUI!
-	//this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), l.subID);
+	ControllerLogic  *l = ControllerLogic::createLogicForSumo();
+	//this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); //PAU TA AQUI!
+	this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), "off");
 	a.exec();
 
 	//threadPool->waitForDone();

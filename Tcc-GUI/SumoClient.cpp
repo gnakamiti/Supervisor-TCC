@@ -409,14 +409,14 @@ void SumoClient::changePhaseDurationIfAskedTo(Controller *c)
 	
 }
 
-void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic newLogic)
+void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic *newLogic)
 {
 	Storage in, out;
 	int length, itemNo;
-	std::vector<Phase *> *phases = newLogic.phases;
+	std::vector<Phase *> *phases = newLogic->phases;
 	Phase *p;
 
-	length = 1+4 + 1+4+newLogic.subID.size()+ 1+4 + 1+4 + 1+4 + 1+4; // tls parameter
+	length = 1+4 + 1+4+newLogic->subID.size()+ 1+4 + 1+4 + 1+4 + 1+4; // tls parameter
 
 	itemNo = 1+1+1+1+1;
 
@@ -449,16 +449,16 @@ void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic newLog
 	out.writeInt(itemNo);
 
 	out.writeUnsignedByte(0x0C);
-	out.writeString(newLogic.subID);
+	out.writeString(newLogic->subID);
 
 	out.writeUnsignedByte(SUMO_INT_TYPE);
 	out.writeInt(0);
 
 	out.writeUnsignedByte(0x0F);
-	out.writeInt(0);
+	out.writeInt(1);
 
 	out.writeUnsignedByte(SUMO_INT_TYPE);
-	out.writeInt(newLogic.currentPhaseIndex);
+	out.writeInt(newLogic->currentPhaseIndex);
 
 	out.writeUnsignedByte(SUMO_INT_TYPE);
 	out.writeInt(phases->size());
