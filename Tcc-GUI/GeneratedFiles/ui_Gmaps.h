@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'Gmaps.ui'
 **
-** Created: Wed 23. May 22:47:48 2012
+** Created: Sun 17. Jun 12:00:50 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

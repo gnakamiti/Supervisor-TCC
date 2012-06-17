@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 	timer = new QTimer(this);
 	mapWidget = new QWidget();
-//	gMaps.setupUi(mapWidget);
+
 
 	webPage = new myWebPage();
 	ui.gMaps->setPage(webPage);
@@ -23,12 +23,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	connect(timer, SIGNAL(timeout()), this, SLOT(timeoutUpdateUI()));
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClick(QListWidgetItem *)));
 	connect(ui.listControlledStreets, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickStreets(QListWidgetItem *)));
-	//connect(ui.btnShowMap, SIGNAL(clicked()), this, SLOT(btnMapPush()));
+
 	//javascript - load map when everything is ready
 	connect(ui.gMaps, SIGNAL(loadFinished(bool)), this, SLOT(initializeMap(bool)));
 	//javascript - be able to call c++ from javascript
 	connect(ui.gMaps->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(mainFrame_javaScriptWindowObjectCleared()));
-	//connect(ui.btnRefresh, SIGNAL(click()), this, SLOT(btnRefresh()));
+
 	
 	currentRowController = -1;
 	currentRowStreet = -1;
@@ -115,15 +115,7 @@ void MainWindow::updateGoogleMapsMarker(QString controllerName, QString queue, Q
 	ui.gMaps->page()->mainFrame()->
 		evaluateJavaScript("setLabelForMarker('"+controllerName+"','"+text+"')");
 }
-/*
-void MainWindow::btnMapPush()
-{
-	QUrl url(GUI_MAP_FILE_LOCATION);
 
-	ui.gMaps->setUrl(url);
-	
-	this->mapWidget->show();
-}*/
 //Set the controller props in the GUI
 void MainWindow::listClick(QListWidgetItem * item)
 {
@@ -213,7 +205,7 @@ void MainWindow::programSelected(int index)
 void MainWindow::setProgramInTheGui(ControllerLogic *logic)
 {
 	QString qString;
-	//ui.txtCurrentPhase->setText(QString::number(logic->currentPhaseIndex));
+
 	qString = logic->subID.c_str();
 
 	ui.txtProgramId->setText(qString);
@@ -248,19 +240,9 @@ void MainWindow::updateInterface(Controller *controller)
 	ControllerLogic *logic;
 	Phase *phase;
 	std::vector<Phase *> *phases;
-
-	//std::vector<Lane> controlledLanes;
 	std::vector<Street> *controlledStreets = controller->getControlledStreets();
 	std::vector<ControllerLogic *>  logics = controller->getLogics();
 
-	/*
-	//Because I was usint lane before, and I don't wanna change it.
-	//easier like this....
-	for(int i = 0; i < controlledStreets->size(); i++)
-	{
-		controlledLanes.insert(controlledLanes.end(), controlledStreets->at(i).lanes.begin(), 
-			controlledStreets->at(i).lanes.end());
-	}*/
 
 
 	//We need to disconnect the signals or we will have a deadlock!
@@ -336,37 +318,6 @@ void MainWindow::updateInterface(Controller *controller)
 	//Now we can connect again
 	
 }
-/*
-//Check if the controllers are alive!
-void MainWindow::timerTimeoutCheckControllersAlive()
-{
-	//No one can use the controller's list now
-	QMutexLocker locker(mutexControllerList);
-
-	//Or a controller went down or a it is up again!
-	
-	if(this->controllers->size() != this->ui.listWidget->count())
-	{
-		listControllersInTheList(this->controllers);
-	}
-
-	if(this->currentRow != -1)
-	{
-		this->updateInterface(controllers->at(currentRow));
-	}
-	//To stop!
-	//timer->stop();
-}*/
-/*
-void MainWindow::btnRefresh()
-{
-	
-	if(this->currentRow != -1)
-	{
-		this->updateInterface(controllers->at(currentRow));
-	}
-}
-*/
 /**
   No need to use mutex here, because when I'm here i already got the lock
   or I guarantee that there is no race conditition!
@@ -376,7 +327,7 @@ void MainWindow::listControllersInTheList(std::vector<Controller *> controllers)
 	QString qString;
 	QListWidgetItem *item;
 
-	//QMutexLocker locker(mutexControllerList);
+
 	ui.listWidget->clear();
 
 	for(int row = 0; row < controllers.size(); row++)
@@ -390,16 +341,7 @@ void MainWindow::listControllersInTheList(std::vector<Controller *> controllers)
 		
 	}
 }
-/*
-//Setting values
-void MainWindow::setControllersAndMutex(std::vector<Controller *> *controllers, QMutex *mutexControllerList)
-{
 
-	this->controllers = controllers;
-	this->mutexControllerList = mutexControllerList;
-	this->listControllersInTheList(this->controllers);
-	
-}*/
 
 void MainWindow::timeoutUpdateUI()
 {

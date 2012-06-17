@@ -84,27 +84,24 @@ void Supervisor::startThreads(void)
 	//this->decisions.setAutoDelete(false);
 	
 	this->window = new MainWindow();
-	//this->window->setControllersAndMutex(&this->controllers, &mutexControllerList);
 	this->window->show();
 	
 	connect(this, SIGNAL(stopValueChanged(bool)), &this->sumoC, SLOT(setStop(bool)));
-
-	//threadPool->start(&this->decisions);
 	this->decisions.start();
 
 	this->sumoC.start();
 	
-	ControllerLogic  *l = ControllerLogic::createLogicForSumo();
-	//this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); //PAU TA AQUI!
-	this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), "off");
+	ControllerLogic  *l = ControllerLogic::createLogicForSumo(10, 10, 10, 10);
+	this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); 
+	//this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), "off");
 	a.exec();
 
-	//threadPool->waitForDone();
 	emit this->stopValueChanged(true);
 
 	this->sumoC.wait();
 	this->decisions.quit();
-	//this->sumoC.quit();
+
+	delete l;
 				
 }
 
@@ -134,7 +131,6 @@ Street * Supervisor::getStreetByName(std::string controllerId, std::string stree
 
 			for(int k = 0; k < streets->size(); k++)
 			{
-				//street = streets->at(k);
 				if(streets->at(k).streetName.compare(streetName) == 0)
 				{
 					street = &streets->at(k);

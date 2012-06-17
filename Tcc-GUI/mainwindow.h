@@ -17,7 +17,7 @@
 
 class Supervisor; //For circular dependencies
 
-//Google maps hack
+//Google maps hack - Funfionar perfeitamente
 class myWebPage : public QWebPage
 {
     virtual QString userAgentForUrl(const QUrl& url) const {
@@ -36,15 +36,11 @@ public:
 	Q_INVOKABLE QStringList getInformationForController(QString);
 
 
-	//void setControllersAndMutex(std::vector<Controller *> *, QMutex *);
 
 private:
 	Ui::MainWindowClass ui;
-	//Ui::gMapsForm gMaps;
 	QWidget *mapWidget;
 	QTimer *timer; //Deleted in this class
-	//std::vector<Controller *> *controllers; //Deleted in supervisor
-	//QMutex *mutexControllerList; //Deleted in supervisor
 	int currentRowController; //Current selected controller
 	int currentRowStreet;
 
@@ -66,8 +62,6 @@ private slots:
 	void listClick(QListWidgetItem *);
 	void listClickStreets(QListWidgetItem *);
 	void phaseSelected(int);
-	//void btnMapPush();
-	//void btnRefresh();
 	void programSelected(int);
 	void initializeMap(bool);
 

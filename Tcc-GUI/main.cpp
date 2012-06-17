@@ -13,9 +13,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	
-	//Supervisor s(argc, argv);
-	
 	Supervisor::getInstance()->startThreads();
 
 	delete Supervisor::getInstance();

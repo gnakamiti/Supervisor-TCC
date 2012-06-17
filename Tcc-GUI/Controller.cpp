@@ -207,13 +207,18 @@ ControllerLogic * ControllerLogic::clone()
 	return new ControllerLogic(*this);
 }
 
-ControllerLogic * ControllerLogic::createLogicForSumo()
+ControllerLogic * ControllerLogic::createLogicForSumo(int durationPhase1, int durationPhase2, 
+	                                                  int durationPhase3, int durationPhase4)
 {
 	std::vector<Phase *> *phases = new std::vector<Phase *>();
 	ControllerLogic *logic = new ControllerLogic();
 	Phase *phase;
 
-
+	//its miliseconds!
+	durationPhase1 *= 1000;
+	durationPhase2 *= 1000;
+	durationPhase3 *= 1000;
+	durationPhase4 *= 1000;
 
 	logic->subID = "newLogic";
 	logic->currentPhaseIndex = 0;
@@ -223,30 +228,30 @@ ControllerLogic * ControllerLogic::createLogicForSumo()
 
 	phase = new Phase();
 	phase->phaseDef = "GGGGrrr";
-	phase->duration = 10;
-	phase->duration1 = 10;
-	phase->duration2 = 10;
+	phase->duration = durationPhase1;
+	phase->duration1 = durationPhase1;
+	phase->duration2 = durationPhase1;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "yyyyrrr";
-	phase->duration = 10;
-	phase->duration1 = 10;
-	phase->duration2 = 10;
+	phase->duration = durationPhase2;
+	phase->duration1 = durationPhase2;
+	phase->duration2 = durationPhase2;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "rrrrGGG";
-	phase->duration = 10;
-	phase->duration1 = 10;
-	phase->duration2 = 10;
+	phase->duration = durationPhase3;
+	phase->duration1 = durationPhase3;
+	phase->duration2 = durationPhase3;
 	phases->push_back(phase);
 
 	phase = new Phase();
 	phase->phaseDef = "rrrryyy";
-	phase->duration = 10;
-	phase->duration1 = 10;
-	phase->duration2 = 10;
+	phase->duration = durationPhase4;
+	phase->duration1 = durationPhase4;
+	phase->duration2 = durationPhase4;
 	phases->push_back(phase);
 
 	return logic;

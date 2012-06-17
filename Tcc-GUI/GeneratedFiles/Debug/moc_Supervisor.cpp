@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Supervisor.h'
 **
-** Created: Thu 14. Jun 22:24:18 2012
+** Created: Sun 17. Jun 12:00:50 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

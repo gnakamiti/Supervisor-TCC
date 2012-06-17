@@ -26,9 +26,9 @@ class Phase
 {
 public:
 	int duration; //It's in milisecs
-	int duration1; //It's in milisecs
-	int duration2; //It's in milisecs
-	std::string phaseDef;
+	int duration1; //It's in milisecs - nao usado pelo sumo
+	int duration2; //It's in milisecs - nao usado pelo sumo
+	std::string phaseDef; //Definicao da faze - (Verde, vermelho e amarelo)
 	Phase();
 	Phase(const Phase &);
 
@@ -48,11 +48,12 @@ public:
 	int currentPhaseIndex;
 	std::vector<Phase *> *phases;
 
+	//Tipo do controlador (Fixo, inteligente e blalbal) no caso apenas fixo
 	std::string intToStrType();
 
 	ControllerLogic *clone();
 
-	static ControllerLogic * createLogicForSumo();
+	static ControllerLogic * createLogicForSumo(int, int, int, int);
 };
 
 class Controller
@@ -60,20 +61,16 @@ class Controller
 private:
 	std::string name;
 	std::vector<ControllerLogic *>  logics;
-	//std::vector<Controller *> similarControllers; //This is used by fuzzy! but not yet....
-	//std::vector<Lane> lanes;
 	std::vector<Street> streets;
 	std::string currentLogicId;
 	bool active;
-//	int queueSize;
-//	int carStream;
-//	int queuePerLane;
-	//New phase duration for a phase
-	//key = phase and value = phase duration
 	std::map<int, int> newPhaseDurations;
+
+	//
 	void createStreets(std::vector<Lane>);
+	//
 	std::string laneToStreet(std::string);
-	//void deleteLogics();
+
 
 public:
 	Controller();
@@ -83,26 +80,25 @@ public:
 
 	~Controller();
 	
-
+	//Seta se um controlador esta ativo
 	void setActive(bool b) { active = b; }
+	//Nome do controlador
 	std::string getName() { return name; }
+	//Retorna logica do controlador
 	std::vector<ControllerLogic *> getLogics() { return logics; }
-	//std::vector<Lane> getLanes() { return lanes; }
-//	int getQueueSize() { return queueSize; }
-//	int getCarStream() { return carStream; }
-//	int getQueuePerLane() { return queuePerLane; }
-//	void setQueuePerLane(int n) { queuePerLane = n; }
-//	void setCarStream(int n) { carStream += n; }
-//	void setQueueSize(int n) { queueSize = n; this->setQueuePerLane((int)(n / this->getLanes().size())); }
+	//Esta ativo?
 	bool isActive() { return active; }
+	//Seta logica
 	void setControllerLogics(std::vector<ControllerLogic *>);
-	//void addControllerToSimilarList(Controller *);
-	//Isso aqui me causou problemas, acostumado com referencias em java :(
-	//Eu estava apenas retornando uma copia!
+	//Retorna ruas controladas
 	std::vector<Street> * getControlledStreets() { return &streets; }
+	//Tirar isso aqui
 	std::map<int, int> getNewPhaseDuration() { return newPhaseDurations; }
+	//Logica atual
 	ControllerLogic * getCurrentLogic();
+	//Nome da logica atual
 	std::string getCurrentLogicAsString() { return currentLogicId; }
+	//Seta o nome da logica atual
 	void setCurrentLogicId(std::string c) { currentLogicId = c; }
 
 	Controller *clone();

@@ -30,9 +30,11 @@ private:
 
 	std::vector<Controller *> controllers;
 
+	//Retorna uma rua pelo seu nome
 	Street * getStreetByName(std::string, std::string);
 
 signals:
+	//Envia sinal para thread do sumoC para parar execucao
      void stopValueChanged(bool newValue);
 
 
@@ -43,15 +45,22 @@ public:
 
 	static Supervisor * getInstance();
 
+	//Cria um clone da lista de controladores
 	void getControllersListClone(std::vector<Controller *> *);
 
+	//Seta fluxo e tamanho de fila para um controlador
 	void setQueueSizeAndStreamForController(std::string, std::string, int, int);
 
+	//Seta situacao da rua para uma rua do controlador - Fuzzy
 	void setSituationForStreet(std::string, std::string, std::string);
 
+	//Seta os programas de um controlador
 	void setTrafficLightProgramForController(std::string, std::vector<ControllerLogic *>);
 
+	//Retorna um controlador 
 	Controller * getControllerByName(std::string);
+
+	//Seta programa atual do controlador
 	void setCurrentProgramForController(std::string , std::string );
 	
 	

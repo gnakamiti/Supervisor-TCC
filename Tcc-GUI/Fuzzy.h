@@ -28,11 +28,14 @@ private:
 	fl::OutputLVar *adequationDegree;
 	std::map<std::string, std::string> fuzzyOutValuesToShow;
 
+	//Inicia variveis
 	void initLVars(fl::InputLVar *, fl::InputLVar *, fl::OutputLVar *, int);
 	
+	////Seta Bloco de regras para fuzzy com fluxo
 	void setRuleBlockWithStream(fl::RuleBlock *);
+	//Seta Bloco de regras para fuzzy sem fluxo
 	void setRuleBlockNoStream(fl::RuleBlock *);
-
+	//Retorna situacao da rua como string
 	std::string parseOutPutString(std::string);
 
 public:
@@ -40,8 +43,9 @@ public:
 	Fuzzy(int);
 
 	~Fuzzy();
-
+	//Infere resultado para fuzzy com fluxo
 	FuzzyResult infer(int, int);
+	//Infere - fuzzy sem fluxo
 	FuzzyResult infer(int);
 };
 
