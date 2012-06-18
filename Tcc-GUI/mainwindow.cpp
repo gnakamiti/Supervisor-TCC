@@ -14,20 +14,23 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	webPage = new myWebPage();
 	ui.gMaps->setPage(webPage);
 
-	timer->setInterval(GUI_TIMER_UPDATE_UI);
-
 	ui.listWidget->setSortingEnabled(false);
 	ui.listControlledLanes->setSortingEnabled(false);
 	ui.listControlledStreets->setSortingEnabled(false);
+	ui.listPrograms->setSortingEnabled(false);
     
 	connect(timer, SIGNAL(timeout()), this, SLOT(timeoutUpdateUI()));
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClick(QListWidgetItem *)));
 	connect(ui.listControlledStreets, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickStreets(QListWidgetItem *)));
+	connect(ui.listPrograms, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickProgram(QListWidgetItem *)));
 
 	//javascript - load map when everything is ready
 	connect(ui.gMaps, SIGNAL(loadFinished(bool)), this, SLOT(initializeMap(bool)));
 	//javascript - be able to call c++ from javascript
 	connect(ui.gMaps->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(mainFrame_javaScriptWindowObjectCleared()));
+	connect(ui.btnSend, SIGNAL(pressed()), this, SLOT(btnSendClick()));
+	connect(ui.btnCancel, SIGNAL(pressed()), this, SLOT(btnCancelClick()));
+	connect(ui.btnNew, SIGNAL(pressed()), this, SLOT(btnNewClick()));
 
 	
 	currentRowController = -1;
@@ -38,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	this->listControllersInTheList(controllers);
 	deleteInVector(controllers);
 
+	timer->setInterval(GUI_TIMER_UPDATE_UI);
 	timer->start();
 
 	QUrl url(GUI_MAP_FILE_LOCATION);
@@ -49,6 +53,166 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     ui.lblTL1->setText("<img src=\":/MainWindow/light_red.png\">");
     ui.lblTL2->setText("<img src=\":/MainWindow/light_red.png\">");
+}
+
+void MainWindow::listClickProgram(QListWidgetItem *item)
+{
+	QString string;
+	QTableWidgetItem *tableItem;
+	std::vector<Phase *> *phases;
+	Phase *p;
+
+	std::vector<Controller *> controllers;
+	Supervisor::getInstance()->getControllersListClone(&controllers);
+
+	phases = controllers.at(currentRowController)->getLogics().at(ui.listPrograms->currentRow())->phases;
+	
+	
+
+	ui.tablePhases->setRowCount(phases->size());
+	ui.tablePhases->setColumnCount(4);
+
+	for(int i = 0; i < phases->size(); i++)
+	{
+		p = phases->at(i);
+
+		string = p->phaseDef.c_str();
+		tableItem = new QTableWidgetItem(string);
+		ui.tablePhases->setItem(i, 0, tableItem);
+
+		string = QString::number(p->duration/1000);
+		tableItem = new QTableWidgetItem(string);
+		ui.tablePhases->setItem(i, 1, tableItem);
+
+		string = QString::number(p->duration1/1000);
+		tableItem = new QTableWidgetItem(string);
+		ui.tablePhases->setItem(i, 2, tableItem);
+
+		string = QString::number(p->duration2/1000);
+		tableItem = new QTableWidgetItem(string);
+		ui.tablePhases->setItem(i, 3, tableItem);
+	}
+
+	deleteInVector(controllers);
+
+}
+
+void MainWindow::btnCancelClick(void)
+{
+	ui.listPrograms->clear();
+	ui.tablePhases->clear();
+	ui.txtControllerCommand->setText("");
+	ui.checkBoxOffOn->setChecked(false);
+}
+
+void MainWindow::btnSendClick(void)
+{
+	std::string currentControllerId, newProgramName;
+	QMessageBox msgBox;
+	ControllerLogic *logic;
+
+	msgBox.setWindowTitle("Information");
+	msgBox.setIcon(QMessageBox::Information);
+
+	currentControllerId = ui.txtControllerCommand->text().trimmed().toStdString();
+
+	if(currentControllerId.compare("") == 0)
+	{
+		msgBox.setText("You need to select a controller first");
+		msgBox.exec();
+		return;
+	}
+
+	if(ui.listPrograms->currentRow() < 0)
+	{
+		msgBox.setText("You need to select a program first");
+		msgBox.exec();
+		return;
+	}
+	
+	//Is checked, so just turn off the controller
+	if(ui.checkBoxOffOn->isChecked() == false)
+	{
+		Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, "off");
+		return;
+	}
+
+
+	newProgramName = ui.listPrograms->currentItem()->text().trimmed().toStdString();
+
+	logic = createProgram(newProgramName);
+
+	if(logic == nullptr)
+	{
+		msgBox.setText("A problem occured when I tried to create a new program.");
+		msgBox.exec();
+		return;
+	}
+
+	Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, logic);
+
+	QString str("The program:");
+	str = str.append(newProgramName.c_str());
+	str = str.append(" was sent!");
+
+	msgBox.setText(str);
+	msgBox.exec();
+
+	delete logic;
+}
+
+ControllerLogic *  MainWindow::createProgram(std::string programName)
+{
+	std::vector<QTableWidgetItem*> myList = getAllElementsFromPhasesTable();
+	
+	std::vector<int> durations = getOnlyDurations(myList);
+
+	if(durations.size() != 4)
+	{
+		return nullptr;
+	}
+
+	return ControllerLogic::createLogicForSumo(programName, 
+		durations.at(0), durations.at(1), durations.at(2), durations.at(3));
+}
+
+std::vector<int> MainWindow::getOnlyDurations(std::vector<QTableWidgetItem*> myList)
+{
+	std::vector<int> durations;
+	int duration;
+	bool ok;
+
+	for(int i = 0; i < myList.size(); i++)
+	{
+		duration = myList.at(i)->text().trimmed().toInt(&ok);
+
+		if(ok == true)
+			durations.push_back(duration);
+	}
+
+	return durations;
+}
+
+std::vector<QTableWidgetItem *> MainWindow::getAllElementsFromPhasesTable()
+{
+	int iColumns = ui.tablePhases->columnCount();
+    int iRows = ui.tablePhases->rowCount();
+    std::vector<QTableWidgetItem*> myList;
+     
+    for(int i = 0; i < iRows; ++i)
+    {
+		for(int j = 0; j < iColumns; ++j)
+		{
+			if(j == 1) //I'm only retriving the duration1
+			{
+				QTableWidgetItem *widget = ui.tablePhases->item(i, j);
+				myList.push_back(widget);
+				break;
+			}
+		}
+    }
+
+	return myList;
 }
 
 void MainWindow::initializeMap(bool b)
@@ -124,10 +288,78 @@ void MainWindow::listClick(QListWidgetItem * item)
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
 	currentRowController = ui.listWidget->currentRow();
+
 	this->updateInterface(controllers.at(currentRowController));
+	
 	deleteInVector(controllers);
 	
 	
+}
+
+void MainWindow::updateInterfaceCommands(Controller *c)
+{
+	QString string;
+	QListWidgetItem *item;
+	ControllerLogic *logic;
+
+	string = c->getName().c_str();
+	std::vector<ControllerLogic *> logics = c->getLogics();
+
+	ui.txtControllerCommand->setText(string);
+
+	if(c->isActive())
+	{
+		ui.checkBoxOffOn->setChecked(true);
+	}
+	else
+	{
+		ui.checkBoxOffOn->setChecked(false);
+	}
+
+	ui.listPrograms->clear();
+
+	for(int i = 0; i < logics.size(); i++)
+	{
+		logic = logics.at(i);
+
+		string = logic->subID.c_str();
+
+		item = new QListWidgetItem(string);
+
+		ui.listPrograms->addItem(item);
+	}
+
+	ui.tablePhases->clear();
+}
+
+void MainWindow::btnNewClick(void)
+{
+	bool ok;
+	QListWidgetItem *item;
+	std::string currentControllerId;
+
+	QMessageBox msgBox;
+	msgBox.setWindowTitle("Information");
+	msgBox.setIcon(QMessageBox::Information);
+
+	currentControllerId = ui.txtControllerCommand->text().trimmed().toStdString();
+
+	if(currentControllerId.compare("") == 0)
+	{
+		msgBox.setText("You need to select a controller first");
+		msgBox.exec();
+		return;
+	}
+
+    QString text = QInputDialog::getText(this, tr("New Program"),
+                                          tr("Program's name"), QLineEdit::Normal,
+                                          "", &ok);
+     if(ok && !text.isEmpty())
+	 {
+		item = new QListWidgetItem(text);
+		ui.listPrograms->addItem(item);
+	 }
+
 }
 
 void MainWindow::listClickStreets(QListWidgetItem * item)
@@ -233,7 +465,7 @@ void  MainWindow::setPhaseInTheGui(Phase *phase)
 }
 
 //Just update
-void MainWindow::updateInterface(Controller *controller)
+void MainWindow::updateInterfaceGeneralInfo(Controller *controller)
 {
 	QString qString;
 	QListWidgetItem *item;
@@ -350,7 +582,8 @@ void MainWindow::timeoutUpdateUI()
 
 	if(this->currentRowController != -1)
 	{
-		this->updateInterface(controllers.at(currentRowController));
+		this->updateInterfaceGeneralInfo(controllers.at(currentRowController));
+
 		this->updateTrafficLight(controllers.at(currentRowController));
 	}
 
@@ -362,6 +595,21 @@ void MainWindow::timeoutUpdateUI()
 
 	deleteInVector(controllers);
 }
+
+void MainWindow::updateInterface(Controller *c)
+{
+
+	//I'm in the first tab - general information
+	if(ui.tabWidget->currentIndex() == 0)
+	{
+		this->updateInterfaceGeneralInfo(c);
+	}
+	else //Command tab
+	{
+		this->updateInterfaceCommands(c);
+	}
+}
+
 void MainWindow::updateTrafficLight(Controller *c)
 {
 

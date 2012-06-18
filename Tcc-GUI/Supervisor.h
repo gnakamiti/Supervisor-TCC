@@ -62,6 +62,13 @@ public:
 
 	//Seta programa atual do controlador
 	void setCurrentProgramForController(std::string , std::string );
+
+	//Set a new program for a controller
+	//This will send a message to sumoC
+	void sendSumoCProgramForController(std::string , std::string);
+
+	//Sets a completly new program for a controller
+	void sendSumoCNewProgramForController(std::string, ControllerLogic *);
 	
 	
 	

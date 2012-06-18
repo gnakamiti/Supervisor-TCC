@@ -91,8 +91,8 @@ void Supervisor::startThreads(void)
 
 	this->sumoC.start();
 	
-	ControllerLogic  *l = ControllerLogic::createLogicForSumo(10, 10, 10, 10);
-	this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); 
+	//ControllerLogic  *l = ControllerLogic::createLogicForSumo(10, 10, 10, 10);
+	//this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); 
 	//this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), "off");
 	a.exec();
 
@@ -101,7 +101,7 @@ void Supervisor::startThreads(void)
 	this->sumoC.wait();
 	this->decisions.quit();
 
-	delete l;
+	//delete l;
 				
 }
 
@@ -219,5 +219,15 @@ Controller * Supervisor::getControllerByName(std::string controllerName)
 	}
 
 	return c;
+}
+
+void Supervisor::sendSumoCProgramForController(std::string controller, std::string program)
+{
+	this->sumoC.setControllerProgram(controller, program);
+}
+
+void Supervisor::sendSumoCNewProgramForController(std::string controller, ControllerLogic *logic)
+{
+	this->sumoC.sendNewProgram(controller, logic);
 }
 

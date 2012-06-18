@@ -207,7 +207,7 @@ ControllerLogic * ControllerLogic::clone()
 	return new ControllerLogic(*this);
 }
 
-ControllerLogic * ControllerLogic::createLogicForSumo(int durationPhase1, int durationPhase2, 
+ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int durationPhase1, int durationPhase2, 
 	                                                  int durationPhase3, int durationPhase4)
 {
 	std::vector<Phase *> *phases = new std::vector<Phase *>();
@@ -220,7 +220,7 @@ ControllerLogic * ControllerLogic::createLogicForSumo(int durationPhase1, int du
 	durationPhase3 *= 1000;
 	durationPhase4 *= 1000;
 
-	logic->subID = "newLogic";
+	logic->subID = logicName;
 	logic->currentPhaseIndex = 0;
 	logic->type = 0;
 	logic->subParameter = 0;

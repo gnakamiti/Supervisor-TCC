@@ -6,10 +6,13 @@
 #include <QTimer>
 #include <QMutexLocker>
 #include <QMutex>
+#include <QMessageBox>
+#include <QInputDialog>
 #include <QWebFrame>
 #include "ui_mainwindow.h"
 #include "Controller.h"
 #include <vector>
+#include <string>
 #include "constants.h"
 #include "Utils.h"
 #include "ui_Gmaps.h"
@@ -46,7 +49,8 @@ private:
 
 	myWebPage *webPage;
 
-	void updateInterface(Controller *);
+	void updateInterfaceGeneralInfo(Controller *);
+	void updateInterfaceCommands(Controller *);
 	void listControllersInTheList(std::vector<Controller *> );
 	void setPhaseInTheGui(Phase *);
 	void setProgramInTheGui(ControllerLogic *);
@@ -55,15 +59,26 @@ private:
 	void updateGoogleMapsMarker(QString, QString, QString);
 
 	void updateTrafficLight(Controller *);
+
+	void updateInterface(Controller *);
+
+	ControllerLogic *  createProgram(std::string);
+
+	std::vector<QTableWidgetItem *> getAllElementsFromPhasesTable();
+	std::vector<int> getOnlyDurations(std::vector<QTableWidgetItem*>);
 	
 
 private slots:
 	void timeoutUpdateUI();
 	void listClick(QListWidgetItem *);
+	void listClickProgram(QListWidgetItem *);
 	void listClickStreets(QListWidgetItem *);
 	void phaseSelected(int);
 	void programSelected(int);
 	void initializeMap(bool);
+	void btnSendClick(void);
+	void btnCancelClick(void);
+	void btnNewClick(void);
 
 public slots:
 		void mainFrame_javaScriptWindowObjectCleared();

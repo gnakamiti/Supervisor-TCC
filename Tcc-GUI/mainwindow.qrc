@@ -1,13 +1,16 @@
 <RCC>
-    <qresource prefix="/MainWindow">
-        <file>images/appIcon.png</file>
-        <file>images/control.png</file>
-        <file>images/map2.png</file>
-        <file>images/network.png</file>
-        <file>maps.html</file>
-        <file>light_green.png</file>
-        <file>light_red.png</file>
-        <file>light_yellow.png</file>
-        <file>controllersPos.cfg</file>
-    </qresource>
+  <qresource prefix="/MainWindow">
+    <file>images/new.png</file>
+    <file>images/send.png</file>
+    <file>images/cancel.png</file>
+    <file>images/appIcon.png</file>
+    <file>images/control.png</file>
+    <file>images/map2.png</file>
+    <file>images/network.png</file>
+    <file>maps.html</file>
+    <file>light_green.png</file>
+    <file>light_red.png</file>
+    <file>light_yellow.png</file>
+    <file>controllersPos.cfg</file>
+  </qresource>
 </RCC>

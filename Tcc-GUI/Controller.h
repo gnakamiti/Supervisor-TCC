@@ -53,7 +53,8 @@ public:
 
 	ControllerLogic *clone();
 
-	static ControllerLogic * createLogicForSumo(int, int, int, int);
+	//Cria uma nova logica para enviar ao sumo
+	static ControllerLogic * createLogicForSumo(std::string, int, int, int, int);
 };
 
 class Controller
@@ -66,9 +67,9 @@ private:
 	bool active;
 	std::map<int, int> newPhaseDurations;
 
-	//
+	//Cria as rua a partir da lena
 	void createStreets(std::vector<Lane>);
-	//
+	//Retorna o nome de uma rua
 	std::string laneToStreet(std::string);
 
 

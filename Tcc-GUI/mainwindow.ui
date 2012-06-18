@@ -287,6 +287,45 @@
          </rect>
         </property>
        </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>30</y>
+          <width>53</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>seconds</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>70</y>
+          <width>53</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>seconds</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>110</y>
+          <width>53</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>seconds</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QListWidget" name="listControlledStreets">
@@ -592,6 +631,158 @@
      <attribute name="title">
       <string>Commands</string>
      </attribute>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Controller:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtControllerCommand">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>20</y>
+        <width>161</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnSend">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>580</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+      <property name="icon">
+       <iconset resource="mainwindow.qrc">
+        <normaloff>:/MainWindow/images/send.png</normaloff>:/MainWindow/images/send.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnCancel">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>580</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+      <property name="icon">
+       <iconset resource="mainwindow.qrc">
+        <normaloff>:/MainWindow/images/cancel.png</normaloff>:/MainWindow/images/cancel.png</iconset>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxOffOn">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>60</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Activated</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>53</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listPrograms">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>431</width>
+        <height>181</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Programs:</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tablePhases">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>380</y>
+        <width>901</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>350</y>
+        <width>51</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Phases:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnNew">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>580</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>New</string>
+      </property>
+      <property name="icon">
+       <iconset resource="mainwindow.qrc">
+        <normaloff>:/MainWindow/images/new.png</normaloff>:/MainWindow/images/new.png</iconset>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="icon">

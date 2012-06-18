@@ -452,10 +452,10 @@ void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic *newLo
 	out.writeString(newLogic->subID);
 
 	out.writeUnsignedByte(SUMO_INT_TYPE);
-	out.writeInt(0);
+	out.writeInt(newLogic->type);
 
 	out.writeUnsignedByte(0x0F);
-	out.writeInt(1);
+	out.writeInt(newLogic->subParameter);
 
 	out.writeUnsignedByte(SUMO_INT_TYPE);
 	out.writeInt(newLogic->currentPhaseIndex);

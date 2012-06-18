@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 17. Jun 12:00:50 2012
+** Created: Sun 17. Jun 20:30:19 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
@@ -23,8 +24,10 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
+#include <QtGui/QPushButton>
 #include <QtGui/QStatusBar>
 #include <QtGui/QTabWidget>
+#include <QtGui/QTableWidget>
 #include <QtGui/QToolBar>
 #include <QtGui/QWidget>
 #include <QtWebKit/QWebView>
@@ -57,6 +60,9 @@ public:
     QLineEdit *txtPhaseDef;
     QLabel *label;
     QComboBox *comboProgramPhase;
+    QLabel *label_3;
+    QLabel *label_4;
+    QLabel *label_5;
     QListWidget *listControlledStreets;
     QListWidget *listControlledLanes;
     QLabel *lblControlledStreets;
@@ -80,6 +86,17 @@ public:
     QLabel *lblCurrentPhase;
     QLineEdit *txtCurrentPhase;
     QWidget *tab_3;
+    QLabel *label_7;
+    QLineEdit *txtControllerCommand;
+    QPushButton *btnSend;
+    QPushButton *btnCancel;
+    QCheckBox *checkBoxOffOn;
+    QLabel *label_6;
+    QListWidget *listPrograms;
+    QLabel *label_8;
+    QTableWidget *tablePhases;
+    QLabel *label_9;
+    QPushButton *btnNew;
     QWidget *tab_2;
     QWebView *gMaps;
     QMenuBar *menuBar;
@@ -168,6 +185,15 @@ public:
         comboProgramPhase = new QComboBox(groupBoxPhases);
         comboProgramPhase->setObjectName(QString::fromUtf8("comboProgramPhase"));
         comboProgramPhase->setGeometry(QRect(600, 100, 171, 22));
+        label_3 = new QLabel(groupBoxPhases);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(210, 30, 53, 16));
+        label_4 = new QLabel(groupBoxPhases);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(210, 70, 53, 16));
+        label_5 = new QLabel(groupBoxPhases);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(210, 110, 53, 16));
         listControlledStreets = new QListWidget(tab);
         listControlledStreets->setObjectName(QString::fromUtf8("listControlledStreets"));
         listControlledStreets->setGeometry(QRect(40, 170, 301, 192));
@@ -250,18 +276,62 @@ public:
         tabWidget->addTab(tab, icon1, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        label_7 = new QLabel(tab_3);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+        label_7->setGeometry(QRect(10, 20, 71, 16));
+        txtControllerCommand = new QLineEdit(tab_3);
+        txtControllerCommand->setObjectName(QString::fromUtf8("txtControllerCommand"));
+        txtControllerCommand->setGeometry(QRect(90, 20, 161, 22));
+        txtControllerCommand->setReadOnly(true);
+        btnSend = new QPushButton(tab_3);
+        btnSend->setObjectName(QString::fromUtf8("btnSend"));
+        btnSend->setGeometry(QRect(20, 580, 121, 51));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/MainWindow/images/control.png"), QSize(), QIcon::Normal, QIcon::Off);
-        tabWidget->addTab(tab_3, icon2, QString());
+        icon2.addFile(QString::fromUtf8(":/MainWindow/images/send.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnSend->setIcon(icon2);
+        btnCancel = new QPushButton(tab_3);
+        btnCancel->setObjectName(QString::fromUtf8("btnCancel"));
+        btnCancel->setGeometry(QRect(300, 580, 121, 51));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/MainWindow/images/cancel.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnCancel->setIcon(icon3);
+        checkBoxOffOn = new QCheckBox(tab_3);
+        checkBoxOffOn->setObjectName(QString::fromUtf8("checkBoxOffOn"));
+        checkBoxOffOn->setGeometry(QRect(90, 60, 81, 20));
+        checkBoxOffOn->setChecked(true);
+        label_6 = new QLabel(tab_3);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_6->setGeometry(QRect(10, 60, 53, 16));
+        listPrograms = new QListWidget(tab_3);
+        listPrograms->setObjectName(QString::fromUtf8("listPrograms"));
+        listPrograms->setGeometry(QRect(10, 140, 431, 181));
+        label_8 = new QLabel(tab_3);
+        label_8->setObjectName(QString::fromUtf8("label_8"));
+        label_8->setGeometry(QRect(10, 110, 71, 16));
+        tablePhases = new QTableWidget(tab_3);
+        tablePhases->setObjectName(QString::fromUtf8("tablePhases"));
+        tablePhases->setGeometry(QRect(10, 380, 901, 192));
+        label_9 = new QLabel(tab_3);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+        label_9->setGeometry(QRect(10, 350, 51, 16));
+        btnNew = new QPushButton(tab_3);
+        btnNew->setObjectName(QString::fromUtf8("btnNew"));
+        btnNew->setGeometry(QRect(160, 580, 121, 51));
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/MainWindow/images/new.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnNew->setIcon(icon4);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/MainWindow/images/control.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_3, icon5, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         gMaps = new QWebView(tab_2);
         gMaps->setObjectName(QString::fromUtf8("gMaps"));
         gMaps->setGeometry(QRect(0, 0, 1131, 651));
         gMaps->setUrl(QUrl(QString::fromUtf8("about:blank")));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/MainWindow/images/map2.png"), QSize(), QIcon::Normal, QIcon::Off);
-        tabWidget->addTab(tab_2, icon3, QString());
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/MainWindow/images/map2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_2, icon6, QString());
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -300,6 +370,9 @@ public:
         lblDuration3->setText(QApplication::translate("MainWindowClass", "Duration 3:", 0, QApplication::UnicodeUTF8));
         lblPhaseDef->setText(QApplication::translate("MainWindowClass", "Phase Definition:", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindowClass", "Avaliable Phases:", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindowClass", "seconds", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("MainWindowClass", "seconds", 0, QApplication::UnicodeUTF8));
+        label_5->setText(QApplication::translate("MainWindowClass", "seconds", 0, QApplication::UnicodeUTF8));
         lblControlledStreets->setText(QApplication::translate("MainWindowClass", "Controlled Streets:", 0, QApplication::UnicodeUTF8));
         lblControlledLanes->setText(QApplication::translate("MainWindowClass", "Controlled Lanes:", 0, QApplication::UnicodeUTF8));
         lblStatusValue->setText(QString());
@@ -316,6 +389,14 @@ public:
         label_2->setText(QApplication::translate("MainWindowClass", "Current Program:", 0, QApplication::UnicodeUTF8));
         lblCurrentPhase->setText(QApplication::translate("MainWindowClass", "Current Phase:", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindowClass", "General Information", 0, QApplication::UnicodeUTF8));
+        label_7->setText(QApplication::translate("MainWindowClass", "Controller:", 0, QApplication::UnicodeUTF8));
+        btnSend->setText(QApplication::translate("MainWindowClass", "Send", 0, QApplication::UnicodeUTF8));
+        btnCancel->setText(QApplication::translate("MainWindowClass", "Cancel", 0, QApplication::UnicodeUTF8));
+        checkBoxOffOn->setText(QApplication::translate("MainWindowClass", "Activated", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("MainWindowClass", "Status:", 0, QApplication::UnicodeUTF8));
+        label_8->setText(QApplication::translate("MainWindowClass", "Programs:", 0, QApplication::UnicodeUTF8));
+        label_9->setText(QApplication::translate("MainWindowClass", "Phases:", 0, QApplication::UnicodeUTF8));
+        btnNew->setText(QApplication::translate("MainWindowClass", "New", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindowClass", "Commands", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
         menuAbout->setTitle(QApplication::translate("MainWindowClass", "About", 0, QApplication::UnicodeUTF8));
