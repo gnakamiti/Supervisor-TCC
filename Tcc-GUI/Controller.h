@@ -55,6 +55,9 @@ public:
 
 	//Cria uma nova logica para enviar ao sumo
 	static ControllerLogic * createLogicForSumo(std::string, int, int, int, int);
+	
+	//Devolve a definicao de fase padrao
+	static std::vector<std::string> getDefaultPhaseDefForTheSimulation();
 };
 
 class Controller

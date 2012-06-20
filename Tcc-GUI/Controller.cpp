@@ -256,3 +256,15 @@ ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int 
 
 	return logic;
 }
+
+std::vector<std::string> ControllerLogic::getDefaultPhaseDefForTheSimulation()
+{
+	std::vector<std::string> phaseDefs;
+
+	phaseDefs.push_back("GGGGrrr");
+	phaseDefs.push_back("yyyyrrr");
+	phaseDefs.push_back("rrrrGGG");
+	phaseDefs.push_back("rrrryyy");
+
+	return phaseDefs;
+}

@@ -61,16 +61,22 @@ void MainWindow::listClickProgram(QListWidgetItem *item)
 	QTableWidgetItem *tableItem;
 	std::vector<Phase *> *phases;
 	Phase *p;
+	int currentRowProgramsList = ui.listPrograms->currentRow();
 
 	std::vector<Controller *> controllers;
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	phases = controllers.at(currentRowController)->getLogics().at(ui.listPrograms->currentRow())->phases;
-	
-	
+	//New, I didn't send it yet
+	if(currentRowProgramsList >= controllers.at(currentRowController)->getLogics().size())
+		return;
+
+	phases = controllers.at(currentRowController)->getLogics().at(currentRowProgramsList)->phases;
 
 	ui.tablePhases->setRowCount(phases->size());
-	ui.tablePhases->setColumnCount(4);
+	ui.tablePhases->setColumnCount(2);
+	ui.tablePhases->setHorizontalHeaderLabels(QString("Phase definition;Duration(seconds);").split(";"));
+	ui.tablePhases->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	
 
 	for(int i = 0; i < phases->size(); i++)
 	{
@@ -78,21 +84,24 @@ void MainWindow::listClickProgram(QListWidgetItem *item)
 
 		string = p->phaseDef.c_str();
 		tableItem = new QTableWidgetItem(string);
+		tableItem->setFlags(Qt::ItemIsSelectable);
 		ui.tablePhases->setItem(i, 0, tableItem);
 
 		string = QString::number(p->duration/1000);
 		tableItem = new QTableWidgetItem(string);
 		ui.tablePhases->setItem(i, 1, tableItem);
-
+		/*
 		string = QString::number(p->duration1/1000);
 		tableItem = new QTableWidgetItem(string);
 		ui.tablePhases->setItem(i, 2, tableItem);
 
 		string = QString::number(p->duration2/1000);
 		tableItem = new QTableWidgetItem(string);
-		ui.tablePhases->setItem(i, 3, tableItem);
+		ui.tablePhases->setItem(i, 3, tableItem);*/
 	}
 
+	ui.tablePhases->resizeColumnsToContents();
+	ui.tablePhases->horizontalHeader()->setStretchLastSection( true ); 
 	deleteInVector(controllers);
 
 }
@@ -122,18 +131,20 @@ void MainWindow::btnSendClick(void)
 		msgBox.exec();
 		return;
 	}
-
-	if(ui.listPrograms->currentRow() < 0)
-	{
-		msgBox.setText("You need to select a program first");
-		msgBox.exec();
-		return;
-	}
 	
 	//Is checked, so just turn off the controller
 	if(ui.checkBoxOffOn->isChecked() == false)
 	{
 		Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, "off");
+		msgBox.setText("The controller is now offline");
+		msgBox.exec();
+		return;
+	}
+
+    if(ui.listPrograms->currentRow() < 0)
+	{
+		msgBox.setText("You need to select a program first");
+		msgBox.exec();
 		return;
 	}
 
@@ -337,6 +348,9 @@ void MainWindow::btnNewClick(void)
 	bool ok;
 	QListWidgetItem *item;
 	std::string currentControllerId;
+	std::vector<std::string> phaseDefs;
+	QString string;
+	QTableWidgetItem *tableItem; 
 
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Information");
@@ -358,6 +372,32 @@ void MainWindow::btnNewClick(void)
 	 {
 		item = new QListWidgetItem(text);
 		ui.listPrograms->addItem(item);
+
+		phaseDefs = ControllerLogic::getDefaultPhaseDefForTheSimulation();
+
+		ui.tablePhases->clear();
+		ui.tablePhases->setRowCount(phaseDefs.size());
+	    ui.tablePhases->setColumnCount(2);
+
+		ui.tablePhases->setHorizontalHeaderLabels(QString("Phase definition;Duration(seconds);").split(";"));
+
+		ui.tablePhases->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	    
+
+		for(int i = 0; i < phaseDefs.size(); i++)
+		{
+			string = phaseDefs.at(i).c_str();
+			tableItem = new QTableWidgetItem(string);
+			tableItem->setFlags(Qt::ItemIsSelectable);
+			ui.tablePhases->setItem(i, 0, tableItem);
+
+			tableItem = new QTableWidgetItem("");
+			ui.tablePhases->setItem(i, 1, tableItem);
+		}
+
+		ui.tablePhases->resizeColumnsToContents();
+		ui.tablePhases->horizontalHeader()->setStretchLastSection( true ); 
+		ui.listPrograms->setCurrentRow((ui.listPrograms->count() - 1));
 	 }
 
 }
@@ -621,7 +661,11 @@ void MainWindow::updateTrafficLight(Controller *c)
    ControllerLogic * logic = c->getCurrentLogic();
 
    if(logic->subID.compare("off") == 0)
+   {
+	   ui.lblTL1->setText("<img src=\":/MainWindow/light_off.png\">");
+	   ui.lblTL2->setText("<img src=\":/MainWindow/light_off.png\">");
 	   return;
+   }
 
    int currentPhase = logic->currentPhaseIndex;
    QString img;
@@ -681,4 +725,6 @@ MainWindow::~MainWindow()
 
 	delete mapWidget;
 	mapWidget = nullptr;
+
+	
 }
