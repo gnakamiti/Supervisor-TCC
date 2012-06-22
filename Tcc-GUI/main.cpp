@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	delete Supervisor::getInstance();
 	SupervisorLog::closeLog();
 
+	ControllerLogic::destroyLogicDataBase();
 
-  return 0;
+    return 0;
 }

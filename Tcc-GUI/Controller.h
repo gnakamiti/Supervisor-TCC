@@ -3,16 +3,22 @@
 
 #include <vector>
 #include <iostream>
+#include <QDir>
+#include <QDateTime>
 #include <map>
 #include "constants.h"
 #include "Utils.h"
 
+class ControllerLogic; //class forwading
+
+//Faixa de transito
 typedef struct LaneStruct
 {
 	std::string laneName;
 	std::string detectorName;
 } Lane;
 
+//Representa uma rua
 typedef struct StreetStruct
 {
 	std::vector<Lane> lanes;
@@ -22,6 +28,34 @@ typedef struct StreetStruct
 	int carStream;
 } Street;
 
+//Logica para base de dados das logicas
+class StoredControllerLogic
+{
+private:
+	ControllerLogic *logic;
+	int totalQueueSize;
+	int totalCarStream;
+	QDateTime usedIn;
+
+public:
+	StoredControllerLogic();
+	~StoredControllerLogic();
+
+	int getTotalQueueSize() {return totalQueueSize;}
+	int getTotalCarStream() {return totalCarStream;}
+	ControllerLogic * getControllerLogic() { return logic; }
+	QDateTime getUsedInt() { return usedIn; }
+
+	void setControllerLogic(ControllerLogic *l) {logic = l;}
+	void setTotalQueueSize(int t) {totalQueueSize = t;}
+	void setTotalCarStream(int t) {totalCarStream = t;}
+	void setUsedDate(QDateTime t) {usedIn = t;}
+
+
+};
+
+
+//Fase do semaforo
 class Phase
 {
 public:
@@ -35,8 +69,26 @@ public:
 	Phase * clone();
 };
 
+//Representa um modo de operacao de um controlador
 class ControllerLogic
 {
+private:
+
+	//Cria diretorios para amarzenar as base de casos
+	static void createDirs(std::vector<std::string>);
+
+	//Cria todas as StoredControllerLogic para os controladores
+	static void createDataBaseLogic(std::vector<std::string>);
+
+	//Cria uma logica para um controlador baseado no tamanho TOTAL de filas
+	static ControllerLogic * createALogicBasedOnQueue(int, std::string);
+
+	//Salva no disco a base de dados de logicas
+	static void readLogicFromDisk(std::vector<std::string>);
+
+	//Le a base de dados de logicas do disco
+	static void writeLogicOnDisk(std::vector<StoredControllerLogic *>, std::string);
+	
 public:
 	ControllerLogic();
 	ControllerLogic(const ControllerLogic &);
@@ -47,6 +99,7 @@ public:
 	int subParameter;
 	int currentPhaseIndex;
 	std::vector<Phase *> *phases;
+	static std::map<std::string, std::vector<StoredControllerLogic *>> logicBase;
 
 	//Tipo do controlador (Fixo, inteligente e blalbal) no caso apenas fixo
 	std::string intToStrType();
@@ -58,8 +111,16 @@ public:
 	
 	//Devolve a definicao de fase padrao
 	static std::vector<std::string> getDefaultPhaseDefForTheSimulation();
+
+	//Gera a base de casos
+	static void readLogicDataBase(std::vector<std::string>);
+
+	//da um free na base de casos - CUIDADO AO USAR ISSO!
+	static void destroyLogicDataBase();
 };
 
+
+//Semaforo
 class Controller
 {
 private:

@@ -72,4 +72,13 @@
 #define GUI_MAP_FILE_LOCATION "qrc:/MainWindow/maps.html"
 #define CONTROLLER_CFG_LOCATION ":/MainWindow/controllersPos.cfg"
 
+#define CONTROLLER_LOGIC_BASE_DIR "logic-base"
+#define MAX_LOGICS_PER_CONTROLLER 15
+#define LOGICS_DATA_BASE_MAX_QUEUE_SIZE 30
+#define LOGICS_DATA_BASE_MAC_CAR_STREAM 800
+
+#define LOGIC_MAX_TIME 120
+#define LOGIC_MED_TIME 60
+#define LOGIC_SMALL_TIME 30
+
 #endif

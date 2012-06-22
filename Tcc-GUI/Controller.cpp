@@ -268,3 +268,138 @@ std::vector<std::string> ControllerLogic::getDefaultPhaseDefForTheSimulation()
 
 	return phaseDefs;
 }
+
+void ControllerLogic::createDirs(std::vector<std::string> controllers)
+{
+	QString str;
+	if(!QDir().mkdir(CONTROLLER_LOGIC_BASE_DIR))
+	{
+		std::cerr << "Could not create base dir for logic database" << std::endl;
+		exit(-55);
+	}
+
+	for(int i = 0; i < controllers.size(); i++)
+	{
+		str = CONTROLLER_LOGIC_BASE_DIR;
+		str += "/";
+		str += controllers.at(i).c_str();
+		QDir().mkdir(str);
+	}
+}
+
+std::map<std::string, std::vector<StoredControllerLogic *>> ControllerLogic::logicBase;
+
+void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
+{
+	std::string actualController, logicName;
+	StoredControllerLogic *stl;
+	std::vector<StoredControllerLogic *> toBeAdded;
+	int totalLogics, queue, stream;
+
+	qsrand(QTime::currentTime().msec()); //iniciar seed de random
+	
+	for(int i = 0; i < controllers.size(); i++)
+	{
+		actualController = controllers.at(i);
+
+		//+1 para nao dar 0 logicas
+		totalLogics = ((qrand() % MAX_LOGICS_PER_CONTROLLER) + 1);
+
+		for(int j = 0; j < totalLogics; j++)
+		{
+			queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
+			stream = (qrand() % LOGICS_DATA_BASE_MAC_CAR_STREAM); //pode ser 0
+			logicName = actualController;
+			logicName += "-";
+			logicName += QString::number(j).toStdString();
+			stl = new StoredControllerLogic();
+			stl->setTotalCarStream(stream); 
+			stl->setTotalQueueSize(queue); 
+			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(queue, logicName));
+			stl->setUsedDate(QDateTime::currentDateTime());
+			
+			toBeAdded.push_back(stl);
+		}
+
+		logicBase[actualController] = toBeAdded;
+		writeLogicOnDisk(toBeAdded, actualController);
+		toBeAdded.clear();
+	}
+}
+
+ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name)
+{
+	int duration1, duration2; //No sumo apesar de ter 4 fases, os valores de tempo sao intercalados
+
+	
+	//pequeno 
+	if(queue >= 0 && queue <= 10) 
+	{
+		duration1 = (qrand() % LOGIC_MAX_TIME) + 10;
+		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);
+	}
+	else if(queue > 10 && queue <= 18) //med
+	{
+		duration1 = (qrand() % LOGIC_MED_TIME) + 10;
+		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);;
+	}
+	else //grande
+	{
+		duration1 = (qrand() % LOGIC_SMALL_TIME) + 10;
+		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);;
+	}
+
+	return ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2);
+}
+
+void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
+{
+	if(!QDir(CONTROLLER_LOGIC_BASE_DIR).exists())
+	{
+		createDirs(controllers);	
+	}
+
+	createDataBaseLogic(controllers);
+}
+
+void ControllerLogic::destroyLogicDataBase()
+{
+	std::vector<StoredControllerLogic *> storedLogics;
+
+	for (std::map<std::string, std::vector<StoredControllerLogic *>>::iterator it = 
+		logicBase.begin(); it != logicBase.end(); ++it) 
+	{
+		storedLogics = it->second;
+		deleteInVector(storedLogics);
+		storedLogics.clear();
+	}
+
+
+}
+
+//TODO
+void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logicsToDisk, std::string controller)
+{
+	for(int i = 0; i < logicsToDisk.size(); i++)
+	{
+	}
+}
+
+//TODO
+void ControllerLogic::readLogicFromDisk(std::vector<std::string> controllers)
+{
+	for(int i = 0; i < controllers.size(); i++)
+	{
+	}
+}
+
+StoredControllerLogic::StoredControllerLogic()
+{
+
+}
+
+StoredControllerLogic::~StoredControllerLogic()
+{
+	delete logic;
+	logic = nullptr;
+}
