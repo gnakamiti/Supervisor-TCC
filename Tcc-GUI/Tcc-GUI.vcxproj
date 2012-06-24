@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerCFG.cpp" />
+    <ClCompile Include="DataStreamUtils.cpp" />
     <ClCompile Include="Decisions.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_Decisions.cpp">
@@ -151,6 +152,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ControllerCFG.h" />
+    <ClInclude Include="DataStreamUtils.h" />
     <ClInclude Include="GeneratedFiles\ui_Gmaps.h" />
     <ClInclude Include="Utils.h" />
     <CustomBuild Include="Decisions.h">

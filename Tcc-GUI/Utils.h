@@ -30,7 +30,4 @@ void deleteInVector(std::vector<T*> deleteme) {
 
     
 }
-
-
-
 #endif

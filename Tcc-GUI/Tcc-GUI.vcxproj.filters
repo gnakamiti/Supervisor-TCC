@@ -95,6 +95,9 @@
     <ClCompile Include="ControllerCFG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DataStreamUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -148,6 +151,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="ControllerCFG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStreamUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

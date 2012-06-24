@@ -4,6 +4,21 @@ Controller::Controller()
 {
 }
 
+Phase::Phase(int d, int d1, int d2, std::string pd)
+{
+	duration = d;
+	duration1 = d1;
+	duration2 = d2;
+	phaseDef = pd;
+}
+ControllerLogic::ControllerLogic(std::string sId, int t, int s, int c, std::vector<Phase*> *p)
+{
+	subID = sId;
+	type = t;
+	subParameter = s;
+	currentPhaseIndex = c;
+	phases = p;
+}
 
 Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, std::vector<Lane> lanes)
 {
@@ -17,6 +32,14 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, 
 	newPhaseDurations[1] = 20;
 	newPhaseDurations[2] = 30;
 	newPhaseDurations[3] = 40;
+}
+
+StoredControllerLogic::StoredControllerLogic(const StoredControllerLogic &copy)
+{
+	logic = copy.getControllerLogic()->clone();
+	totalQueueSize =copy.getTotalQueueSize();
+	totalCarStream = copy.getTotalCarStream();
+	usedIn = copy.getUsedIn();
 }
 
 std::string Controller::laneToStreet(std::string lane)
@@ -151,7 +174,10 @@ Controller *Controller::clone()
 
 ControllerLogic::~ControllerLogic()
 {
-	deleteInVector(this->phases);
+	if(this->phases != nullptr)
+		deleteInVector(this->phases);
+
+	this->phases = nullptr;
 }
 
 std::string ControllerLogic::intToStrType()
@@ -304,7 +330,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 
 		//+1 para nao dar 0 logicas
 		totalLogics = ((qrand() % MAX_LOGICS_PER_CONTROLLER) + 1);
-
+		//totalLogics = 1;
 		for(int j = 0; j < totalLogics; j++)
 		{
 			queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
@@ -356,13 +382,16 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 {
 	if(!QDir(CONTROLLER_LOGIC_BASE_DIR).exists())
 	{
-		createDirs(controllers);	
+		createDirs(controllers);
+		createDataBaseLogic(controllers);
+		return;
 	}
 
-	createDataBaseLogic(controllers);
+	readAllLogicsFromDisk(controllers);
+	
 }
 
-void ControllerLogic::destroyLogicDataBase()
+void ControllerLogic::destroyLogicDataBaseInMemory()
 {
 	std::vector<StoredControllerLogic *> storedLogics;
 
@@ -377,20 +406,86 @@ void ControllerLogic::destroyLogicDataBase()
 
 }
 
-//TODO
+//aparentemente sem bugs
 void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logicsToDisk, std::string controller)
 {
+	QString path;
+	ControllerLogic *logicClone;
+	StoredControllerLogic l, *actual;
+
 	for(int i = 0; i < logicsToDisk.size(); i++)
 	{
+		actual = logicsToDisk.at(i);
+		logicClone = actual->getControllerLogic()->clone();
+		l.setControllerLogic(logicClone);
+		l.setTotalCarStream(actual->getTotalCarStream());
+		l.setTotalQueueSize(actual->getTotalQueueSize());
+		l.setUsedDate(actual->getUsedIn());
+		path = CONTROLLER_LOGIC_BASE_DIR;
+		path += "/";
+		path += controller.c_str();
+		path += "/";
+		path += l.getControllerLogic()->subID.c_str();
+		QFile file(path);
+		file.open(QIODevice::WriteOnly);
+		QDataStream out(&file);   // write the data
+		out << l;
+		file.close();
 	}
 }
 
 //TODO
-void ControllerLogic::readLogicFromDisk(std::vector<std::string> controllers)
+void ControllerLogic::readAllLogicsFromDisk(std::vector<std::string> controllers)
 {
+	QString path;
+	std::string actualController;
+
+	//ControllerLogic::logicBase.clear(); //TIRAR ISSO DAQUI DPS!
+
 	for(int i = 0; i < controllers.size(); i++)
 	{
+		actualController = controllers.at(i);
+
+		path = CONTROLLER_LOGIC_BASE_DIR;
+		path += "/";
+		path += actualController.c_str();
+
+		QDir dir(path);
+
+		if(!dir.exists())
+		{
+			std::cerr << "Dir " << dir.currentPath().toStdString() << "does not exist" << std::endl;
+			continue;
+		}
+
+		dir.setFilter(QDir::Files);
+		QFileInfoList list = dir.entryInfoList();
+		ControllerLogic::logicBase[actualController] = readLogicFromDir(list);
+		list.clear();
 	}
+}
+
+std::vector<StoredControllerLogic *> ControllerLogic::readLogicFromDir(QFileInfoList fileList)
+{
+	std::vector<StoredControllerLogic *> vector;
+
+	for(int i = 0; i < fileList.size(); i++)
+	{
+		QFileInfo fileInfo = fileList.at(i);
+		QFile file(fileInfo.absoluteFilePath());
+
+		file.open(QIODevice::ReadOnly);
+		QDataStream in(&file);
+
+		StoredControllerLogic *scl = new StoredControllerLogic(); //avoid warning
+		in >> *scl;
+
+		file.close();
+		
+		vector.push_back(scl);
+	}
+
+	return vector;
 }
 
 StoredControllerLogic::StoredControllerLogic()
@@ -400,6 +495,9 @@ StoredControllerLogic::StoredControllerLogic()
 
 StoredControllerLogic::~StoredControllerLogic()
 {
-	delete logic;
-	logic = nullptr;
+	if(logic != nullptr)
+	{
+		delete logic;
+		logic = nullptr;
+	}
 }

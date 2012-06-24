@@ -8,6 +8,7 @@
 #include <map>
 #include "constants.h"
 #include "Utils.h"
+#include "DataStreamUtils.h"
 
 class ControllerLogic; //class forwading
 
@@ -39,12 +40,13 @@ private:
 
 public:
 	StoredControllerLogic();
+	StoredControllerLogic(const StoredControllerLogic &);
 	~StoredControllerLogic();
 
-	int getTotalQueueSize() {return totalQueueSize;}
-	int getTotalCarStream() {return totalCarStream;}
-	ControllerLogic * getControllerLogic() { return logic; }
-	QDateTime getUsedInt() { return usedIn; }
+	int getTotalQueueSize() const {return totalQueueSize;} 
+	int getTotalCarStream() const {return totalCarStream;}
+	ControllerLogic * getControllerLogic() const { return logic; }
+	QDateTime getUsedIn() const { return usedIn; }
 
 	void setControllerLogic(ControllerLogic *l) {logic = l;}
 	void setTotalQueueSize(int t) {totalQueueSize = t;}
@@ -64,9 +66,13 @@ public:
 	int duration2; //It's in milisecs - nao usado pelo sumo
 	std::string phaseDef; //Definicao da faze - (Verde, vermelho e amarelo)
 	Phase();
+	Phase(int, int, int, std::string);
 	Phase(const Phase &);
 
 	Phase * clone();
+
+
+
 };
 
 //Representa um modo de operacao de um controlador
@@ -84,13 +90,17 @@ private:
 	static ControllerLogic * createALogicBasedOnQueue(int, std::string);
 
 	//Salva no disco a base de dados de logicas
-	static void readLogicFromDisk(std::vector<std::string>);
+	static void readAllLogicsFromDisk(std::vector<std::string>);
+	
+	//Le todas as logicas de um controlador que estao numa pasta
+	static std::vector<StoredControllerLogic *> readLogicFromDir(QFileInfoList);
 
 	//Le a base de dados de logicas do disco
 	static void writeLogicOnDisk(std::vector<StoredControllerLogic *>, std::string);
 	
 public:
 	ControllerLogic();
+	ControllerLogic(std::string, int, int, int, std::vector<Phase*>*);
 	ControllerLogic(const ControllerLogic &);
 	~ControllerLogic();
 
@@ -116,7 +126,7 @@ public:
 	static void readLogicDataBase(std::vector<std::string>);
 
 	//da um free na base de casos - CUIDADO AO USAR ISSO!
-	static void destroyLogicDataBase();
+	static void destroyLogicDataBaseInMemory();
 };
 
 
@@ -168,7 +178,5 @@ public:
 
 	Controller *clone();
 };
-
-
 
 #endif
