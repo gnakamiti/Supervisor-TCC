@@ -45,9 +45,9 @@ QDataStream & operator >> (QDataStream &in, ControllerLogic &l)
 	std::vector<Phase *> *phases = new std::vector<Phase*>();
 	Phase *p;
 	Phase pActual;
-	ControllerLogic *newLogic;
 
 	in >> qSubId >> type >> subParameter >> currentPhaseIndex >> vector;
+	
 	// MAYBE REMOVE THIS PART
 	for(int i = 0; i < vector.size(); i++)
 	{
@@ -60,8 +60,11 @@ QDataStream & operator >> (QDataStream &in, ControllerLogic &l)
 		phases->push_back(p);
 	}
 
-	newLogic = new ControllerLogic(qSubId.toStdString(), type, subParameter, currentPhaseIndex, phases);
-	l = *newLogic;
+	l.currentPhaseIndex = currentPhaseIndex;
+	l.phases = phases;
+	l.subID = qSubId.toStdString();
+	l.type = type;
+	l.subParameter = subParameter;
 
 	return in;
 }
@@ -84,17 +87,15 @@ QDataStream & operator >> (QDataStream &in, StoredControllerLogic &scl)
 	ControllerLogic logic, *l;
 	qint32 totalSize, totalStream;
 	QDateTime usedIn;
-	StoredControllerLogic *sclPtr = new StoredControllerLogic();
 
 	in >> logic >> totalSize >> totalStream >> usedIn;
 
-	sclPtr->setTotalCarStream(totalStream);
-	sclPtr->setTotalQueueSize(totalSize);
-	sclPtr->setUsedDate(usedIn);
+	scl.setTotalCarStream(totalStream);
+	scl.setTotalQueueSize(totalSize);
+	scl.setUsedDate(usedIn);
 	l = logic.clone();
 
-	sclPtr->setControllerLogic(l);
-	scl = *sclPtr;
+	scl.setControllerLogic(l);
 
 	return in;
 }

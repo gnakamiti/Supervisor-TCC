@@ -36,7 +36,6 @@ std::vector<int> Decisions::sumTotalQueueAndStreamForController(Controller *c)
 	int queue = 0, stream = 0;
 	std::vector<int> result;
 	std::vector<Street> *streets = c->getControlledStreets();
-	std::vector<Lane> lanes;
 
 	for(int i = 0; i < streets->size(); i++)
 	{
@@ -54,7 +53,7 @@ void Decisions::fuzzyTimerTimeout()
 	std::vector<Controller *> controllers;
 	FuzzyResult fuzzyResultI, fuzzyResultCompare;
 	Controller *cI, *cJ;
-	std::vector<Street> *controlledStreetsI, *controlledStreetsJ;
+	std::vector<Street> *controlledStreetsI;
 	int queueFinal, streamFinal;
 	std::vector<int> resultI, resultJ;
 

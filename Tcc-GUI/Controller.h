@@ -139,7 +139,6 @@ private:
 	std::vector<Street> streets;
 	std::string currentLogicId;
 	bool active;
-	std::map<int, int> newPhaseDurations;
 
 	//Cria as rua a partir da lena
 	void createStreets(std::vector<Lane>);
@@ -167,8 +166,6 @@ public:
 	void setControllerLogics(std::vector<ControllerLogic *>);
 	//Retorna ruas controladas
 	std::vector<Street> * getControlledStreets() { return &streets; }
-	//Tirar isso aqui
-	std::map<int, int> getNewPhaseDuration() { return newPhaseDurations; }
 	//Logica atual
 	ControllerLogic * getCurrentLogic();
 	//Nome da logica atual

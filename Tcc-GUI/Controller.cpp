@@ -27,11 +27,6 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, 
 	
 	//this->lanes = lanes;
 	this->createStreets(lanes);
-
-	newPhaseDurations[0] = 10;
-	newPhaseDurations[1] = 20;
-	newPhaseDurations[2] = 30;
-	newPhaseDurations[3] = 40;
 }
 
 StoredControllerLogic::StoredControllerLogic(const StoredControllerLogic &copy)
@@ -124,7 +119,6 @@ Controller::Controller(const Controller &copy)
 //	queuePerLane = copy.queuePerLane;
 //	lanes = copy.lanes;
 	streets = copy.streets;
-	newPhaseDurations = copy.newPhaseDurations;
 	currentLogicId = copy.currentLogicId;
 
 	for(int i = 0; i < copy.logics.size(); i++)

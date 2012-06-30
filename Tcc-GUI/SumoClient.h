@@ -29,9 +29,6 @@ private:
 
 	int getQueueSizeOrFlowForALane(std::string, int, int);
 
-	void changePhaseDurationIfAskedTo(Controller *);
-	
-
 public slots:
      void setStop(bool newValue);
 

@@ -385,30 +385,6 @@ void SumoClient::setPhaseDuration(std::string controllerName, int duration)
 
 }
 
-void SumoClient::changePhaseDurationIfAskedTo(Controller *c)
-{
-	
-	std::map<int, int> newPhases = c->getNewPhaseDuration();
-	std::map<int,int>::iterator it;
-
-	if(c->getLogics().size() > 0)
-	{
-		it = newPhases.find(c->getLogics().at(0)->currentPhaseIndex);
-
-		//I have the key in the map, so it means i must update the duration
-		if(it != newPhases.end())
-		{
-			//Update duration
-			this->setPhaseDuration(c->getName(), it->second);
-
-			//Remove from the map
-			newPhases.erase(it);
-		}
-	}
-
-	
-}
-
 void SumoClient::sendNewProgram(std::string controllerId, ControllerLogic *newLogic)
 {
 	Storage in, out;
