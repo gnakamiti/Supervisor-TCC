@@ -388,6 +388,7 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 	}
 
 	readAllLogicsFromDisk(controllers);
+	ControllerLogic::logicBase =ControllerLogic::logicBase;
 	
 }
 

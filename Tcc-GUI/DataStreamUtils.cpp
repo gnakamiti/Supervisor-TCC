@@ -5,7 +5,7 @@ QDataStream & operator << (QDataStream &out, const Phase &p)
 {
 	QString qPhaseDef = p.phaseDef.c_str();
 
-	out << quint32(p.duration) << quint32(p.duration1) << quint32(p.duration2)
+	out << qint32(p.duration) << qint32(p.duration1) << qint32(p.duration2)
 		<< qPhaseDef;
 
     return out;
@@ -13,7 +13,7 @@ QDataStream & operator << (QDataStream &out, const Phase &p)
 
 QDataStream & operator >> (QDataStream &in, Phase &p)
 {
-	quint32 qDuration,qDuration1,qDuration2;
+	qint32 qDuration,qDuration1,qDuration2;
 	QString qPhaseDef;
 
 	in >> qDuration >> qDuration1 >> qDuration2 >> qPhaseDef;
@@ -32,14 +32,14 @@ QDataStream & operator << (QDataStream &out, const ControllerLogic &l)
 		vector.push_back(*(l.phases->at(i)));
 	}
 
-	out << qSubId << quint32(l.type) << quint32(l.subParameter) << quint32(l.currentPhaseIndex) << vector;
+	out << qSubId << qint32(l.type) << qint32(l.subParameter) << qint32(l.currentPhaseIndex) << vector;
 
 	return out;
 }
 
 QDataStream & operator >> (QDataStream &in, ControllerLogic &l)
 {
-	quint32 type,subParameter,currentPhaseIndex;
+	qint32 type,subParameter,currentPhaseIndex;
 	QString qSubId;
 	QVector<Phase> vector;
 	std::vector<Phase *> *phases = new std::vector<Phase*>();
@@ -71,7 +71,7 @@ QDataStream & operator << (QDataStream &out, const StoredControllerLogic &scl)
 	ControllerLogic *logicClone = scl.getControllerLogic()->clone();
 	ControllerLogic l = *logicClone;
 
-	out << l << quint32(scl.getTotalQueueSize()) << quint32(scl.getTotalCarStream()) << scl.getUsedIn();
+	out << l << qint32(scl.getTotalQueueSize()) << qint32(scl.getTotalCarStream()) << scl.getUsedIn();
 
 	delete logicClone;
 	logicClone = nullptr;
@@ -82,10 +82,9 @@ QDataStream & operator << (QDataStream &out, const StoredControllerLogic &scl)
 QDataStream & operator >> (QDataStream &in, StoredControllerLogic &scl)
 {
 	ControllerLogic logic, *l;
-	quint32 totalSize, totalStream;
+	qint32 totalSize, totalStream;
 	QDateTime usedIn;
 	StoredControllerLogic *sclPtr = new StoredControllerLogic();
-	l = new ControllerLogic();
 
 	in >> logic >> totalSize >> totalStream >> usedIn;
 
