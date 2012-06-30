@@ -322,8 +322,8 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 	{
 		actualController = controllers.at(i);
 
-		//+1 para nao dar 0 logicas
-		totalLogics = ((qrand() % MAX_LOGICS_PER_CONTROLLER) + 1);
+		//+LOGICS_DATA_BASE_MIN_NUM para nao dar 0 logicas
+		totalLogics = ((qrand() % MAX_LOGICS_PER_CONTROLLER) + LOGICS_DATA_BASE_MIN_NUM);
 		//totalLogics = 1;
 		for(int j = 0; j < totalLogics; j++)
 		{
@@ -382,7 +382,6 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 	}
 
 	readAllLogicsFromDisk(controllers);
-	ControllerLogic::logicBase =ControllerLogic::logicBase;
 	
 }
 
