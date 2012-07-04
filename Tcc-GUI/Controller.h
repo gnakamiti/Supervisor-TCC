@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <map>
+#include <ga/GAListGenome.h>
 #include "constants.h"
 #include "Utils.h"
 #include "DataStreamUtils.h"
@@ -30,6 +31,7 @@ typedef struct StreetStruct
 } Street;
 
 //Logica para base de dados das logicas
+//Essa classe vai sera usada no algoritmo genetico
 class StoredControllerLogic
 {
 private:
@@ -37,6 +39,10 @@ private:
 	int totalQueueSize;
 	int totalCarStream;
 	QDateTime usedIn;
+	GAListGenome<int> genome;
+
+	void createGenome();
+
 
 public:
 	StoredControllerLogic();
@@ -52,8 +58,7 @@ public:
 	void setTotalQueueSize(int t) {totalQueueSize = t;}
 	void setTotalCarStream(int t) {totalCarStream = t;}
 	void setUsedDate(QDateTime t) {usedIn = t;}
-
-
+	GAListGenome<int> getStoredLogicAsGenome() { return genome; }
 };
 
 

@@ -60,6 +60,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtWebKitd4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <StackReserveSize>3000000</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,6 +116,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Supervisor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Genetic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="socket.cpp" />
@@ -154,6 +156,7 @@
     <ClInclude Include="ControllerCFG.h" />
     <ClInclude Include="DataStreamUtils.h" />
     <ClInclude Include="GeneratedFiles\ui_Gmaps.h" />
+    <ClInclude Include="Genetic.h" />
     <ClInclude Include="Utils.h" />
     <CustomBuild Include="Decisions.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
@@ -221,7 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\fuzzylite\lib\FuzzyLites.lib" />
-    <Library Include="..\galib\lib\ga.lib" />
+    <Library Include="..\galib\lib\galib.lib" />
     <Library Include="..\vld.lib" />
   </ItemGroup>
   <ItemGroup>

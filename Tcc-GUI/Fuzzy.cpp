@@ -91,7 +91,7 @@ void Fuzzy::setRuleBlockWithStream(fl::RuleBlock *ruleBlock)
 	qStringRuleBase = "if ";
 	qStringRuleBase += FUZZY_INPUTL_VAR_CURRENT_QUEUE;
 	qStringRuleBase += " is %1 and ";
-	qStringRuleBase += FUZZY_INPUTL_VAR_CAR_STREAM;
+	qStringRuleBase+= FUZZY_INPUTL_VAR_CAR_STREAM;
 	qStringRuleBase += " is %2 then ";
 	qStringRuleBase += FUZZY_INPUTL_VAR_QUEUE_AD_DEGREE;
 	qStringRuleBase += " is %3";
@@ -106,8 +106,6 @@ void Fuzzy::setRuleBlockWithStream(fl::RuleBlock *ruleBlock)
 			qStringRuleToBeAdded = qStringRuleBase.arg(fuzzyInputNames[i]).
 				arg(fuzzyInputNames[j]).arg(fuzzyOutPutNames[i][j]);
 			
-			
-				
 				ruleBlock->addRule(new fl::MamdaniRule(qStringRuleToBeAdded
 					.toStdString(), *(this->fuzzyEngine)));
 		}

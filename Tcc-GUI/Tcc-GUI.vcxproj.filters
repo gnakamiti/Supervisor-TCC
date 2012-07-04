@@ -98,6 +98,9 @@
     <ClCompile Include="DataStreamUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Genetic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -156,15 +159,18 @@
     <ClInclude Include="DataStreamUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Genetic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\fuzzylite\lib\FuzzyLites.lib">
       <Filter>Resource Files</Filter>
     </Library>
-    <Library Include="..\galib\lib\ga.lib">
+    <Library Include="..\vld.lib">
       <Filter>Resource Files</Filter>
     </Library>
-    <Library Include="..\vld.lib">
+    <Library Include="..\galib\lib\galib.lib">
       <Filter>Resource Files</Filter>
     </Library>
   </ItemGroup>

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'SumoClient.h'
 **
-** Created: Sat 30. Jun 11:47:54 2012
+** Created: Wed 4. Jul 18:05:12 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

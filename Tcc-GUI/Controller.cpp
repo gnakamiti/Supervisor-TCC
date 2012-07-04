@@ -495,3 +495,7 @@ StoredControllerLogic::~StoredControllerLogic()
 		logic = nullptr;
 	}
 }
+
+void StoredControllerLogic::createGenome()
+{
+}
