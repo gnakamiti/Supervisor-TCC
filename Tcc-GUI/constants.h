@@ -82,4 +82,6 @@
 #define LOGIC_MED_TIME 60
 #define LOGIC_SMALL_TIME 30
 
+#define LOGICS_MAX_STREETS_TO_GENERATE 2
+
 #endif

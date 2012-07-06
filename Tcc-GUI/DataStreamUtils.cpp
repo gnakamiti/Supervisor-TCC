@@ -74,7 +74,7 @@ QDataStream & operator << (QDataStream &out, const StoredControllerLogic &scl)
 	ControllerLogic *logicClone = scl.getControllerLogic()->clone();
 	ControllerLogic l = *logicClone;
 
-	out << l << qint32(scl.getTotalQueueSize()) << qint32(scl.getTotalCarStream()) << scl.getUsedIn();
+	out << l << scl.getStreets() << scl.getUsedIn();
 
 	delete logicClone;
 	logicClone = nullptr;
@@ -87,15 +87,31 @@ QDataStream & operator >> (QDataStream &in, StoredControllerLogic &scl)
 	ControllerLogic logic, *l;
 	qint32 totalSize, totalStream;
 	QDateTime usedIn;
+	QList<Street> streets;
 
-	in >> logic >> totalSize >> totalStream >> usedIn;
+	in >> logic >> streets >> usedIn;
 
-	scl.setTotalCarStream(totalStream);
-	scl.setTotalQueueSize(totalSize);
+	scl.setStreets(streets);
 	scl.setUsedDate(usedIn);
 	l = logic.clone();
 
 	scl.setControllerLogic(l);
 
+	return in;
+}
+
+QDataStream & operator << (QDataStream &out, const Street &street)
+{
+	out << qint32(street.queueSize) << qint32(street.carStream);
+	return out;
+}
+
+
+QDataStream & operator >> (QDataStream &in, Street &street)
+{
+	qint32 q, s;
+	in >> q >> s;
+	street.queueSize = q;
+	street.carStream = s;
 	return in;
 }

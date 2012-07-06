@@ -8,9 +8,10 @@ Genetic::~Genetic()
 {
 }
 
-float Genetic::Objective(GAGenome &genome)
+float Objective(GAGenome &genome)
 {
 	float result = 0.0;
+	GAListGenome<int> &list = (GAListGenome<int> &) genome;
 
 	return result;
 }

@@ -5,10 +5,12 @@
 #include <iostream>
 #include <QDir>
 #include <QDateTime>
+#include <QList>
 #include <map>
 #include <ga/GAListGenome.h>
 #include "constants.h"
 #include "Utils.h"
+#include "Genetic.h"
 #include "DataStreamUtils.h"
 
 class ControllerLogic; //class forwading
@@ -38,27 +40,30 @@ private:
 	ControllerLogic *logic;
 	int totalQueueSize;
 	int totalCarStream;
+
+	QList<Street> streets;
+	
+
 	QDateTime usedIn;
-	GAListGenome<int> genome;
-
-	void createGenome();
-
 
 public:
 	StoredControllerLogic();
 	StoredControllerLogic(const StoredControllerLogic &);
 	~StoredControllerLogic();
 
-	int getTotalQueueSize() const {return totalQueueSize;} 
-	int getTotalCarStream() const {return totalCarStream;}
+	//int getTotalQueueSize() const { return totalQueueSize; } 
+	//int getTotalCarStream() const { return totalCarStream; }
 	ControllerLogic * getControllerLogic() const { return logic; }
 	QDateTime getUsedIn() const { return usedIn; }
+	QList<Street> getStreets() const { return streets; }
 
-	void setControllerLogic(ControllerLogic *l) {logic = l;}
-	void setTotalQueueSize(int t) {totalQueueSize = t;}
-	void setTotalCarStream(int t) {totalCarStream = t;}
-	void setUsedDate(QDateTime t) {usedIn = t;}
-	GAListGenome<int> getStoredLogicAsGenome() { return genome; }
+	void setControllerLogic(ControllerLogic *l) { logic = l; }
+	//void setTotalQueueSize(int t) { totalQueueSize = t; }
+	//void setTotalCarStream(int t) { totalCarStream = t; }
+	void setUsedDate(QDateTime t) { usedIn = t; }
+	void addStreet(Street s) { streets.push_back(s); }
+	void setStreets(QList<Street> s) { streets.clear(); streets = s; }
+	
 };
 
 

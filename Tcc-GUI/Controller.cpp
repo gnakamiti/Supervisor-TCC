@@ -32,9 +32,8 @@ Controller::Controller(std::string name, std::vector<ControllerLogic *> logics, 
 StoredControllerLogic::StoredControllerLogic(const StoredControllerLogic &copy)
 {
 	logic = copy.getControllerLogic()->clone();
-	totalQueueSize =copy.getTotalQueueSize();
-	totalCarStream = copy.getTotalCarStream();
 	usedIn = copy.getUsedIn();
+	streets = copy.getStreets();
 }
 
 std::string Controller::laneToStreet(std::string lane)
@@ -314,7 +313,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 	std::string actualController, logicName;
 	StoredControllerLogic *stl;
 	std::vector<StoredControllerLogic *> toBeAdded;
-	int totalLogics, queue, stream;
+	int totalLogics, maxQueue;
 
 	qsrand(QTime::currentTime().msec()); //iniciar seed de random
 	
@@ -327,15 +326,27 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 		//totalLogics = 1;
 		for(int j = 0; j < totalLogics; j++)
 		{
-			queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
-			stream = (qrand() % LOGICS_DATA_BASE_MAC_CAR_STREAM); //pode ser 0
 			logicName = actualController;
 			logicName += "-";
 			logicName += QString::number(j).toStdString();
 			stl = new StoredControllerLogic();
-			stl->setTotalCarStream(stream); 
-			stl->setTotalQueueSize(queue); 
-			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(queue, logicName));
+			maxQueue = 0;
+
+			for(int k = 0; k < LOGICS_MAX_STREETS_TO_GENERATE; k++) {
+
+				Street s;
+				int queue, stream;
+			    queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
+			    stream = (qrand() % LOGICS_DATA_BASE_MAC_CAR_STREAM); //pode ser 0
+				s.queueSize = queue;
+				s.carStream = stream;
+				stl->addStreet(s);
+
+				if(queue > maxQueue)
+					maxQueue = queue;
+			}
+
+			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(maxQueue, logicName));
 			stl->setUsedDate(QDateTime::currentDateTime());
 			
 			toBeAdded.push_back(stl);
@@ -382,6 +393,7 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 	}
 
 	readAllLogicsFromDisk(controllers);
+	ControllerLogic::logicBase = ControllerLogic::logicBase;
 	
 }
 
@@ -412,8 +424,7 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 		actual = logicsToDisk.at(i);
 		logicClone = actual->getControllerLogic()->clone();
 		l.setControllerLogic(logicClone);
-		l.setTotalCarStream(actual->getTotalCarStream());
-		l.setTotalQueueSize(actual->getTotalQueueSize());
+		l.setStreets(actual->getStreets());
 		l.setUsedDate(actual->getUsedIn());
 		path = CONTROLLER_LOGIC_BASE_DIR;
 		path += "/";
@@ -428,7 +439,6 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 	}
 }
 
-//TODO
 void ControllerLogic::readAllLogicsFromDisk(std::vector<std::string> controllers)
 {
 	QString path;
@@ -475,7 +485,6 @@ std::vector<StoredControllerLogic *> ControllerLogic::readLogicFromDir(QFileInfo
 		in >> *scl;
 
 		file.close();
-		
 		vector.push_back(scl);
 	}
 
@@ -494,8 +503,4 @@ StoredControllerLogic::~StoredControllerLogic()
 		delete logic;
 		logic = nullptr;
 	}
-}
-
-void StoredControllerLogic::createGenome()
-{
 }

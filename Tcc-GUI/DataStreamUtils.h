@@ -8,6 +8,8 @@
 class Phase;
 class ControllerLogic;
 class StoredControllerLogic;
+struct StreetStruct;
+typedef struct StreetStruct Street;
 
 QDataStream & operator << (QDataStream &, const Phase &);
 QDataStream & operator >> (QDataStream &, Phase &);
@@ -17,5 +19,8 @@ QDataStream & operator >> (QDataStream &, ControllerLogic &);
 
 QDataStream & operator << (QDataStream &, const StoredControllerLogic &);
 QDataStream & operator >> (QDataStream &, StoredControllerLogic &);
+
+QDataStream & operator << (QDataStream &, const Street &);
+QDataStream & operator >> (QDataStream &, Street &);
 
 #endif

@@ -9,13 +9,12 @@
 class Genetic
 {
 private:
-	float Objective(GAGenome &);
 
 public:
 	Genetic();
 	~Genetic();
 };
 
-
+float Objective(GAGenome &);
 
 #endif
