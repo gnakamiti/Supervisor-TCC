@@ -3,9 +3,12 @@
 
 #include <vector>
 #include <iostream>
+#include <ostream>
 #include <QDir>
 #include <QDateTime>
 #include <QList>
+#include <QMutexLocker>
+#include <QMutex>
 #include <map>
 #include <ga/GAListGenome.h>
 #include "constants.h"
@@ -32,18 +35,48 @@ typedef struct StreetStruct
 	int carStream;
 } Street;
 
+class LogicGene
+{
+public:
+	int value;
+	int type;
+	LogicGene() {}
+	LogicGene(int t, int v) { type = t; value = v; }
+	~LogicGene() {}
+	LogicGene(const LogicGene &g) { value = g.value; type = g.type; }
+
+	const bool operator==(LogicGene &g) 
+	{
+		if(g.value == value && g.type == type)
+			return true;
+		return false;
+	}
+	const bool operator!=(LogicGene &g) 
+	{
+		if(g.value != value && g.type != type)
+			return true;
+		return false;
+	}
+
+	LogicGene operator=(LogicGene &g)
+	{
+		value = g.value;
+		type = g.type;
+		return *this;
+	}
+
+};
+
 //Logica para base de dados das logicas
 //Essa classe vai sera usada no algoritmo genetico
 class StoredControllerLogic
 {
 private:
-	ControllerLogic *logic;
-	int totalQueueSize;
-	int totalCarStream;
-
-	QList<Street> streets;
 	
-
+	//int totalQueueSize;
+	//int totalCarStream;
+	ControllerLogic *logic;
+	QList<Street> streets;
 	QDateTime usedIn;
 
 public:
@@ -63,9 +96,11 @@ public:
 	void setUsedDate(QDateTime t) { usedIn = t; }
 	void addStreet(Street s) { streets.push_back(s); }
 	void setStreets(QList<Street> s) { streets.clear(); streets = s; }
+
+	GAListGenome<LogicGene> toGene();
+	
 	
 };
-
 
 //Fase do semaforo
 class Phase
@@ -89,6 +124,9 @@ public:
 class ControllerLogic
 {
 private:
+
+	static QMutex logicBaseLock;
+	static std::map<std::string, std::vector<StoredControllerLogic *>> logicBase;
 
 	//Cria diretorios para amarzenar as base de casos
 	static void createDirs(std::vector<std::string>);
@@ -119,7 +157,6 @@ public:
 	int subParameter;
 	int currentPhaseIndex;
 	std::vector<Phase *> *phases;
-	static std::map<std::string, std::vector<StoredControllerLogic *>> logicBase;
 
 	//Tipo do controlador (Fixo, inteligente e blalbal) no caso apenas fixo
 	std::string intToStrType();
@@ -137,6 +174,8 @@ public:
 
 	//da um free na base de casos - CUIDADO AO USAR ISSO!
 	static void destroyLogicDataBaseInMemory();
+
+	static std::vector<StoredControllerLogic *> & getStoredLogicFromLogicBase(std::string);
 };
 
 

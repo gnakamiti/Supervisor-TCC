@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QDataStream>
 
+
 class Phase;
 class ControllerLogic;
 class StoredControllerLogic;
@@ -22,5 +23,7 @@ QDataStream & operator >> (QDataStream &, StoredControllerLogic &);
 
 QDataStream & operator << (QDataStream &, const Street &);
 QDataStream & operator >> (QDataStream &, Street &);
+
+
 
 #endif

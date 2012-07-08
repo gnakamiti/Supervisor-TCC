@@ -56,6 +56,7 @@ void Decisions::fuzzyTimerTimeout()
 	std::vector<Street> *controlledStreetsI;
 	int queueFinal, streamFinal;
 	std::vector<int> resultI, resultJ;
+	std::vector<std::string> similarControllers;
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 	SupervisorLog::getInstance()->writeOnLog("----- Begin -----");
@@ -103,10 +104,16 @@ void Decisions::fuzzyTimerTimeout()
 						similarOutput += cJ->getName();
 						similarOutput += ".\n***\n";
 						SupervisorLog::getInstance()->writeOnLog(similarOutput);
+
+						similarControllers.push_back(cJ->getName());
 					}
 					resultI.clear();
 					resultJ.clear();
 				}
+				/*QFuture<void> future =*/ 
+				//Colocar essa thread aqui melhorou MUITO a performance. Nao tava mais a GUI
+				QtConcurrent::run(tryToFindABetterProgram, cI->getName(), similarControllers);
+				similarControllers.clear();
 			}
 		}
 	}

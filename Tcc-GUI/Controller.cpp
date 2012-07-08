@@ -34,6 +34,7 @@ StoredControllerLogic::StoredControllerLogic(const StoredControllerLogic &copy)
 	logic = copy.getControllerLogic()->clone();
 	usedIn = copy.getUsedIn();
 	streets = copy.getStreets();
+	//genes = copy.genes;
 }
 
 std::string Controller::laneToStreet(std::string lane)
@@ -307,6 +308,7 @@ void ControllerLogic::createDirs(std::vector<std::string> controllers)
 }
 
 std::map<std::string, std::vector<StoredControllerLogic *>> ControllerLogic::logicBase;
+QMutex ControllerLogic::logicBaseLock;
 
 void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 {
@@ -336,8 +338,8 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 
 				Street s;
 				int queue, stream;
-			    queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
-			    stream = (qrand() % LOGICS_DATA_BASE_MAC_CAR_STREAM); //pode ser 0
+				queue = (qrand() % LOGICS_DATA_BASE_MAX_QUEUE_SIZE); //pode ser 0
+				stream = (qrand() % LOGICS_DATA_BASE_MAC_CAR_STREAM); //pode ser 0
 				s.queueSize = queue;
 				s.carStream = stream;
 				stl->addStreet(s);
@@ -393,7 +395,7 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 	}
 
 	readAllLogicsFromDisk(controllers);
-	ControllerLogic::logicBase = ControllerLogic::logicBase;
+	//ControllerLogic::logicBase = ControllerLogic::logicBase;
 	
 }
 
@@ -503,4 +505,39 @@ StoredControllerLogic::~StoredControllerLogic()
 		delete logic;
 		logic = nullptr;
 	}
+}
+
+GAListGenome<LogicGene> StoredControllerLogic::toGene()
+{
+	GAListGenome<LogicGene> genes(Objective);
+	LogicGene gene;
+	std::vector<Phase *> *phases = logic->phases;
+
+	for(int i = 0; i < phases->size(); i++)
+	{
+		gene.type = LOGIC_GENE_TYPE_PHASE;
+		gene.value = phases->at(i)->duration;
+		genes.insert(gene);
+	}
+	
+	for(int i = 0; i < streets.size(); i++)
+	{
+		gene.type = LOGIC_GENE_TYPE_STREAM;
+		gene.value = streets.at(i).carStream;
+
+		genes.insert(gene);
+
+		gene.type = LOGIC_GENE_TYPE_QUEUE;
+		gene.value = streets.at(i).queueSize;
+		genes.insert(gene);
+	}
+
+	return genes;
+}
+
+std::vector<StoredControllerLogic *> & ControllerLogic::getStoredLogicFromLogicBase(std::string controller)
+{
+	QMutexLocker locker(&logicBaseLock);
+
+	return ControllerLogic::logicBase[controller];
 }

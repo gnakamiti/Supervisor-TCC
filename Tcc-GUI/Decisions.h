@@ -4,6 +4,9 @@
 #include <QThread>
 #include <QTimer>
 #include <QObject>
+#include <QFuture>
+#include <QtCore>
+#include "Genetic.h"
 #include "Fuzzy.h"
 #include "constants.h"
 
@@ -21,6 +24,7 @@ class Decisions:public QThread
 		QTimer *fuzzyTimer;
 		Fuzzy *fuzzyControllerSituation;
 		Fuzzy *fuzzySimilarControllers;
+		//Genetic genetic;
 
 	public:
 		Decisions();
