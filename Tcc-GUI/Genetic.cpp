@@ -1,4 +1,6 @@
 #include "Genetic.h"
+#include "Supervisor.h"
+
 /*
 Genetic::Genetic()
 {
@@ -28,10 +30,22 @@ void initPopulation(std::vector<StoredControllerLogic *> &vec, GAPopulation &ini
 //fazer retornar uma logica. talvez trocar isso para uma thread.
 void tryToFindABetterProgram(std::string mController, std::vector<std::string> similarControllers)
 {
+	static QMutex alreadyRunningMutex;
+	static QList<QString> alreadyRunning;
 	GAPopulation initialPop;
 	int ngen     = 400;
 	float pmut   = 0.001;
 	float pcross = 0.9;
+	QString qController = mController.c_str();
+
+	alreadyRunningMutex.lock();
+	if(alreadyRunning.contains(qController))
+	{
+		alreadyRunningMutex.unlock();
+		return;
+	}
+	alreadyRunning.push_back(qController);
+	alreadyRunningMutex.unlock();
 
 
 	initPopulation(ControllerLogic::getStoredLogicFromLogicBase(mController), initialPop);
@@ -49,16 +63,39 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 	GAListGenome<LogicGene> &best = (GAListGenome<LogicGene> &) ga.statistics().bestIndividual();
 	//tirar isso.
 	GAListIter<LogicGene> iter(best);
-	int t,v,s;
+	int s;
+	std::vector<int> durations;
 	s = 0;
 
 	while(s != best.size())
 	{
 		LogicGene *lg = iter.next();
-		t = lg->type;
-		v = lg->value;
+
+		if(lg->type == LOGIC_GENE_TYPE_PHASE)
+		{
+			durations.push_back(lg->value);
+		}
+
 		s++;
 	}
+
+	std::string logicsName = mController;
+	logicsName += "-genetic-";
+	logicsName += QDateTime::currentDateTime().toString().toStdString();
+
+	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
+		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
+
+	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
+
+	//Already sent. just delete it.
+	delete newLogic;
+	newLogic = nullptr;
+
+	alreadyRunningMutex.lock();
+	alreadyRunning.removeOne(qController);
+	alreadyRunningMutex.unlock();
+
 }
 
 float Objective(GAGenome &genome)

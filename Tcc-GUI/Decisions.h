@@ -4,7 +4,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QObject>
-#include <QFuture>
 #include <QtCore>
 #include "Genetic.h"
 #include "Fuzzy.h"

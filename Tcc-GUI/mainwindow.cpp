@@ -579,8 +579,7 @@ void MainWindow::updateInterfaceGeneralInfo(Controller *controller)
 		phase = phases->at(k);
 		ui.comboProgramPhase->addItem(QString::number(k));
 	}
-	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
-	connect(ui.comboProgram, SIGNAL(currentIndexChanged(int)), this, SLOT(programSelected(int)));
+
 
 	if(logic->subID.compare("off") == 0)
 		return;
@@ -588,6 +587,9 @@ void MainWindow::updateInterfaceGeneralInfo(Controller *controller)
 	this->setPhaseInTheGui(phases->at(logic->currentPhaseIndex));
 	ui.comboProgramPhase->setCurrentIndex(logic->currentPhaseIndex);
 	//Now we can connect again
+
+	connect(ui.comboProgramPhase, SIGNAL(currentIndexChanged(int)), this, SLOT(phaseSelected(int)));
+	connect(ui.comboProgram, SIGNAL(currentIndexChanged(int)), this, SLOT(programSelected(int)));
 	
 }
 /**

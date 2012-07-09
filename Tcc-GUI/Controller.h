@@ -175,7 +175,10 @@ public:
 	//da um free na base de casos - CUIDADO AO USAR ISSO!
 	static void destroyLogicDataBaseInMemory();
 
-	static std::vector<StoredControllerLogic *> & getStoredLogicFromLogicBase(std::string);
+	//Retorna o vetor de logicas na base para um controlador. é thread safe.
+	static std::vector<StoredControllerLogic *>  getStoredLogicFromLogicBase(std::string);
+	//Inseri uma nova logica na base. é thread safe.
+	static void addNewControllerLogicToTheBase(std::string controller);
 };
 
 

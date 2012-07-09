@@ -4,8 +4,14 @@
 #include <ga/GAGenome.h>
 #include <ga/GAListGenome.h>
 #include <ga/GASimpleGA.h>
+#include <QDateTime>
+#include <QMutex>
+#include <QList>
+#include <QString>
 #include "Controller.h"
 
+
+class Supervisor;
 class StoredControllerLogic;
 
 /*class Genetic: public QRunnable

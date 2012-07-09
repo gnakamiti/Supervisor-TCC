@@ -234,11 +234,13 @@ ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int 
 	ControllerLogic *logic = new ControllerLogic();
 	Phase *phase;
 
+	
 	//its miliseconds!
 	durationPhase1 *= 1000;
 	durationPhase2 *= 1000;
 	durationPhase3 *= 1000;
 	durationPhase4 *= 1000;
+	
 
 	logic->subID = logicName;
 	logic->currentPhaseIndex = 0;
@@ -535,9 +537,17 @@ GAListGenome<LogicGene> StoredControllerLogic::toGene()
 	return genes;
 }
 
-std::vector<StoredControllerLogic *> & ControllerLogic::getStoredLogicFromLogicBase(std::string controller)
+std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBase(std::string controller)
 {
 	QMutexLocker locker(&logicBaseLock);
 
 	return ControllerLogic::logicBase[controller];
+}
+
+void ControllerLogic::addNewControllerLogicToTheBase(std::string controller)
+{
+	QMutexLocker locker(&logicBaseLock);
+	StoredControllerLogic *newLogic = new StoredControllerLogic();
+
+	ControllerLogic::logicBase[controller].push_back(newLogic);
 }
