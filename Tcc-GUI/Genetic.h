@@ -30,14 +30,15 @@ public:
 };*/
 
 //Inicializa a populacao para o algoritmo genetico
-void initPopulation(std::vector<StoredControllerLogic *> &, GAPopulation &);
+//void initPopulation(std::vector<StoredControllerLogic *> &, GAPopulation &);
 
 //Nossa "main" do algoritmo genetico
 void tryToFindABetterProgram(std::string, std::vector<std::string>);
 
 //Funcao de fitness
 float Objective(GAGenome &);
+
 //Fitness helper
-float evaluateLogic(std::vector<int> &, int);
+//float evaluateLogic(std::vector<int> &, int);
 
 #endif

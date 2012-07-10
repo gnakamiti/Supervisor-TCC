@@ -20,18 +20,41 @@ void Genetic::run()
 {
 	tryToFindABetterProgram();
 }*/
+static QMutex alreadyRunningMutex;
+static QList<QString> alreadyRunning;
 
-void initPopulation(std::vector<StoredControllerLogic *> &vec, GAPopulation &initialPop)
+static void _initPopulation(std::vector<StoredControllerLogic *> &vec, GAPopulation &initialPop)
 {
 	for(int i = 0; i < vec.size(); i++)
 		initialPop.add(vec.at(i)->toGene());
 }
 
+static float _evaluateLogic(std::vector<int> &phases, int acceptableTime)
+{
+	float result = 0.0;
+	float step;
+	int duration;
+
+	step = 1.0 / phases.size();
+
+	for(int i = 0; i < phases.size(); i++)
+	{
+		duration = phases.at(i);
+
+		if(duration <= acceptableTime)
+			result += step;
+		else if(duration > acceptableTime && duration <= acceptableTime * 1.5)
+			result += (step/2.0);
+		else
+			result += (step/4.0);
+		
+	}
+	return result;
+}
+
 //fazer retornar uma logica. talvez trocar isso para uma thread.
 void tryToFindABetterProgram(std::string mController, std::vector<std::string> similarControllers)
 {
-	static QMutex alreadyRunningMutex;
-	static QList<QString> alreadyRunning;
 	GAPopulation initialPop;
 	int ngen     = 400;
 	float pmut   = 0.001;
@@ -48,10 +71,10 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 	alreadyRunningMutex.unlock();
 
 
-	initPopulation(ControllerLogic::getStoredLogicFromLogicBase(mController), initialPop);
+	_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(mController), initialPop);
 
 	for(int i = 0; i < similarControllers.size(); i++)
-		initPopulation(ControllerLogic::getStoredLogicFromLogicBase(similarControllers.at(i)), initialPop);
+		_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(similarControllers.at(i)), initialPop);
 	
 
 	GASimpleGA ga(initialPop);
@@ -145,39 +168,16 @@ float Objective(GAGenome &genome)
 	//pequeno 
 	if(queueMax >= 0 && queueMax <= 10) 
 	{
-		result = evaluateLogic(phasesVec, 120000); //milisecs
+		result = _evaluateLogic(phasesVec, 120000); //milisecs
 	}
 	else if(queueMax > 10 && queueMax <= 18) //med
 	{
-		result = evaluateLogic(phasesVec, 60000);
+		result = _evaluateLogic(phasesVec, 60000);
 	}
 	else //grande
 	{
-		result = evaluateLogic(phasesVec, 30000);
+		result = _evaluateLogic(phasesVec, 30000);
 	}
 
-	return result;
-}
-
-float evaluateLogic(std::vector<int> &phases, int acceptableTime)
-{
-	float result = 0.0;
-	float step;
-	int duration;
-
-	step = 1.0 / phases.size();
-
-	for(int i = 0; i < phases.size(); i++)
-	{
-		duration = phases.at(i);
-
-		if(duration <= acceptableTime)
-			result += step;
-		else if(duration > acceptableTime && duration <= acceptableTime * 1.5)
-			result += (step/2.0);
-		else
-			result += (step/4.0);
-		
-	}
 	return result;
 }
