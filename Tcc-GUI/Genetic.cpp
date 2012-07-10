@@ -23,12 +23,14 @@ void Genetic::run()
 static QMutex alreadyRunningMutex;
 static QList<QString> alreadyRunning;
 
+//Get the genes
 static void _initPopulation(std::vector<StoredControllerLogic *> &vec, GAPopulation &initialPop)
 {
 	for(int i = 0; i < vec.size(); i++)
 		initialPop.add(vec.at(i)->toGene());
 }
 
+//Fitness helper
 static float _evaluateLogic(std::vector<int> &phases, int acceptableTime)
 {
 	float result = 0.0;
@@ -50,6 +52,55 @@ static float _evaluateLogic(std::vector<int> &phases, int acceptableTime)
 		
 	}
 	return result;
+}
+
+//Send to sumo
+static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGene> &best)
+{
+	//tirar isso.
+	GAListIter<LogicGene> iter(best);
+	//QList<Street> streets;
+	int s;
+	std::vector<int> durations;
+	s = 0;
+	//Street *street = nullptr;
+
+	while(s != best.size())
+	{
+		LogicGene *lg = iter.next();
+
+		if(lg->type == LOGIC_GENE_TYPE_PHASE)
+		{
+			durations.push_back(lg->value);
+		}
+		else if(lg->type == LOGIC_GENE_TYPE_QUEUE)
+		{
+		}
+		else if(lg->type == LOGIC_GENE_TYPE_STREAM)
+		{
+		}
+
+		s++;
+	}
+
+	QDateTime currentDateTime = QDateTime::currentDateTime();
+	std::string logicsName = mController;
+	logicsName += "-genetic-";
+	logicsName += currentDateTime.toString().toStdString();
+
+	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
+		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
+
+	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
+
+	StoredControllerLogic *storedLogic = new StoredControllerLogic();
+
+	storedLogic->setControllerLogic(newLogic);
+	storedLogic->setUsedDate(currentDateTime);
+	//storedLogic->setStreets(streets);
+
+	ControllerLogic::addNewControllerLogicToTheBase(mController, storedLogic);
+
 }
 
 //fazer retornar uma logica. talvez trocar isso para uma thread.
@@ -83,37 +134,7 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 	ga.pCrossover(pcross);
 	ga.evolve();
 
-	GAListGenome<LogicGene> &best = (GAListGenome<LogicGene> &) ga.statistics().bestIndividual();
-	//tirar isso.
-	GAListIter<LogicGene> iter(best);
-	int s;
-	std::vector<int> durations;
-	s = 0;
-
-	while(s != best.size())
-	{
-		LogicGene *lg = iter.next();
-
-		if(lg->type == LOGIC_GENE_TYPE_PHASE)
-		{
-			durations.push_back(lg->value);
-		}
-
-		s++;
-	}
-
-	std::string logicsName = mController;
-	logicsName += "-genetic-";
-	logicsName += QDateTime::currentDateTime().toString().toStdString();
-
-	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
-		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
-
-	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
-
-	//Already sent. just delete it.
-	delete newLogic;
-	newLogic = nullptr;
+	_sendNewProgramToSumo(mController, (GAListGenome<LogicGene> &)ga.statistics().bestIndividual());
 
 	alreadyRunningMutex.lock();
 	alreadyRunning.removeOne(qController);

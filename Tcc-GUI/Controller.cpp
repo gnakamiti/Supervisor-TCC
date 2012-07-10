@@ -365,7 +365,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name)
 {
 	int duration1, duration2; //No sumo apesar de ter 4 fases, os valores de tempo sao intercalados
-
+	static int badCasesCount = 0;
 	
 	//pequeno 
 	if(queue >= 0 && queue <= 10) 
@@ -376,12 +376,20 @@ ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::stri
 	else if(queue > 10 && queue <= 18) //med
 	{
 		duration1 = (qrand() % LOGIC_MED_TIME) + 10;
-		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);;
+		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);
 	}
 	else //grande
 	{
 		duration1 = (qrand() % LOGIC_SMALL_TIME) + 10;
-		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);;
+		duration2 = duration1 - (qrand() % 5) + (qrand() % 10);
+	}
+
+	badCasesCount++;
+
+	if((badCasesCount * 2 * 3) % 5 == 0)
+	{
+		duration1 += 100;
+		duration2 += 100;
 	}
 
 	return ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2);
@@ -397,7 +405,7 @@ void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 	}
 
 	readAllLogicsFromDisk(controllers);
-	//ControllerLogic::logicBase = ControllerLogic::logicBase;
+//	ControllerLogic::logicBase = ControllerLogic::logicBase;
 	
 }
 
@@ -544,10 +552,9 @@ std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBa
 	return ControllerLogic::logicBase[controller];
 }
 
-void ControllerLogic::addNewControllerLogicToTheBase(std::string controller)
+void ControllerLogic::addNewControllerLogicToTheBase(std::string controller, StoredControllerLogic *storedLogic)
 {
 	QMutexLocker locker(&logicBaseLock);
-	StoredControllerLogic *newLogic = new StoredControllerLogic();
-
-	ControllerLogic::logicBase[controller].push_back(newLogic);
+	
+	ControllerLogic::logicBase[controller].push_back(storedLogic);
 }

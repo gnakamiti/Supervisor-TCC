@@ -178,7 +178,7 @@ public:
 	//Retorna o vetor de logicas na base para um controlador. é thread safe.
 	static std::vector<StoredControllerLogic *>  getStoredLogicFromLogicBase(std::string);
 	//Inseri uma nova logica na base. é thread safe.
-	static void addNewControllerLogicToTheBase(std::string controller);
+	static void addNewControllerLogicToTheBase(std::string controller, StoredControllerLogic *);
 };
 
 
