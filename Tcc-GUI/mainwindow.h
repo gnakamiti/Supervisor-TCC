@@ -46,6 +46,7 @@ private:
 	QTimer *timer; //Deleted in this class
 	int currentRowController; //Current selected controller
 	int currentRowStreet;
+	bool newProgramFlag;
 
 	myWebPage *webPage;
 

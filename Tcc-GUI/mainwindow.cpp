@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 	timer = new QTimer(this);
 	mapWidget = new QWidget();
+	newProgramFlag = false;
 
 
 	webPage = new myWebPage();
@@ -112,6 +113,7 @@ void MainWindow::btnCancelClick(void)
 	ui.tablePhases->clear();
 	ui.txtControllerCommand->setText("");
 	ui.checkBoxOffOn->setChecked(false);
+	newProgramFlag = false;
 }
 
 void MainWindow::btnSendClick(void)
@@ -151,16 +153,30 @@ void MainWindow::btnSendClick(void)
 
 	newProgramName = ui.listPrograms->currentItem()->text().trimmed().toStdString();
 
-	logic = createProgram(newProgramName);
-
-	if(logic == nullptr)
+	if (newProgramFlag == true)
 	{
-		msgBox.setText("A problem occured when I tried to create a new program.");
-		msgBox.exec();
-		return;
+		logic = createProgram(newProgramName);
+
+		if(logic == nullptr)
+		{
+			msgBox.setText("A problem occured when I tried to create a new program.");
+			msgBox.exec();
+			return;
+		}
+
+		Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, logic);
+		delete logic;
+		logic = nullptr;
+	}
+	else
+	{
+		Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, newProgramName);
 	}
 
-	Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, logic);
+
+	newProgramFlag = false;
+
+
 
 	QString str("The program:");
 	str = str.append(newProgramName.c_str());
@@ -168,8 +184,6 @@ void MainWindow::btnSendClick(void)
 
 	msgBox.setText(str);
 	msgBox.exec();
-
-	delete logic;
 }
 
 ControllerLogic *  MainWindow::createProgram(std::string programName)
@@ -350,7 +364,7 @@ void MainWindow::btnNewClick(void)
 	std::string currentControllerId;
 	std::vector<std::string> phaseDefs;
 	QString string;
-	QTableWidgetItem *tableItem; 
+	QTableWidgetItem *tableItem;
 
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Information");
@@ -399,7 +413,7 @@ void MainWindow::btnNewClick(void)
 		ui.tablePhases->horizontalHeader()->setStretchLastSection( true ); 
 		ui.listPrograms->setCurrentRow((ui.listPrograms->count() - 1));
 	 }
-
+	 newProgramFlag = true;
 }
 
 void MainWindow::listClickStreets(QListWidgetItem * item)
