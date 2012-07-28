@@ -447,6 +447,7 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 		file.open(QIODevice::WriteOnly);
 		QDataStream out(&file);   // write the data
 		out << l;
+		file.flush();
 		file.close();
 	}
 }
@@ -555,6 +556,10 @@ std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBa
 void ControllerLogic::addNewControllerLogicToTheBase(std::string controller, StoredControllerLogic *storedLogic)
 {
 	QMutexLocker locker(&logicBaseLock);
-	
+	std::vector<StoredControllerLogic *> aux;
+	aux.push_back(storedLogic);
+
 	ControllerLogic::logicBase[controller].push_back(storedLogic);
+
+	writeLogicOnDisk(aux, controller);
 }

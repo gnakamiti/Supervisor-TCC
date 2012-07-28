@@ -61,7 +61,8 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 	GAListIter<LogicGene> iter(best);
 	//QList<Street> streets;
 	int s;
-	std::vector<int> durations;
+	std::vector<int> durations, queue, stream;
+	QList<Street> streets;
 	s = 0;
 	//Street *street = nullptr;
 
@@ -75,9 +76,11 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 		}
 		else if(lg->type == LOGIC_GENE_TYPE_QUEUE)
 		{
+			queue.push_back(lg->value);
 		}
 		else if(lg->type == LOGIC_GENE_TYPE_STREAM)
 		{
+			stream.push_back(lg->value);
 		}
 
 		s++;
@@ -86,7 +89,7 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 	QDateTime currentDateTime = QDateTime::currentDateTime();
 	std::string logicsName = mController;
 	logicsName += "-genetic-";
-	logicsName += currentDateTime.toString().toStdString();
+	logicsName += currentDateTime.toString("dd-MM-yyyy").toStdString();
 
 	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
 		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
@@ -97,7 +100,19 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 
 	storedLogic->setControllerLogic(newLogic);
 	storedLogic->setUsedDate(currentDateTime);
-	//storedLogic->setStreets(streets);
+
+	if(queue.size() == stream.size())
+	{
+		for(int i = 0; i < queue.size(); i++)
+		{
+			Street street;
+			street.carStream = stream.at(i);
+			street.queueSize = queue.at(i);
+			streets.push_back(street);
+		}
+	}
+
+	storedLogic->setStreets(streets);
 
 	ControllerLogic::addNewControllerLogicToTheBase(mController, storedLogic);
 
