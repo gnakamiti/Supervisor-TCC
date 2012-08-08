@@ -294,7 +294,8 @@ std::vector<std::string> ControllerLogic::getDefaultPhaseDefForTheSimulation()
 void ControllerLogic::createDirs(std::vector<std::string> controllers)
 {
 	QString str;
-	if(!QDir().mkdir(CONTROLLER_LOGIC_BASE_DIR))
+	QString path = QDir::homePath().append(CONTROLLER_LOGIC_BASE_DIR);
+	if(!QDir().mkdir(path))
 	{
 		std::cerr << "Could not create base dir for logic database" << std::endl;
 		exit(-55);
@@ -302,7 +303,7 @@ void ControllerLogic::createDirs(std::vector<std::string> controllers)
 
 	for(int i = 0; i < controllers.size(); i++)
 	{
-		str = CONTROLLER_LOGIC_BASE_DIR;
+		str = path;
 		str += "/";
 		str += controllers.at(i).c_str();
 		QDir().mkdir(str);
@@ -397,7 +398,9 @@ ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::stri
 
 void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
 {
-	if(!QDir(CONTROLLER_LOGIC_BASE_DIR).exists())
+	QString path = QDir::homePath().append(CONTROLLER_LOGIC_BASE_DIR);
+
+	if(!QDir(path).exists())
 	{
 		createDirs(controllers);
 		createDataBaseLogic(controllers);
@@ -430,6 +433,7 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 	QString path;
 	ControllerLogic *logicClone;
 	StoredControllerLogic l, *actual;
+	QString base_p = QDir::homePath().append(CONTROLLER_LOGIC_BASE_DIR);
 
 	for(int i = 0; i < logicsToDisk.size(); i++)
 	{
@@ -438,13 +442,14 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 		l.setControllerLogic(logicClone);
 		l.setStreets(actual->getStreets());
 		l.setUsedDate(actual->getUsedIn());
-		path = CONTROLLER_LOGIC_BASE_DIR;
+		path = base_p;
 		path += "/";
 		path += controller.c_str();
 		path += "/";
 		path += l.getControllerLogic()->subID.c_str();
 		QFile file(path);
-		file.open(QIODevice::WriteOnly);
+		if (!file.open(QIODevice::WriteOnly))
+				continue;
 		QDataStream out(&file);   // write the data
 		out << l;
 		file.flush();
@@ -456,6 +461,7 @@ void ControllerLogic::readAllLogicsFromDisk(std::vector<std::string> controllers
 {
 	QString path;
 	std::string actualController;
+	QString base_p = QDir::homePath().append(CONTROLLER_LOGIC_BASE_DIR);
 
 	//ControllerLogic::logicBase.clear(); //TIRAR ISSO DAQUI DPS!
 
@@ -463,7 +469,7 @@ void ControllerLogic::readAllLogicsFromDisk(std::vector<std::string> controllers
 	{
 		actualController = controllers.at(i);
 
-		path = CONTROLLER_LOGIC_BASE_DIR;
+		path = base_p;
 		path += "/";
 		path += actualController.c_str();
 
@@ -491,7 +497,9 @@ std::vector<StoredControllerLogic *> ControllerLogic::readLogicFromDir(QFileInfo
 		QFileInfo fileInfo = fileList.at(i);
 		QFile file(fileInfo.absoluteFilePath());
 
-		file.open(QIODevice::ReadOnly);
+		if (!file.open(QIODevice::ReadOnly))
+			continue;
+
 		QDataStream in(&file);
 
 		StoredControllerLogic *scl = new StoredControllerLogic(); //avoid warning
