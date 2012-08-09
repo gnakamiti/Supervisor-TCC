@@ -142,15 +142,19 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 	for(int i = 0; i < similarControllers.size(); i++)
 		_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(similarControllers.at(i)), initialPop);
 	
+	if (initialPop.size() <= 0)
+		goto end;
+	{
+		GASimpleGA ga(initialPop);
+		ga.nGenerations(ngen);
+		ga.pMutation(pmut);
+		ga.pCrossover(pcross);
+		ga.evolve();
 
-	GASimpleGA ga(initialPop);
-	ga.nGenerations(ngen);
-	ga.pMutation(pmut);
-	ga.pCrossover(pcross);
-	ga.evolve();
+		_sendNewProgramToSumo(mController, (GAListGenome<LogicGene> &)ga.statistics().bestIndividual());
+	}
 
-	_sendNewProgramToSumo(mController, (GAListGenome<LogicGene> &)ga.statistics().bestIndividual());
-
+end:
 	alreadyRunningMutex.lock();
 	alreadyRunning.removeOne(qController);
 	alreadyRunningMutex.unlock();
