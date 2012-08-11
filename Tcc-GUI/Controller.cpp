@@ -568,6 +568,5 @@ void ControllerLogic::addNewControllerLogicToTheBase(std::string controller, Sto
 	aux.push_back(storedLogic);
 
 	ControllerLogic::logicBase[controller].push_back(storedLogic);
-
 	writeLogicOnDisk(aux, controller);
 }

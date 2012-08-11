@@ -51,6 +51,7 @@ public:
 			return true;
 		return false;
 	}
+
 	const bool operator!=(LogicGene &g) 
 	{
 		if(g.value != value && g.type != type)
@@ -73,11 +74,10 @@ class StoredControllerLogic
 {
 private:
 	
-	//int totalQueueSize;
-	//int totalCarStream;
 	ControllerLogic *logic;
 	QList<Street> streets;
 	QDateTime usedIn;
+	int goodDegree;
 
 public:
 	StoredControllerLogic();
@@ -97,9 +97,10 @@ public:
 	void addStreet(Street s) { streets.push_back(s); }
 	void setStreets(QList<Street> s) { streets.clear(); streets = s; }
 
+	int getGoodDegree() const { return goodDegree; }
+	void setGoodDegree(int i) { goodDegree = i; }
+
 	GAListGenome<LogicGene> toGene();
-	
-	
 };
 
 //Fase do semaforo

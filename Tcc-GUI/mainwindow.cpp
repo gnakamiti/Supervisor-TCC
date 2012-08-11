@@ -60,18 +60,48 @@ void MainWindow::listClickProgram(QListWidgetItem *item)
 {
 	QString string;
 	QTableWidgetItem *tableItem;
-	std::vector<Phase *> *phases;
-	Phase *p;
+	std::vector<Phase *> *phases = nullptr;
+	Phase *p = nullptr;
 	int currentRowProgramsList = ui.listPrograms->currentRow();
-
+	std::string title = item->text().toStdString();
+	Controller *c;
 	std::vector<Controller *> controllers;
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 
-	//New, I didn't send it yet
+	/*New, I didn't send it yet
 	if(currentRowProgramsList >= controllers.at(currentRowController)->getLogics().size())
+	{
+		deleteInVector(controllers);
 		return;
+	}
+	
+	phases = controllers.at(currentRowController)->getLogics().at(currentRowProgramsList)->phases;*/
+	c = controllers.at(currentRowController);
+	std::vector<ControllerLogic * > logics = c->getLogics();
+	for(int i = 0; i < logics.size(); i++)
+	{
+		ControllerLogic *l = logics.at(i);
+		if(l->subID.compare(title) == 0)
+		{
+			phases = l->phases;
+			break;
+		}
+	}
 
-	phases = controllers.at(currentRowController)->getLogics().at(currentRowProgramsList)->phases;
+	if (phases == nullptr) 
+	{
+		std::vector<StoredControllerLogic * >sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+
+		for(int i = 0; i < sclv.size(); i++)
+		{
+			ControllerLogic * l = sclv.at(i)->getControllerLogic();
+			if (l->subID.compare(title) == 0) 
+			{
+				phases = l->phases;
+				break;
+			}
+		}
+	}
 
 	ui.tablePhases->setRowCount(phases->size());
 	ui.tablePhases->setColumnCount(2);
@@ -170,7 +200,38 @@ void MainWindow::btnSendClick(void)
 	}
 	else
 	{
-		Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, newProgramName);
+		std::vector<Controller*> controllers;
+		Supervisor::getInstance()->getControllersListClone(&controllers);
+		Controller *c = controllers.at(currentRowController);
+		std::vector<ControllerLogic * > logics = c->getLogics();
+		bool found = false;
+		for (int i = 0; i < logics.size(); i++)
+		{
+			if(logics.at(i)->subID.compare(newProgramName) == 0)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (found)
+			Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, newProgramName);
+		else
+		{
+			std::vector<StoredControllerLogic * >sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+
+			for(int i = 0; i < sclv.size(); i++)
+			{
+				ControllerLogic * l = sclv.at(i)->getControllerLogic();
+				if (l->subID.compare(newProgramName) == 0) 
+				{
+					Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, l);
+					break;
+				}
+			}
+			
+		}
+		
 	}
 
 
@@ -326,6 +387,7 @@ void MainWindow::updateInterfaceCommands(Controller *c)
 	QString string;
 	QListWidgetItem *item;
 	ControllerLogic *logic;
+	std::vector<StoredControllerLogic *> sclv;
 
 	string = c->getName().c_str();
 	std::vector<ControllerLogic *> logics = c->getLogics();
@@ -351,6 +413,16 @@ void MainWindow::updateInterfaceCommands(Controller *c)
 
 		item = new QListWidgetItem(string);
 
+		ui.listPrograms->addItem(item);
+	}
+	
+	sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+
+	for(int i = 0; i < sclv.size(); i++)
+	{
+		StoredControllerLogic * scl = sclv.at(i);
+		string = scl->getControllerLogic()->subID.c_str();
+		item = new QListWidgetItem(string);
 		ui.listPrograms->addItem(item);
 	}
 

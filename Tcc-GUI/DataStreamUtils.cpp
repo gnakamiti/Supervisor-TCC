@@ -74,7 +74,7 @@ QDataStream & operator << (QDataStream &out, const StoredControllerLogic &scl)
 	ControllerLogic *logicClone = scl.getControllerLogic()->clone();
 	ControllerLogic l = *logicClone;
 
-	out << l << scl.getStreets() << scl.getUsedIn();
+	out << l << scl.getStreets() << scl.getUsedIn() << qint32(scl.getGoodDegree());
 
 	delete logicClone;
 	logicClone = nullptr;
@@ -85,14 +85,15 @@ QDataStream & operator << (QDataStream &out, const StoredControllerLogic &scl)
 QDataStream & operator >> (QDataStream &in, StoredControllerLogic &scl)
 {
 	ControllerLogic logic, *l;
-	qint32 totalSize, totalStream;
+	qint32 degree;
 	QDateTime usedIn;
 	QList<Street> streets;
 
-	in >> logic >> streets >> usedIn;
+	in >> logic >> streets >> usedIn >> degree;
 
 	scl.setStreets(streets);
 	scl.setUsedDate(usedIn);
+	scl.setGoodDegree(degree);
 	l = logic.clone();
 
 	scl.setControllerLogic(l);
