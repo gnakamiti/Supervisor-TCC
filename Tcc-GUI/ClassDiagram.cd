@@ -3,7 +3,7 @@
   <Class Name="Supervisor">
     <Position X="5.25" Y="1" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAACAAAAAAAAAAAgCAAAQAEAQIAAEFBAAAAAE=</HashCode>
+      <HashCode>QAAAIIAABCAAAAAAAIAAAgCAAAQAEAQIAAkFBAAAAAE=</HashCode>
       <FileName>Supervisor.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -11,14 +11,11 @@
       <Field Name="window" />
       <Field Name="decisions" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Field Name="controllers" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="SumoClient">
     <Position X="10" Y="0.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAMAwAAAAQAAAAQgABAAAgAAAIgAAgEAIEAAABAAAA=</HashCode>
+      <HashCode>AAAMAwAAAAQAAAIRgABAAAgAAAIgAAgEAIEAAABAAAQ=</HashCode>
       <FileName>SumoClient.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,7 +33,7 @@
   <Class Name="MainWindow">
     <Position X="0.5" Y="1" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAIAYAAAQEAJgACABAAAAEEJBQAAEAAAgAAAAAAA=</HashCode>
+      <HashCode>EgQBAIAYABBwEAJgACEBAAAAEGBBVACEAAAgAAAAAAA=</HashCode>
       <FileName>mainwindow.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -48,64 +45,63 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Phase">
-    <Position X="17" Y="7.25" Width="2" />
+    <Position X="19" Y="12" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAhAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ControllerLogic">
-    <Position X="16.5" Y="11.5" Width="2.5" />
+    <Position X="21.25" Y="8.5" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>ACQAAAAAAAAAAAAAAAAAAAEAAAABAAAgAAANEAAAAAA=</HashCode>
+      <HashCode>AKQAAAAAAEAAAgAAAIABIhEAEAJBAAAgAAANEEABAAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="phases" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Controller">
-    <Position X="10" Y="10.5" Width="3" />
-    <AssociationLine Name="logics" Type="ControllerLogic">
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.732" Y="0.073" Height="0.182" Width="2.309" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="15.5" Y="10" Width="3" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAARAgAACAAAAAEBgAAAAEAAAAAoAEMAAgAAA=</HashCode>
+      <HashCode>gAAAAAAAARAgAgCAAAAAEBgABABEQAAAAoAEMAAgAAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="logics" />
-      <Field Name="streets" />
-    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="LogicGene">
+    <Position X="18.75" Y="4.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAgAABACAAAAAgAQAAAAA=</HashCode>
+      <FileName>Controller.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StoredControllerLogic">
+    <Position X="22" Y="4.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAQAAAAABAIAAAEAEBAAAAAAIAAAAAAgEAAgAQA=</HashCode>
+      <FileName>Controller.h</FileName>
+    </TypeIdentifier>
   </Class>
   <Struct Name="LaneStruct">
-    <Position X="3" Y="14.5" Width="2.5" />
+    <Position X="4.75" Y="13.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="StreetStruct">
-    <Position X="6.75" Y="14.5" Width="1.75" />
+    <Position X="8.5" Y="13.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>IAAQAAAAAAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAAAIA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="lanes" />
-    </ShowAsCollectionAssociation>
   </Struct>
   <Typedef Name="Lane" Collapsed="true">
-    <Position X="3.5" Y="11.5" Width="1.5" />
+    <Position X="5.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="Street" Collapsed="true">
-    <Position X="6.75" Y="9.75" Width="1.75" />
+    <Position X="8.5" Y="10" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controller.h</FileName>

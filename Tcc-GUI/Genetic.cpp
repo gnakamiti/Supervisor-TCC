@@ -89,7 +89,7 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 	QDateTime currentDateTime = QDateTime::currentDateTime();
 	std::string logicsName = mController;
 	logicsName += "-genetic-";
-	logicsName += currentDateTime.toString("dd-MM-yyyy").toStdString();
+	logicsName += currentDateTime.toString("dd-MM-yyyy-hh-mm-ss-z").toStdString();
 
 	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
 		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
