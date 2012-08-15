@@ -90,7 +90,7 @@ void MainWindow::listClickProgram(QListWidgetItem *item)
 
 	if (phases == nullptr) 
 	{
-		std::vector<StoredControllerLogic * >sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+		std::vector<StoredControllerLogic * >sclv = ControllerLogic::getAllStoredLogicFromLogicBase(c->getName());
 
 		for(int i = 0; i < sclv.size(); i++)
 		{
@@ -218,7 +218,7 @@ void MainWindow::btnSendClick(void)
 			Supervisor::getInstance()->sendSumoCProgramForController(currentControllerId, newProgramName);
 		else
 		{
-			std::vector<StoredControllerLogic * >sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+			std::vector<StoredControllerLogic * >sclv = ControllerLogic::getAllStoredLogicFromLogicBase(c->getName());
 
 			for(int i = 0; i < sclv.size(); i++)
 			{
@@ -416,7 +416,7 @@ void MainWindow::updateInterfaceCommands(Controller *c)
 		ui.listPrograms->addItem(item);
 	}
 	
-	sclv = ControllerLogic::getStoredLogicFromLogicBase(c->getName());
+	sclv = ControllerLogic::getAllStoredLogicFromLogicBase(c->getName());
 
 	for(int i = 0; i < sclv.size(); i++)
 	{

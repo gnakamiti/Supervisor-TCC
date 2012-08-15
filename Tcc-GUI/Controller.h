@@ -136,7 +136,7 @@ private:
 	static void createDataBaseLogic(std::vector<std::string>);
 
 	//Cria uma logica para um controlador baseado no tamanho TOTAL de filas
-	static ControllerLogic * createALogicBasedOnQueue(int, std::string);
+	static ControllerLogic * createALogicBasedOnQueue(int, std::string, int *);
 
 	//Salva no disco a base de dados de logicas
 	static void readAllLogicsFromDisk(std::vector<std::string>);
@@ -177,9 +177,14 @@ public:
 	static void destroyLogicDataBaseInMemory();
 
 	//Retorna o vetor de logicas na base para um controlador. é thread safe.
-	static std::vector<StoredControllerLogic *>  getStoredLogicFromLogicBase(std::string);
+	static std::vector<StoredControllerLogic *>  getStoredLogicFromLogicBase(std::string, int);
+	static std::vector<StoredControllerLogic *>  getAllStoredLogicFromLogicBase(std::string);
 	//Inseri uma nova logica na base. é thread safe.
 	static void addNewControllerLogicToTheBase(std::string controller, StoredControllerLogic *);
+
+	static int evaluateGoodDegree(int queue, ControllerLogic *logic);
+
+	void setGoodDegreeOnStoredLogic(std::string, ControllerLogic *, int);
 };
 
 

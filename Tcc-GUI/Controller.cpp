@@ -319,6 +319,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 	StoredControllerLogic *stl;
 	std::vector<StoredControllerLogic *> toBeAdded;
 	int totalLogics, maxQueue;
+	int goodDegree;
 
 	qsrand(QTime::currentTime().msec()); //iniciar seed de random
 	
@@ -351,8 +352,9 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 					maxQueue = queue;
 			}
 
-			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(maxQueue, logicName));
+			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(maxQueue, logicName, &goodDegree));
 			stl->setUsedDate(QDateTime::currentDateTime());
+			stl->setGoodDegree(goodDegree);
 			
 			toBeAdded.push_back(stl);
 		}
@@ -363,7 +365,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 	}
 }
 
-ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name)
+ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name, int *goodDegree)
 {
 	int duration1, duration2; //No sumo apesar de ter 4 fases, os valores de tempo sao intercalados
 	static int badCasesCount = 0;
@@ -392,8 +394,9 @@ ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::stri
 		duration1 += 100;
 		duration2 += 100;
 	}
-
-	return ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2);
+	ControllerLogic *logic = ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2);
+	*goodDegree = ControllerLogic::evaluateGoodDegree(queue, logic);
+	return logic;
 }
 
 void ControllerLogic::readLogicDataBase(std::vector<std::string> controllers)
@@ -554,10 +557,24 @@ GAListGenome<LogicGene> StoredControllerLogic::toGene()
 	return genes;
 }
 
-std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBase(std::string controller)
+std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBase(std::string controller, int treshould)
 {
 	QMutexLocker locker(&logicBaseLock);
+	std::vector<StoredControllerLogic *> all, ret;
+	all = ControllerLogic::logicBase[controller];
+	for(int  i = 0; i < all.size(); i++) {
+		StoredControllerLogic * scl = all.at(i);
+		if(scl == nullptr)
+			continue;
+		if (scl->getGoodDegree() >= treshould)
+			ret.push_back(scl);
+	}
+	return ret;
+}
 
+std::vector<StoredControllerLogic *>  ControllerLogic::getAllStoredLogicFromLogicBase(std::string controller)
+{
+	QMutexLocker locker(&logicBaseLock);
 	return ControllerLogic::logicBase[controller];
 }
 
@@ -569,4 +586,57 @@ void ControllerLogic::addNewControllerLogicToTheBase(std::string controller, Sto
 
 	ControllerLogic::logicBase[controller].push_back(storedLogic);
 	writeLogicOnDisk(aux, controller);
+}
+
+void ControllerLogic::setGoodDegreeOnStoredLogic(std::string controller, ControllerLogic *l, int queue)
+{
+	QMutexLocker locker(&logicBaseLock);
+	std::vector<StoredControllerLogic *> all = ControllerLogic::logicBase[controller];
+
+	for(int i = 0; i < all.size(); i++)
+	{
+		StoredControllerLogic *scl = all.at(i);
+		ControllerLogic *logic = scl->getControllerLogic();
+		if(logic->subID.compare(l->subID) != 0)
+			continue;
+
+		std::vector<StoredControllerLogic *> aux;
+		aux.push_back(scl);
+		writeLogicOnDisk(aux, controller);
+		scl->setGoodDegree(ControllerLogic::evaluateGoodDegree(queue, l));
+		break;
+	}
+}
+
+int ControllerLogic::evaluateGoodDegree(int queue, ControllerLogic *logic)
+{
+	int good, d, spected_time;
+	std::vector<Phase *> *phases = logic->phases;
+	good = 0;
+	//pequeno 
+	if(queue >= 0 && queue <= 10) 
+	{
+		spected_time = LOGIC_MAX_TIME;
+	}
+	else if(queue > 10 && queue <= 18) //med
+	{
+		spected_time = LOGIC_MED_TIME;
+	}
+	else //grande
+	{
+		spected_time = LOGIC_SMALL_TIME;
+	}
+
+	for (int i = 0; i < phases->size(); i++) {
+		d = (phases->at(i)->duration / 1000);
+
+		if (d <= (spected_time/2))
+			good += 10;
+		else if (d <= spected_time)
+			good += 5;
+		else 
+			good += 0;
+	}
+
+	return good;
 }

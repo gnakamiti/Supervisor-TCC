@@ -100,6 +100,7 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 
 	storedLogic->setControllerLogic(newLogic);
 	storedLogic->setUsedDate(currentDateTime);
+	storedLogic->setGoodDegree(-1);
 
 	if(queue.size() == stream.size())
 	{
@@ -137,10 +138,10 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 	alreadyRunningMutex.unlock();
 
 
-	_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(mController), initialPop);
+	_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(mController, CASE_BASED_THRESHOULD), initialPop);
 
 	for(int i = 0; i < similarControllers.size(); i++)
-		_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(similarControllers.at(i)), initialPop);
+		_initPopulation(ControllerLogic::getStoredLogicFromLogicBase(similarControllers.at(i), CASE_BASED_THRESHOULD), initialPop);
 	
 	if (initialPop.size() <= 0)
 		goto end;

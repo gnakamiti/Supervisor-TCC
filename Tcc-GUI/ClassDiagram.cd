@@ -45,7 +45,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Phase">
-    <Position X="19" Y="12" Width="2" />
+    <Position X="18.75" Y="7.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAhAA=</HashCode>
       <FileName>Controller.h</FileName>
@@ -66,18 +66,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LogicGene">
-    <Position X="18.75" Y="4.5" Width="3" />
+    <Position X="16.75" Y="4.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAgAABACAAAAAgAQAAAAA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StoredControllerLogic">
-    <Position X="22" Y="4.25" Width="3.75" />
+    <Position X="21.5" Y="3.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAUAAAQAAAAABAIAAAEAEBAAAAAAIAAAAAAgEAAgAQA=</HashCode>
+      <HashCode>AQUAAAQAAAAABAIAAAEAEBAAAAAAIAAAAAAgEAAwAQA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="logic" />
+    </ShowAsAssociation>
   </Class>
   <Struct Name="LaneStruct">
     <Position X="4.75" Y="13.75" Width="2.5" />

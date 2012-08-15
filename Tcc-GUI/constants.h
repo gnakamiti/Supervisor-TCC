@@ -89,4 +89,6 @@
 #define LOGIC_GENE_TYPE_PHASE 3
 #define LOGIC_GENE_SIZE 8
 
+#define CASE_BASED_THRESHOULD 15
+
 #endif
