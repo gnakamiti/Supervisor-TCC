@@ -566,6 +566,7 @@ std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBa
 		StoredControllerLogic * scl = all.at(i);
 		if(scl == nullptr)
 			continue;
+
 		if (scl->getGoodDegree() >= treshould)
 			ret.push_back(scl);
 	}
@@ -639,4 +640,27 @@ int ControllerLogic::evaluateGoodDegree(int queue, ControllerLogic *logic)
 	}
 
 	return good;
+}
+
+std::string ControllerLogic::toString()
+{
+	std::string str;
+	Phase *p;
+	str = "Name: ";
+	str += this->subID;
+	str += "\nNumber of phases: ";
+	str += QString::number(this->phases->size()).toStdString();
+	str += "\nPhases:\n";
+
+	for(int i = 0; i < this->phases->size(); i++) {
+		p = this->phases->at(i);
+		str += "Phase definition: ";
+		str += p->phaseDef;
+		str += "\nDuration: ";
+		str += QString::number((p->duration/1000)).toStdString();
+		str += " seconds";
+		str += "\n";
+	}
+
+	return str;
 }

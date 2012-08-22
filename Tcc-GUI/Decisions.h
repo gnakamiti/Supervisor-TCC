@@ -17,10 +17,12 @@ class Decisions:public QThread
 	Q_OBJECT
 	private slots:
 		void fuzzyTimerTimeout();
+		void queueTimerTimeout();
 
 	private:
 		std::vector<int> sumTotalQueueAndStreamForController(Controller *);
 		QTimer *fuzzyTimer;
+		QTimer *queueTimer;
 		Fuzzy *fuzzyControllerSituation;
 		Fuzzy *fuzzySimilarControllers;
 		//Genetic genetic;

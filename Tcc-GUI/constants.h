@@ -65,7 +65,10 @@
 #define FUZZY_OUTPUT_VALUE_SHOW_SCREEN_BIG "Bad"
 #define FUZZY_OUTPUT_VALUE_SHOW_SCREEN_ENOURMOUS "Critical"
 
-#define LOG_FILE_NAME "SUPERVISOR_LOG.txt"
+#define LOG_FILE_NAME "/logs/SUPERVISOR_LOG.txt"
+#define LOG_FILE_QUEUE "/logs/QUEUE_LOG.txt"
+#define LOG_FILE_FITNESS "/logs/FITNESS.txt"
+#define LOG_FILE_PROGRAM "/logs/PROGRAMS.txt"
 
 #define GUI_TIMER_UPDATE_UI 2000
 
@@ -90,5 +93,7 @@
 #define LOGIC_GENE_SIZE 8
 
 #define CASE_BASED_THRESHOULD 15
+
+#define ONE_MINUTE 60000
 
 #endif

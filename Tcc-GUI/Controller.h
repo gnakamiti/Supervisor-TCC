@@ -184,7 +184,9 @@ public:
 
 	static int evaluateGoodDegree(int queue, ControllerLogic *logic);
 
-	void setGoodDegreeOnStoredLogic(std::string, ControllerLogic *, int);
+	static void setGoodDegreeOnStoredLogic(std::string, ControllerLogic *, int);
+
+	std::string toString();
 };
 
 

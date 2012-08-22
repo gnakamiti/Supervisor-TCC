@@ -1,25 +1,6 @@
 #include "Genetic.h"
 #include "Supervisor.h"
 
-/*
-Genetic::Genetic()
-{
-}
-
-Genetic::Genetic(std::string m, std::vector<std::string> s)
-{
-	mController = m;
-	similarControllers = s;
-}
-
-Genetic::~Genetic()
-{
-}
-
-void Genetic::run()
-{
-	tryToFindABetterProgram();
-}*/
 static QMutex alreadyRunningMutex;
 static QList<QString> alreadyRunning;
 
@@ -42,13 +23,20 @@ static float _evaluateLogic(std::vector<int> &phases, int acceptableTime)
 	for(int i = 0; i < phases.size(); i++)
 	{
 		duration = phases.at(i);
+		if (duration >= acceptableTime)
+			result -= step;
+		else if (duration >= (acceptableTime/phases.size()))
+			result += (step/2);
+		else
+			result += step;
 
-		if(duration <= acceptableTime)
+
+		/*if(duration <= acceptableTime)
 			result += step;
 		else if(duration > acceptableTime && duration <= acceptableTime * 1.5)
 			result += (step/2.0);
 		else
-			result += (step/4.0);
+			result += (step/4.0);*/
 		
 	}
 	return result;
@@ -95,6 +83,13 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
 
 	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
+	std::string str = "------------";
+	str += "\nNew Logic for controller: ";
+	str += mController;
+	str += "\nLogic:\n";
+	str += newLogic->toString();
+	str += "------------\n";
+	SupervisorLog::getInstance()->writeOnNewProgram(str);
 
 	StoredControllerLogic *storedLogic = new StoredControllerLogic();
 
@@ -171,6 +166,7 @@ float Objective(GAGenome &genome)
 	GAListIter<LogicGene> iter(listGenome);
 	std::vector<int> queueVec, streamVec, phasesVec;
 
+
 	if((listSize = listGenome.size()) != LOGIC_GENE_SIZE)
 		return result;
 
@@ -219,6 +215,22 @@ float Objective(GAGenome &genome)
 	{
 		result = _evaluateLogic(phasesVec, 30000);
 	}
+	
+	std::string str;
+	str = "---------\n";
+	str += "Candidate\n";
+	str += "Queue: ";
+	str += QString::number((queueVec.at(0) + queueVec.at(1))).toStdString();
+	str += "\nPhases:\n";
+	for(int i = 0; i < phasesVec.size(); i++) {
+		str += "Phase: ";
+		str += QString::number((phasesVec.at(i)/1000)).toStdString();
+		str += "\n";
+	}
+	str += "\nFitnes: ";
+	str += QString::number(result).toStdString();
+	str += "\n---------\n";
+	SupervisorLog::getInstance()->writeOnFitness(str);
 
 	return result;
 }

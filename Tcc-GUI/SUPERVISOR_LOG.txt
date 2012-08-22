@@ -3,14 +3,6 @@
 ----- Begin -----
 ----- End -----
 ----- Begin -----
-Controller orozimboDescendoN3 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN3 is similar to orozimboSubindoN4.
-***
-
------ End -----
------ Begin -----
 Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
 ***
 
@@ -39,6 +31,24 @@ Controller orozimboSubindoN4 is similar to orozimboSubindoN2.
 
 ----- End -----
 ----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
+***
+
+Controller orozimboSubindoN4 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboSubindoN4 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
 ----- End -----
 ----- Begin -----
 ----- End -----
@@ -62,24 +72,7 @@ Controller orozimboSubindoN4 is similar to orozimboSubindoN2.
 Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
 ***
 
-Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
-***
-
-Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
-***
-
-Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
-***
-
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
-Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
 ***
 
 Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
@@ -91,14 +84,6 @@ Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
 Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
 ***
 
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
 ----- End -----
 ----- Begin -----
 Controller orozimboSubindoN3 is similar to orozimboDescendoN2.
@@ -110,34 +95,77 @@ Controller orozimboSubindoN3 is similar to orozimboDescendoN3.
 Controller orozimboSubindoN3 is similar to orozimboDescendoN4.
 ***
 
------ End -----
------ Begin -----
-Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+Controller orozimboSubindoN3 is similar to orozimboSubindoN2.
 ***
 
-Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
-***
-
-Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+Controller orozimboSubindoN3 is similar to orozimboSubindoN4.
 ***
 
 ----- End -----
 ----- Begin -----
-Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+Controller orozimboSubindoN3 is similar to orozimboDescendoN2.
 ***
 
-Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+Controller orozimboSubindoN3 is similar to orozimboDescendoN3.
 ***
 
-Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+Controller orozimboSubindoN3 is similar to orozimboDescendoN4.
 ***
 
-Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+Controller orozimboSubindoN3 is similar to orozimboSubindoN2.
 ***
 
+Controller orozimboSubindoN3 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN3 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN3 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboSubindoN3 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboSubindoN3 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboSubindoN3 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN3 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN3 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN3 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboDescendoN3 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN3 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
 ----- End -----
 ----- Begin -----
 ----- End -----
@@ -174,7 +202,19 @@ Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
 
 ----- End -----
 ----- Begin -----
+Controller orozimboDescendoN3 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboDescendoN3 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN3 is similar to orozimboSubindoN3.
+***
+
 Controller orozimboDescendoN4 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
 ***
 
 Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
@@ -182,12 +222,1019 @@ Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
 
 ----- End -----
 ----- Begin -----
+Controller orozimboDescendoN4 is similar to orozimboDescendoN2.
+***
+
 Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
 ***
 
 Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
 ***
 
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
+***
+
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
 ----- End -----
 ----- Begin -----
 Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
@@ -199,9 +1246,6 @@ Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
 Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
 ***
 
-Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
-***
-
 ----- End -----
 ----- Begin -----
 ----- End -----
@@ -210,23 +1254,7 @@ Controller orozimboSubindoN2 is similar to orozimboSubindoN3.
 ----- Begin -----
 ----- End -----
 ----- Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
-***
-
-Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
+Controller orozimboSubindoN2 is similar to orozimboDescendoN2.
 ***
 
 Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
@@ -234,69 +1262,25 @@ Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
 
 ----- End -----
 ----- Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN2.
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+----- End -----
+----- Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN3.
 ***
 
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN4.
-***
-
-Controller orozimboSubindoN2 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboSubindoN2 is similar to orozimboDescendoN4.
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
 ***
 
 ----- End -----
 ----- Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN4.
-***
-
------ End -----
------ Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
-***
-
------ End -----
------ Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN3.
-***
-
------ End -----
------ Begin -----
-Controller orozimboDescendoN4 is similar to orozimboDescendoN3.
-***
-
-Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
+Controller orozimboDescendoN2 is similar to orozimboSubindoN2.
 ***
 
 ----- End -----
@@ -309,34 +1293,12 @@ Controller orozimboDescendoN4 is similar to orozimboSubindoN2.
 ----- Begin -----
 ----- End -----
 ----- Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
------ End -----
------ Begin -----
+Controller orozimboDescendoN2 is similar to orozimboDescendoN4.
+***
+
+Controller orozimboDescendoN2 is similar to orozimboSubindoN3.
+***
+
 ----- End -----
 ----- Begin -----
 ----- End -----
