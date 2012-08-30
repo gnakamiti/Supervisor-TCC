@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Supervisor.h'
 **
-** Created: Wed 4. Jul 18:16:31 2012
+** Created: Thu 30. Aug 20:22:15 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,21 +23,28 @@ static const uint qt_meta_data_Supervisor[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       5,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       21,   12,   11,   11, 0x05,
+      46,   44,   11,   11, 0x05,
+      81,   44,   11,   11, 0x05,
+     104,   44,   11,   11, 0x05,
+     125,   44,   11,   11, 0x05,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Supervisor[] = {
     "Supervisor\0\0newValue\0stopValueChanged(bool)\0"
+    "s\0sigLogControllerSituation(QString)\0"
+    "sigLogFitness(QString)\0sigLogQueue(QString)\0"
+    "sigLogPrograms(QString)\0"
 };
 
 void Supervisor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -47,6 +54,10 @@ void Supervisor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Supervisor *_t = static_cast<Supervisor *>(_o);
         switch (_id) {
         case 0: _t->stopValueChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 1: _t->sigLogControllerSituation((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->sigLogFitness((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 3: _t->sigLogQueue((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 4: _t->sigLogPrograms((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -84,9 +95,9 @@ int Supervisor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
 }
@@ -96,5 +107,33 @@ void Supervisor::stopValueChanged(bool _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void Supervisor::sigLogControllerSituation(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void Supervisor::sigLogFitness(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+
+// SIGNAL 3
+void Supervisor::sigLogQueue(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
+}
+
+// SIGNAL 4
+void Supervisor::sigLogPrograms(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 QT_END_MOC_NAMESPACE

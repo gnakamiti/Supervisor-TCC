@@ -83,13 +83,17 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
 
 	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
+	int *p = (int *)best.userData();
 	std::string str = "------------";
+	str += "\nId:";
+	str += QString::number(*p).toStdString();
 	str += "\nNew Logic for controller: ";
 	str += mController;
 	str += "\nLogic:\n";
 	str += newLogic->toString();
 	str += "------------\n";
 	SupervisorLog::getInstance()->writeOnNewProgram(str);
+	Supervisor::getInstance()->emitLogPrograms(str.c_str());
 
 	StoredControllerLogic *storedLogic = new StoredControllerLogic();
 
@@ -111,7 +115,7 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 	storedLogic->setStreets(streets);
 
 	ControllerLogic::addNewControllerLogicToTheBase(mController, storedLogic);
-
+	delete p;
 }
 
 //fazer retornar uma logica. talvez trocar isso para uma thread.
@@ -146,7 +150,6 @@ void tryToFindABetterProgram(std::string mController, std::vector<std::string> s
 		ga.pMutation(pmut);
 		ga.pCrossover(pcross);
 		ga.evolve();
-
 		_sendNewProgramToSumo(mController, (GAListGenome<LogicGene> &)ga.statistics().bestIndividual());
 	}
 
@@ -165,8 +168,6 @@ float Objective(GAGenome &genome)
 	LogicGene *gene;
 	GAListIter<LogicGene> iter(listGenome);
 	std::vector<int> queueVec, streamVec, phasesVec;
-
-
 	if((listSize = listGenome.size()) != LOGIC_GENE_SIZE)
 		return result;
 
@@ -215,11 +216,15 @@ float Objective(GAGenome &genome)
 	{
 		result = _evaluateLogic(phasesVec, 30000);
 	}
-	
+	int *p = new int;
+	*p = (int)&genome;
+	genome.userData(p);
 	std::string str;
 	str = "---------\n";
-	str += "Candidate\n";
-	str += "Queue: ";
+	str += "Candidate";
+	str += "\nId:";
+	str += QString::number(*p).toStdString();
+	str += "\nQueue: ";
 	str += QString::number((queueVec.at(0) + queueVec.at(1))).toStdString();
 	str += "\nPhases:\n";
 	for(int i = 0; i < phasesVec.size(); i++) {
@@ -231,6 +236,7 @@ float Objective(GAGenome &genome)
 	str += QString::number(result).toStdString();
 	str += "\n---------\n";
 	SupervisorLog::getInstance()->writeOnFitness(str);
+//	Supervisor::getInstance()->emitLogFitness(str.c_str());
 
 	return result;
 }

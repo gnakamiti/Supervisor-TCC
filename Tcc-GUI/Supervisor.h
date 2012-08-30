@@ -36,7 +36,10 @@ private:
 signals:
 	//Envia sinal para thread do sumoC para parar execucao
      void stopValueChanged(bool newValue);
-
+	 void sigLogControllerSituation(QString s);
+	 void sigLogFitness(QString s);
+	 void sigLogQueue(QString s);
+	 void sigLogPrograms(QString s);
 
 public:
 	~Supervisor();
@@ -70,6 +73,10 @@ public:
 	//Sets a completly new program for a controller
 	void sendSumoCNewProgramForController(std::string, ControllerLogic *);
 	
+	void emitLogControllerSituation(QString);
+	void emitLogFitness(QString);
+	void emitLogQueue(QString);
+	void emitLogPrograms(QString);
 	
 	
 };

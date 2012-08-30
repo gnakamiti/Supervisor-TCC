@@ -83,10 +83,10 @@ private slots:
 
 public slots:
 		void mainFrame_javaScriptWindowObjectCleared();
-	
-	
-	
-	
+		void logControllerSituation(QString s);
+		void logFitness(QString s);
+		void logQueue(QString s);
+		void logPrograms(QString s);
 };
 
 

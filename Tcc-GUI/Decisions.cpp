@@ -33,7 +33,7 @@ void Decisions::run()
 	this->fuzzyTimer->start(FUZZY_TIMER_INTERVAL);
 	this->queueTimer = new QTimer();
 	connect(this->queueTimer, SIGNAL(timeout()), this, SLOT(queueTimerTimeout()));
-	this->queueTimer->start(ONE_MINUTE);
+	this->queueTimer->start(30000);
 
 	exec();
 
@@ -48,6 +48,7 @@ void Decisions::queueTimerTimeout()
 
 	Supervisor::getInstance()->getControllersListClone(&controllers);
 	SupervisorLog::getInstance()->writeOnQueue("---------------------------");
+	Supervisor::getInstance()->emitLogQueue("---------------------------");
 	for(int i = 0; i < controllers.size(); i++)
 	{
 		c = controllers.at(i);
@@ -58,8 +59,10 @@ void Decisions::queueTimerTimeout()
 		qstr += QString::number(r.at(0));
 
 		SupervisorLog::getInstance()->writeOnQueue(qstr.toStdString());
+		Supervisor::getInstance()->emitLogQueue(qstr);
 	}
 	SupervisorLog::getInstance()->writeOnQueue("---------------------------");
+	Supervisor::getInstance()->emitLogQueue("---------------------------");
 	deleteInVector(controllers);
 }
 
@@ -123,6 +126,7 @@ void Decisions::fuzzyTimerTimeout()
 				str += cI->getCurrentLogic()->toString();
 				str += "\nSimilar Controllers:\n";
 				SupervisorLog::getInstance()->writeOnLog(str);
+				Supervisor::getInstance()->emitLogControllerSituation(str.c_str());
 				for(int k = 0; k < controllers.size(); k++)
 				{
 					//I'm not comparing myself
@@ -148,6 +152,7 @@ void Decisions::fuzzyTimerTimeout()
 						similarOutput += cJ->getName();
 						similarOutput += ".\n***\n";
 						SupervisorLog::getInstance()->writeOnLog(similarOutput);
+						Supervisor::getInstance()->emitLogControllerSituation(similarOutput.c_str());
 
 						similarControllers.push_back(cJ->getName());
 					}

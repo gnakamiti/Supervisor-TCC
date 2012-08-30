@@ -13,5 +13,6 @@
         <file>light_yellow.png</file>
         <file>controllersPos.cfg</file>
         <file>light_off.png</file>
+        <file>images/logs.png</file>
     </qresource>
 </RCC>

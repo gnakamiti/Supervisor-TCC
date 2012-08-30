@@ -87,7 +87,11 @@ void Supervisor::startThreads(void)
 	this->window = new MainWindow();
 	this->window->show();
 	
-	connect(this, SIGNAL(stopValueChanged(bool)), &this->sumoC, SLOT(setStop(bool)));
+	connect(this, SIGNAL(stopValueChanged(bool)), &this->sumoC, SLOT(setStop(bool)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigLogControllerSituation(QString)), this->window, SLOT(logControllerSituation(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigLogFitness(QString)), this->window, SLOT(logFitness(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigLogQueue(QString)), this->window, SLOT(logQueue(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigLogPrograms(QString)), this->window, SLOT(logPrograms(QString)), Qt::QueuedConnection);
 	this->decisions.start();
 
 	this->sumoC.start();
@@ -95,8 +99,8 @@ void Supervisor::startThreads(void)
 	//ControllerLogic  *l = ControllerLogic::createLogicForSumo(10, 10, 10, 10);
 	//this->sumoC.sendNewProgram(this->controllers.at(0)->getName(), l); 
 	//this->sumoC.setControllerProgram(this->controllers.at(0)->getName(), "off");
+	
 	a.exec();
-
 	emit this->stopValueChanged(true);
 
 	this->sumoC.wait();
@@ -230,5 +234,25 @@ void Supervisor::sendSumoCProgramForController(std::string controller, std::stri
 void Supervisor::sendSumoCNewProgramForController(std::string controller, ControllerLogic *logic)
 {
 	this->sumoC.sendNewProgram(controller, logic);
+}
+
+void Supervisor::emitLogControllerSituation(QString s)
+{
+	emit this->sigLogControllerSituation(s);
+}
+
+void Supervisor::emitLogFitness(QString s)
+{
+	emit this->sigLogFitness(s);
+}
+
+void Supervisor::emitLogQueue(QString s)
+{
+	emit this->sigLogQueue(s);
+}
+
+void Supervisor::emitLogPrograms(QString s)
+{
+	emit this->sigLogPrograms(s);
 }
 

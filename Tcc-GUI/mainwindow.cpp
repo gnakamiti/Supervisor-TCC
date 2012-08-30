@@ -195,6 +195,14 @@ void MainWindow::btnSendClick(void)
 		}
 
 		Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, logic);
+		std::string str = "------------";
+		str += "\nNew Logic for controller: ";
+		str += currentControllerId;
+		str += "\nLogic:\n";
+		str += logic->toString();
+		str += "------------\n";
+		SupervisorLog::getInstance()->writeOnNewProgram(str);
+		Supervisor::getInstance()->emitLogPrograms(str.c_str());
 		delete logic;
 		logic = nullptr;
 	}
@@ -210,6 +218,14 @@ void MainWindow::btnSendClick(void)
 			if(logics.at(i)->subID.compare(newProgramName) == 0)
 			{
 				found = true;
+				std::string str = "------------";
+				str += "\nNew Logic for controller: ";
+				str += currentControllerId;
+				str += "\nLogic:\n";
+				str += logics.at(i)->toString();
+				str += "------------\n";
+				SupervisorLog::getInstance()->writeOnNewProgram(str);
+				Supervisor::getInstance()->emitLogPrograms(str.c_str());
 				break;
 			}
 		}
@@ -226,6 +242,14 @@ void MainWindow::btnSendClick(void)
 				if (l->subID.compare(newProgramName) == 0) 
 				{
 					Supervisor::getInstance()->sendSumoCNewProgramForController(currentControllerId, l);
+					std::string str = "------------";
+					str += "\nNew Logic for controller: ";
+					str += currentControllerId;
+					str += "\nLogic:\n";
+					str += l->toString();
+					str += "------------\n";
+					SupervisorLog::getInstance()->writeOnNewProgram(str);
+					Supervisor::getInstance()->emitLogPrograms(str.c_str());
 					break;
 				}
 			}
@@ -815,4 +839,24 @@ MainWindow::~MainWindow()
 	mapWidget = nullptr;
 
 	
+}
+
+void MainWindow::logControllerSituation(QString s)
+{
+	ui.txtControllerSituation->append(s);
+}
+
+void MainWindow::logFitness(QString s)
+{
+	ui.txtFitness->append(s);
+}
+
+void MainWindow::logQueue(QString s)
+{
+	ui.txtQueueLog->append(s);
+}
+
+void MainWindow::logPrograms(QString s)
+{
+	ui.txtProgramLog->append(s);
 }

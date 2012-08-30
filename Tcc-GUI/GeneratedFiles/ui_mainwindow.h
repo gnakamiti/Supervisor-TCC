@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 4. Jul 18:16:31 2012
+** Created: Thu 30. Aug 19:36:57 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -28,6 +28,7 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
+#include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
 #include <QtGui/QWidget>
 #include <QtWebKit/QWebView>
@@ -99,6 +100,16 @@ public:
     QPushButton *btnNew;
     QWidget *tab_2;
     QWebView *gMaps;
+    QWidget *tab_4;
+    QTabWidget *tabWidget_2;
+    QWidget *tab_5;
+    QTextEdit *txtControllerSituation;
+    QWidget *tab_6;
+    QTextEdit *txtQueueLog;
+    QWidget *tab_7;
+    QTextEdit *txtProgramLog;
+    QWidget *tab_8;
+    QTextEdit *txtFitness;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QToolBar *mainToolBar;
@@ -332,6 +343,42 @@ public:
         QIcon icon6;
         icon6.addFile(QString::fromUtf8(":/MainWindow/images/map2.png"), QSize(), QIcon::Normal, QIcon::Off);
         tabWidget->addTab(tab_2, icon6, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        tabWidget_2 = new QTabWidget(tab_4);
+        tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
+        tabWidget_2->setGeometry(QRect(10, 40, 1091, 591));
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        txtControllerSituation = new QTextEdit(tab_5);
+        txtControllerSituation->setObjectName(QString::fromUtf8("txtControllerSituation"));
+        txtControllerSituation->setGeometry(QRect(10, 20, 1061, 511));
+        txtControllerSituation->setReadOnly(true);
+        tabWidget_2->addTab(tab_5, QString());
+        tab_6 = new QWidget();
+        tab_6->setObjectName(QString::fromUtf8("tab_6"));
+        txtQueueLog = new QTextEdit(tab_6);
+        txtQueueLog->setObjectName(QString::fromUtf8("txtQueueLog"));
+        txtQueueLog->setGeometry(QRect(10, 20, 1061, 511));
+        txtQueueLog->setReadOnly(true);
+        tabWidget_2->addTab(tab_6, QString());
+        tab_7 = new QWidget();
+        tab_7->setObjectName(QString::fromUtf8("tab_7"));
+        txtProgramLog = new QTextEdit(tab_7);
+        txtProgramLog->setObjectName(QString::fromUtf8("txtProgramLog"));
+        txtProgramLog->setGeometry(QRect(10, 20, 1061, 511));
+        txtProgramLog->setReadOnly(true);
+        tabWidget_2->addTab(tab_7, QString());
+        tab_8 = new QWidget();
+        tab_8->setObjectName(QString::fromUtf8("tab_8"));
+        txtFitness = new QTextEdit(tab_8);
+        txtFitness->setObjectName(QString::fromUtf8("txtFitness"));
+        txtFitness->setGeometry(QRect(10, 20, 1061, 511));
+        txtFitness->setReadOnly(true);
+        tabWidget_2->addTab(tab_8, QString());
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/MainWindow/images/logs.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_4, icon7, QString());
         MainWindowClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindowClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -351,6 +398,7 @@ public:
         retranslateUi(MainWindowClass);
 
         tabWidget->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindowClass);
@@ -399,6 +447,11 @@ public:
         btnNew->setText(QApplication::translate("MainWindowClass", "New", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindowClass", "Commands", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindowClass", "Map", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QApplication::translate("MainWindowClass", "Controller Situation", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QApplication::translate("MainWindowClass", "Queue", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QApplication::translate("MainWindowClass", "Programs", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_8), QApplication::translate("MainWindowClass", "Fitness", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindowClass", "Logs", 0, QApplication::UnicodeUTF8));
         menuAbout->setTitle(QApplication::translate("MainWindowClass", "About", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
