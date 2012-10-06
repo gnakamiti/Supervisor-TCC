@@ -39,7 +39,12 @@ signals:
 	 void sigLogControllerSituation(QString s);
 	 void sigLogFitness(QString s);
 	 void sigLogQueue(QString s);
+	 void sigPopulationPrograms(QString s);
 	 void sigLogPrograms(QString s);
+	 void sigTimerOn();
+	 void sigTimerOff();
+	 void sigFuzzyOut(QString s);
+	 void sigFuzzyIn(QString s);
 
 public:
 	~Supervisor();
@@ -77,7 +82,11 @@ public:
 	void emitLogFitness(QString);
 	void emitLogQueue(QString);
 	void emitLogPrograms(QString);
-	
+	void emitPopulationPrograms(QString);
+	void emitFuzzyOut(QString s);
+    void emitFuzzyIn(QString s);
+
+	void turnIAOnOff(bool b);
 	
 };
 

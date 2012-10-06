@@ -8,7 +8,13 @@ static QList<QString> alreadyRunning;
 static void _initPopulation(std::vector<StoredControllerLogic *> &vec, GAPopulation &initialPop)
 {
 	for(int i = 0; i < vec.size(); i++)
+	{
 		initialPop.add(vec.at(i)->toGene());
+		QString grade = "\nGrade:";
+		grade += QString::number(vec.at(i)->getGoodDegree())+"\n";
+		Supervisor::getInstance()->emitPopulationPrograms(grade);
+		Supervisor::getInstance()->emitPopulationPrograms(vec.at(i)->getControllerLogic()->toString().c_str());
+	}
 }
 
 //Fitness helper

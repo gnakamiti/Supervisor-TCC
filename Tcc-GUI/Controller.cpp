@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "Supervisor.h"
 
 Controller::Controller()
 {
@@ -249,28 +250,28 @@ ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int 
 	logic->phases = phases;
 
 	phase = new Phase();
-	phase->phaseDef = "GGGGrrr";
+	phase->phaseDef = "GGrrr";
 	phase->duration = durationPhase1;
 	phase->duration1 = durationPhase1;
 	phase->duration2 = durationPhase1;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "yyyyrrr";
+	phase->phaseDef = "yyrrr";
 	phase->duration = durationPhase2;
 	phase->duration1 = durationPhase2;
 	phase->duration2 = durationPhase2;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "rrrrGGG";
+	phase->phaseDef = "rrGGG";
 	phase->duration = durationPhase3;
 	phase->duration1 = durationPhase3;
 	phase->duration2 = durationPhase3;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "rrrryyy";
+	phase->phaseDef = "rryyy";
 	phase->duration = durationPhase4;
 	phase->duration1 = durationPhase4;
 	phase->duration2 = durationPhase4;
@@ -283,10 +284,10 @@ std::vector<std::string> ControllerLogic::getDefaultPhaseDefForTheSimulation()
 {
 	std::vector<std::string> phaseDefs;
 
-	phaseDefs.push_back("GGGGrrr");
-	phaseDefs.push_back("yyyyrrr");
-	phaseDefs.push_back("rrrrGGG");
-	phaseDefs.push_back("rrrryyy");
+	phaseDefs.push_back("GGrrr");
+	phaseDefs.push_back("yyrrr");
+	phaseDefs.push_back("rrGGG");
+	phaseDefs.push_back("rryyy");
 
 	return phaseDefs;
 }
@@ -445,6 +446,7 @@ void ControllerLogic::writeLogicOnDisk(std::vector<StoredControllerLogic *> logi
 		l.setControllerLogic(logicClone);
 		l.setStreets(actual->getStreets());
 		l.setUsedDate(actual->getUsedIn());
+		l.setGoodDegree(actual->getGoodDegree());
 		path = base_p;
 		path += "/";
 		path += controller.c_str();
@@ -517,7 +519,7 @@ std::vector<StoredControllerLogic *> ControllerLogic::readLogicFromDir(QFileInfo
 
 StoredControllerLogic::StoredControllerLogic()
 {
-
+	goodDegree = 0;
 }
 
 StoredControllerLogic::~StoredControllerLogic()
@@ -562,12 +564,24 @@ std::vector<StoredControllerLogic *>  ControllerLogic::getStoredLogicFromLogicBa
 	QMutexLocker locker(&logicBaseLock);
 	std::vector<StoredControllerLogic *> all, ret;
 	all = ControllerLogic::logicBase[controller];
+	Controller *c = Supervisor::getInstance()->getControllerByName(controller);
+	std::vector<Street> *streets = c->getControlledStreets();
+	int queue = 0;
+
+	for (int i = 0; i < streets->size(); i++)
+		queue += streets->at(i).queueSize;
+
 	for(int  i = 0; i < all.size(); i++) {
 		StoredControllerLogic * scl = all.at(i);
 		if(scl == nullptr)
 			continue;
+		QList<Street> sclStreets = scl->getStreets();
+		int queueScl = 0;
 
-		if (scl->getGoodDegree() >= treshould)
+		for (int j = 0; j < sclStreets.size(); j++)
+			queueScl += sclStreets.at(j).queueSize;
+
+		if (scl->getGoodDegree() >= treshould && ((queueScl <= queue) || (queueScl + 5 >= queue)))
 			ret.push_back(scl);
 	}
 	return ret;

@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClick(QListWidgetItem *)));
 	connect(ui.listControlledStreets, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickStreets(QListWidgetItem *)));
 	connect(ui.listPrograms, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(listClickProgram(QListWidgetItem *)));
+	connect(ui.checkTurnOffIA, SIGNAL(clicked(bool)), this, SLOT(checkTurnOffIA(void)));
+	
 
 	//javascript - load map when everything is ready
 	connect(ui.gMaps, SIGNAL(loadFinished(bool)), this, SLOT(initializeMap(bool)));
@@ -32,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnSend, SIGNAL(pressed()), this, SLOT(btnSendClick()));
 	connect(ui.btnCancel, SIGNAL(pressed()), this, SLOT(btnCancelClick()));
 	connect(ui.btnNew, SIGNAL(pressed()), this, SLOT(btnNewClick()));
+	connect(ui.txtClear, SIGNAL(pressed()), this, SLOT(btnClearClick(void)));
 
 	
 	currentRowController = -1;
@@ -54,6 +57,24 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     ui.lblTL1->setText("<img src=\":/MainWindow/light_red.png\">");
     ui.lblTL2->setText("<img src=\":/MainWindow/light_red.png\">");
+	ui.txtFitness->append("Check the log in C:\\@CURRENT_USER@\\logs\\fitness.txt");
+	ui.checkTurnOffIA->setVisible(false);
+}
+
+void MainWindow::checkTurnOffIA(void)
+{
+	Supervisor *s = Supervisor::getInstance();
+
+	if (ui.checkTurnOffIA->isChecked())
+	{
+		ui.checkTurnOffIA->setText("Turn on traffic adaptation");
+		s->turnIAOnOff(false);
+	}
+	else
+	{
+		ui.checkTurnOffIA->setText("Turn off traffic adaptation");
+		s->turnIAOnOff(true);
+	}
 }
 
 void MainWindow::listClickProgram(QListWidgetItem *item)
@@ -98,6 +119,9 @@ void MainWindow::listClickProgram(QListWidgetItem *item)
 			if (l->subID.compare(title) == 0) 
 			{
 				phases = l->phases;
+				sclv.at(i)->getGoodDegree();
+				//ui.txtProgramQueueCommand->setText(QString::number(sclv.at(i)->));
+				ui.txtProgramGrade->setText(QString::number(sclv.at(i)->getGoodDegree()));
 				break;
 			}
 		}
@@ -142,8 +166,22 @@ void MainWindow::btnCancelClick(void)
 	ui.listPrograms->clear();
 	ui.tablePhases->clear();
 	ui.txtControllerCommand->setText("");
+	ui.txtProgramQueueCommand->setText("");
+	ui.txtProgramGrade->setText("");
 	ui.checkBoxOffOn->setChecked(false);
 	newProgramFlag = false;
+}
+
+void MainWindow::btnClearClick(void)
+{
+	ui.txtControllerSituation->clear();
+	ui.txtQueueLog->clear();
+	ui.txtProgramLog->clear();
+	ui.txtInitPrograms->clear();
+	ui.txtProgramQueueCommand->setText("");
+	ui.txtProgramGrade->setText("");
+	ui.txtFuzzyIn->setText("");
+	ui.txtFuzzyOut->setText("");
 }
 
 void MainWindow::btnSendClick(void)
@@ -859,4 +897,19 @@ void MainWindow::logQueue(QString s)
 void MainWindow::logPrograms(QString s)
 {
 	ui.txtProgramLog->append(s);
+}
+
+void MainWindow::logInitPrograms(QString s)
+{
+	ui.txtInitPrograms->append(s);
+}
+
+void MainWindow::logFuzzyIn(QString s)
+{
+	ui.txtFuzzyIn->append(s);
+}
+
+void MainWindow::logFuzzyOut(QString s)
+{
+	ui.txtFuzzyOut->append(s);
 }

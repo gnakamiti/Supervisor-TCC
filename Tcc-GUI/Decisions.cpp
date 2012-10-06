@@ -2,6 +2,7 @@
 #include "Supervisor.h"
 #include "SupervisorLog.h"
 #include <cmath>
+#include <float.h>
 
 Decisions::Decisions()
 {
@@ -30,13 +31,23 @@ void Decisions::run()
 {
 	this->fuzzyTimer = new QTimer();
 	connect(this->fuzzyTimer, SIGNAL(timeout()), this, SLOT(fuzzyTimerTimeout()));
-	this->fuzzyTimer->start(FUZZY_TIMER_INTERVAL);
+	this->fuzzyTimer->start(20000);
 	this->queueTimer = new QTimer();
 	connect(this->queueTimer, SIGNAL(timeout()), this, SLOT(queueTimerTimeout()));
 	this->queueTimer->start(30000);
-
 	exec();
 
+}
+
+
+void Decisions::stopFuzzyTimer()
+{
+	this->fuzzyTimer->stop();
+}
+
+void Decisions::startFuzzyTimer()
+{
+	this->fuzzyTimer->start(FUZZY_TIMER_INTERVAL);
 }
 
 void Decisions::queueTimerTimeout()
@@ -111,15 +122,14 @@ void Decisions::fuzzyTimerTimeout()
 					controlledStreetsI->at(j).streetName,
 					fuzzyResultI.LinguisticValue);
 
-			//I'm bad if the invere of degree is bad
-			if(fuzzyResultI.value <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD)
-			{
 				std::string str;
 				str = "---------\n";
 				str += "Controller: ";
 				str += cI->getName();
 				str += "\nSituation: ";
 				str += fuzzyResultI.LinguisticValue;
+				str += "\nDefuzziefied value:";
+				str += QString::number(fuzzyResultI.value).toStdString();
 				str += "\nQueue: ";
 				str += QString::number(resultI.at(0)).toStdString();
 				str += "\nProgram:\n";
@@ -127,6 +137,10 @@ void Decisions::fuzzyTimerTimeout()
 				str += "\nSimilar Controllers:\n";
 				SupervisorLog::getInstance()->writeOnLog(str);
 				Supervisor::getInstance()->emitLogControllerSituation(str.c_str());
+
+			//I'm bad if the invere of degree is bad
+			if(fuzzyResultI.value <= FUZZY_SITUATION_NOT_GOOD_TRESHOLD || _isnan(fuzzyResultI.value) != 0)
+			{
 				for(int k = 0; k < controllers.size(); k++)
 				{
 					//I'm not comparing myself

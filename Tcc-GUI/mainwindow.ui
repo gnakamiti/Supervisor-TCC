@@ -24,7 +24,7 @@
       <x>10</x>
       <y>30</y>
       <width>261</width>
-      <height>641</height>
+      <height>491</height>
      </rect>
     </property>
    </widget>
@@ -783,6 +783,58 @@
         <normaloff>:/MainWindow/images/new.png</normaloff>:/MainWindow/images/new.png</iconset>
       </property>
      </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>30</y>
+        <width>53</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Queue:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>70</y>
+        <width>53</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Grade:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtProgramQueueCommand">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>30</y>
+        <width>321</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtProgramGrade">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>70</y>
+        <width>321</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="icon">
@@ -841,6 +893,11 @@
           <height>511</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="readOnly">
          <bool>true</bool>
         </property>
@@ -858,6 +915,11 @@
           <width>1061</width>
           <height>511</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -877,6 +939,11 @@
           <height>511</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="readOnly">
          <bool>true</bool>
         </property>
@@ -895,13 +962,113 @@
           <height>511</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_9">
+       <attribute name="title">
+        <string>Initial Programs</string>
+       </attribute>
+       <widget class="QTextEdit" name="txtInitPrograms">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>1061</width>
+          <height>511</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_10">
+       <attribute name="title">
+        <string>Fuzzy - Input</string>
+       </attribute>
+       <widget class="QTextEdit" name="txtFuzzyIn">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>1061</width>
+          <height>511</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_11">
+       <attribute name="title">
+        <string>Fuzzy - Output</string>
+       </attribute>
+       <widget class="QTextEdit" name="txtFuzzyOut">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>1061</width>
+          <height>511</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </widget>
      </widget>
+     <widget class="QPushButton" name="txtClear">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>10</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Clear logs</string>
+      </property>
+     </widget>
     </widget>
+   </widget>
+   <widget class="QCheckBox" name="checkTurnOffIA">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>550</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Turn off traffic adaptation</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

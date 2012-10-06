@@ -15,9 +15,14 @@ class Decisions:public QThread
 {
 	
 	Q_OBJECT
-	private slots:
+private slots:
 		void fuzzyTimerTimeout();
 		void queueTimerTimeout();
+			
+public slots:
+	void stopFuzzyTimer();
+	void startFuzzyTimer();
+
 
 	private:
 		std::vector<int> sumTotalQueueAndStreamForController(Controller *);
@@ -34,8 +39,5 @@ class Decisions:public QThread
 			This is a thread!
 		*/
 		void run();
-
-			
-
 };
 #endif

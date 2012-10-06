@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu 30. Aug 20:22:14 2012
+** Created: Mon 1. Oct 20:57:31 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,15 +40,20 @@ static const uint qt_meta_data_MainWindow[] = {
      168,   11,   11,   11, 0x08,
      188,   11,   11,   11, 0x08,
      203,   11,   11,   11, 0x08,
-     220,   11,   11,   11, 0x08,
-     234,   11,   11,   11, 0x0a,
-     278,  276,   11,   11, 0x0a,
-     310,  276,   11,   11, 0x0a,
-     330,  276,   11,   11, 0x0a,
-     348,  276,   11,   11, 0x0a,
+     219,   11,   11,   11, 0x08,
+     236,   11,   11,   11, 0x08,
+     250,   11,   11,   11, 0x08,
+     267,   11,   11,   11, 0x0a,
+     311,  309,   11,   11, 0x0a,
+     343,  309,   11,   11, 0x0a,
+     363,  309,   11,   11, 0x0a,
+     381,  309,   11,   11, 0x0a,
+     402,  309,   11,   11, 0x0a,
+     427,  309,   11,   11, 0x0a,
+     448,  309,   11,   11, 0x0a,
 
  // methods: signature, parameters, type, tag, flags
-     381,   11,  369,   11, 0x02,
+     480,   11,  468,   11, 0x02,
 
        0        // eod
 };
@@ -60,12 +65,14 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "listClickStreets(QListWidgetItem*)\0"
     "phaseSelected(int)\0programSelected(int)\0"
     "initializeMap(bool)\0btnSendClick()\0"
-    "btnCancelClick()\0btnNewClick()\0"
+    "btnClearClick()\0btnCancelClick()\0"
+    "btnNewClick()\0checkTurnOffIA()\0"
     "mainFrame_javaScriptWindowObjectCleared()\0"
     "s\0logControllerSituation(QString)\0"
     "logFitness(QString)\0logQueue(QString)\0"
-    "logPrograms(QString)\0QStringList\0"
-    "getInformationForController(QString)\0"
+    "logPrograms(QString)\0logInitPrograms(QString)\0"
+    "logFuzzyOut(QString)\0logFuzzyIn(QString)\0"
+    "QStringList\0getInformationForController(QString)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -82,14 +89,19 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->programSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: _t->initializeMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 7: _t->btnSendClick(); break;
-        case 8: _t->btnCancelClick(); break;
-        case 9: _t->btnNewClick(); break;
-        case 10: _t->mainFrame_javaScriptWindowObjectCleared(); break;
-        case 11: _t->logControllerSituation((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 12: _t->logFitness((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 13: _t->logQueue((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 14: _t->logPrograms((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 15: { QStringList _r = _t->getInformationForController((*reinterpret_cast< QString(*)>(_a[1])));
+        case 8: _t->btnClearClick(); break;
+        case 9: _t->btnCancelClick(); break;
+        case 10: _t->btnNewClick(); break;
+        case 11: _t->checkTurnOffIA(); break;
+        case 12: _t->mainFrame_javaScriptWindowObjectCleared(); break;
+        case 13: _t->logControllerSituation((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 14: _t->logFitness((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 15: _t->logQueue((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 16: _t->logPrograms((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 17: _t->logInitPrograms((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 18: _t->logFuzzyOut((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 19: _t->logFuzzyIn((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 20: { QStringList _r = _t->getInformationForController((*reinterpret_cast< QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QStringList*>(_a[0]) = _r; }  break;
         default: ;
         }
@@ -128,9 +140,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 21;
     }
     return _id;
 }

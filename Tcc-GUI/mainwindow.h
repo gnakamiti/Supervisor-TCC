@@ -78,8 +78,10 @@ private slots:
 	void programSelected(int);
 	void initializeMap(bool);
 	void btnSendClick(void);
+	void btnClearClick(void);
 	void btnCancelClick(void);
 	void btnNewClick(void);
+	void checkTurnOffIA(void);
 
 public slots:
 		void mainFrame_javaScriptWindowObjectCleared();
@@ -87,6 +89,9 @@ public slots:
 		void logFitness(QString s);
 		void logQueue(QString s);
 		void logPrograms(QString s);
+		void logInitPrograms(QString s);
+		void logFuzzyOut(QString s);
+		void logFuzzyIn(QString s);
 };
 
 

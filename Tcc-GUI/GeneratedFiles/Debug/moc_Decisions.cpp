@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Decisions.h'
 **
-** Created: Thu 30. Aug 19:31:23 2012
+** Created: Mon 1. Oct 20:57:32 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Decisions[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,16 @@ static const uint qt_meta_data_Decisions[] = {
  // slots: signature, parameters, type, tag, flags
       11,   10,   10,   10, 0x08,
       31,   10,   10,   10, 0x08,
+      51,   10,   10,   10, 0x0a,
+      68,   10,   10,   10, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Decisions[] = {
     "Decisions\0\0fuzzyTimerTimeout()\0"
-    "queueTimerTimeout()\0"
+    "queueTimerTimeout()\0stopFuzzyTimer()\0"
+    "startFuzzyTimer()\0"
 };
 
 void Decisions::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -50,6 +53,8 @@ void Decisions::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         switch (_id) {
         case 0: _t->fuzzyTimerTimeout(); break;
         case 1: _t->queueTimerTimeout(); break;
+        case 2: _t->stopFuzzyTimer(); break;
+        case 3: _t->startFuzzyTimer(); break;
         default: ;
         }
     }
@@ -88,9 +93,9 @@ int Decisions::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 4;
     }
     return _id;
 }

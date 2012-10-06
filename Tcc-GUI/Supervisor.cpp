@@ -92,6 +92,13 @@ void Supervisor::startThreads(void)
 	connect(this, SIGNAL(sigLogFitness(QString)), this->window, SLOT(logFitness(QString)), Qt::QueuedConnection);
 	connect(this, SIGNAL(sigLogQueue(QString)), this->window, SLOT(logQueue(QString)), Qt::QueuedConnection);
 	connect(this, SIGNAL(sigLogPrograms(QString)), this->window, SLOT(logPrograms(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigLogPrograms(QString)), this->window, SLOT(logPrograms(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigPopulationPrograms(QString)), this->window, SLOT(logInitPrograms(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigFuzzyOut(QString)), this->window, SLOT(logFuzzyOut(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigFuzzyIn(QString)), this->window, SLOT(logFuzzyIn(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigTimerOn()), &this->decisions, SLOT(startFuzzyTimer()), Qt::QueuedConnection);
+	connect(this, SIGNAL(sigTimerOff()), &this->decisions, SLOT(stopFuzzyTimer()), Qt::QueuedConnection);
+
 	this->decisions.start();
 
 	this->sumoC.start();
@@ -251,8 +258,30 @@ void Supervisor::emitLogQueue(QString s)
 	emit this->sigLogQueue(s);
 }
 
+void Supervisor::emitPopulationPrograms(QString s)
+{
+	emit this->sigPopulationPrograms(s);
+}
+
 void Supervisor::emitLogPrograms(QString s)
 {
 	emit this->sigLogPrograms(s);
+}
+
+void Supervisor::emitFuzzyOut(QString s)
+{
+	emit this->sigFuzzyOut(s);
+}
+void Supervisor::emitFuzzyIn(QString s)
+{
+	emit this->sigFuzzyIn(s);
+}
+
+void Supervisor::turnIAOnOff(bool b)
+{
+	if (!b)
+		emit this->sigTimerOff();
+	else
+		emit this->sigTimerOn();
 }
 

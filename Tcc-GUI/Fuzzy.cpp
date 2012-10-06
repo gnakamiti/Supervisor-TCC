@@ -1,4 +1,5 @@
 #include "Fuzzy.h"
+#include "Supervisor.h"
 
 Fuzzy::Fuzzy()
 {
@@ -119,6 +120,8 @@ FuzzyResult Fuzzy::infer(int queueSize, int carStream)
 {
 	fl::flScalar inputQueue, inputStream;
 	FuzzyResult result;
+	Supervisor * s = Supervisor::getInstance();
+	QString str;
 
 	inputQueue = (fl::flScalar)queueSize;
 	inputStream = (fl::flScalar)carStream;
@@ -126,17 +129,31 @@ FuzzyResult Fuzzy::infer(int queueSize, int carStream)
 	this->currentQueue->setInput(inputQueue);
 	this->carStream->setInput(inputStream);
 	this->fuzzyEngine->process();
-
 	result.value = this->adequationDegree->output().defuzzify();
 	//Not used for this one
 	result.LinguisticValue = "";
-	
+
+	str = "\nInput Values:\n";
+	str += "Queue:";
+	str += this->currentQueue->fuzzify(inputQueue).c_str();
+	str += "\nStream:";
+	str += this->carStream->fuzzify(inputStream).c_str();
+
+	//s->emitFuzzyIn(str);
+
+	str = "Output Value:\n";
+	str += this->adequationDegree->fuzzify(result.value).c_str();
+	//s->emitFuzzyOut(str);
+
 	return result;
 }
+
 FuzzyResult Fuzzy::infer(int queueSize)
 {
 	fl::flScalar inputQueue;
 	FuzzyResult result;
+	Supervisor * s = Supervisor::getInstance();
+	QString str;
 
 	inputQueue = (fl::flScalar)queueSize;
 
@@ -146,6 +163,17 @@ FuzzyResult Fuzzy::infer(int queueSize)
 	result.value = this->adequationDegree->output().defuzzify();
 	result.LinguisticValue = this->
 		parseOutPutString(this->adequationDegree->fuzzify(result.value));
+
+	str = "\n\nInput Values:\n";
+	str += "Queue:\n";
+	str += this->currentQueue->fuzzify(inputQueue).c_str();
+
+	s->emitFuzzyIn(str);
+
+	str = "\n\nOutput Value:\n";
+	str += "Adequation Degree:\n";
+	str += this->adequationDegree->fuzzify(result.value).c_str();
+	s->emitFuzzyOut(str);
 
 	return result;
 }
