@@ -136,7 +136,7 @@ private:
 	static void createDataBaseLogic(std::vector<std::string>);
 
 	//Cria uma logica para um controlador baseado no tamanho TOTAL de filas
-	static ControllerLogic * createALogicBasedOnQueue(int, std::string, int *);
+	static ControllerLogic * createALogicBasedOnQueue(int, std::string, int *, std::string);
 
 	//Salva no disco a base de dados de logicas
 	static void readAllLogicsFromDisk(std::vector<std::string>);
@@ -165,7 +165,7 @@ public:
 	ControllerLogic *clone();
 
 	//Cria uma nova logica para enviar ao sumo
-	static ControllerLogic * createLogicForSumo(std::string, int, int, int, int);
+	static ControllerLogic * createLogicForSumo(std::string, int, int, int, int, std::string controllerName);
 	
 	//Devolve a definicao de fase padrao
 	static std::vector<std::string> getDefaultPhaseDefForTheSimulation();

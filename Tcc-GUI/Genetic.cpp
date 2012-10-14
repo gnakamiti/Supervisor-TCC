@@ -86,7 +86,7 @@ static void _sendNewProgramToSumo(std::string &mController, GAListGenome<LogicGe
 	logicsName += currentDateTime.toString("dd-MM-yyyy-hh-mm-ss-z").toStdString();
 
 	ControllerLogic *newLogic = ControllerLogic::createLogicForSumo(logicsName, 
-		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000));
+		(durations.at(0)/1000), (durations.at(1)/1000), (durations.at(2)/1000), (durations.at(3)/1000), mController);
 
 	Supervisor::getInstance()->sendSumoCNewProgramForController(mController, newLogic);
 	int *p = (int *)best.userData();

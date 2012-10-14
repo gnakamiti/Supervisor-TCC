@@ -223,7 +223,7 @@ void MainWindow::btnSendClick(void)
 
 	if (newProgramFlag == true)
 	{
-		logic = createProgram(newProgramName);
+		logic = createProgram(newProgramName, currentControllerId);
 
 		if(logic == nullptr)
 		{
@@ -309,7 +309,7 @@ void MainWindow::btnSendClick(void)
 	msgBox.exec();
 }
 
-ControllerLogic *  MainWindow::createProgram(std::string programName)
+ControllerLogic *  MainWindow::createProgram(std::string programName, std::string controllerName)
 {
 	std::vector<QTableWidgetItem*> myList = getAllElementsFromPhasesTable();
 	
@@ -321,7 +321,7 @@ ControllerLogic *  MainWindow::createProgram(std::string programName)
 	}
 
 	return ControllerLogic::createLogicForSumo(programName, 
-		durations.at(0), durations.at(1), durations.at(2), durations.at(3));
+		durations.at(0), durations.at(1), durations.at(2), durations.at(3), controllerName);
 }
 
 std::vector<int> MainWindow::getOnlyDurations(std::vector<QTableWidgetItem*> myList)

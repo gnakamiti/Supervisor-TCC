@@ -63,7 +63,7 @@ private:
 
 	void updateInterface(Controller *);
 
-	ControllerLogic *  createProgram(std::string);
+	ControllerLogic *  createProgram(std::string, std::string);
 
 	std::vector<QTableWidgetItem *> getAllElementsFromPhasesTable();
 	std::vector<int> getOnlyDurations(std::vector<QTableWidgetItem*>);

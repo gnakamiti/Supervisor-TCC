@@ -37,9 +37,6 @@ Supervisor::Supervisor()
 
 	controllerNames = sumoC.getTrafficLightsId();
 
-	ControllerLogic::readLogicDataBase(controllerNames);
-	
-
 	for(std::vector<std::string>::const_iterator it = controllerNames.begin(); it!=controllerNames.end() ; it++)
 	{
 		controlledLanes = sumoC.getControllerLanes((*it));
@@ -62,7 +59,8 @@ Supervisor::Supervisor()
 		detectorNamePerLane.clear();
 		lanes.clear();
 	}
-	
+
+	ControllerLogic::readLogicDataBase(controllerNames);
 }
 
 Supervisor::~Supervisor()

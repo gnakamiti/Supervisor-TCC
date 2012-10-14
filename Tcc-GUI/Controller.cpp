@@ -229,12 +229,28 @@ ControllerLogic * ControllerLogic::clone()
 }
 
 ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int durationPhase1, int durationPhase2, 
-	                                                  int durationPhase3, int durationPhase4)
+	                                                  int durationPhase3, int durationPhase4, std::string controllerName)
 {
 	std::vector<Phase *> *phases = new std::vector<Phase *>();
+	std::vector<Phase *> *defaultDef = nullptr;
 	ControllerLogic *logic = new ControllerLogic();
 	Phase *phase;
+	std::vector<ControllerLogic *>  logics;
+	ControllerLogic *actual;
+	Controller *c = Supervisor::getInstance()->getControllerByName(controllerName);
 
+	if (c == nullptr)
+		return nullptr;
+
+	logics = c->getLogics();
+	for(int i = 0; i < logics.size(); i++) {
+		actual = logics.at(i);
+		if (actual->subID.compare("0") == 0)
+			defaultDef = actual->phases;
+	}
+	
+	if (defaultDef == nullptr)
+		return nullptr;
 	
 	//its miliseconds!
 	durationPhase1 *= 1000;
@@ -250,28 +266,28 @@ ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int 
 	logic->phases = phases;
 
 	phase = new Phase();
-	phase->phaseDef = "GGrrr";
+	phase->phaseDef = defaultDef->at(0)->phaseDef;
 	phase->duration = durationPhase1;
 	phase->duration1 = durationPhase1;
 	phase->duration2 = durationPhase1;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "yyrrr";
+	phase->phaseDef = defaultDef->at(1)->phaseDef;
 	phase->duration = durationPhase2;
 	phase->duration1 = durationPhase2;
 	phase->duration2 = durationPhase2;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "rrGGG";
+	phase->phaseDef = defaultDef->at(2)->phaseDef;
 	phase->duration = durationPhase3;
 	phase->duration1 = durationPhase3;
 	phase->duration2 = durationPhase3;
 	phases->push_back(phase);
 
 	phase = new Phase();
-	phase->phaseDef = "rryyy";
+	phase->phaseDef = defaultDef->at(3)->phaseDef;
 	phase->duration = durationPhase4;
 	phase->duration1 = durationPhase4;
 	phase->duration2 = durationPhase4;
@@ -353,7 +369,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 					maxQueue = queue;
 			}
 
-			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(maxQueue, logicName, &goodDegree));
+			stl->setControllerLogic(ControllerLogic::createALogicBasedOnQueue(maxQueue, logicName, &goodDegree, actualController));
 			stl->setUsedDate(QDateTime::currentDateTime());
 			stl->setGoodDegree(goodDegree);
 			
@@ -366,7 +382,7 @@ void ControllerLogic::createDataBaseLogic(std::vector<std::string> controllers)
 	}
 }
 
-ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name, int *goodDegree)
+ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::string name, int *goodDegree, std::string controllerName)
 {
 	int duration1, duration2; //No sumo apesar de ter 4 fases, os valores de tempo sao intercalados
 	static int badCasesCount = 0;
@@ -395,7 +411,7 @@ ControllerLogic * ControllerLogic::createALogicBasedOnQueue(int queue, std::stri
 		duration1 += 100;
 		duration2 += 100;
 	}
-	ControllerLogic *logic = ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2);
+	ControllerLogic *logic = ControllerLogic::createLogicForSumo(name, duration1, duration2, duration1, duration2, controllerName);
 	*goodDegree = ControllerLogic::evaluateGoodDegree(queue, logic);
 	return logic;
 }
