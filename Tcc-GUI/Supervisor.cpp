@@ -59,8 +59,6 @@ Supervisor::Supervisor()
 		detectorNamePerLane.clear();
 		lanes.clear();
 	}
-
-	ControllerLogic::readLogicDataBase(controllerNames);
 }
 
 Supervisor::~Supervisor()
@@ -78,6 +76,9 @@ void Supervisor::startThreads(void)
 	//TALVEZ MUDAR AQUI OS PARAMETROS!
 	int i = 0;
 	QApplication a(i, NULL);
+	std::vector<std::string> controllerNames;
+	controllerNames = sumoC.getTrafficLightsId();
+	ControllerLogic::readLogicDataBase(controllerNames);
 
 	//DO NOT REMOVE THIS! OR IT WILL ERASE EVERYTHING!
 	//this->decisions.setAutoDelete(false);

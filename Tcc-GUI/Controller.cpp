@@ -245,8 +245,10 @@ ControllerLogic * ControllerLogic::createLogicForSumo(std::string logicName,int 
 	logics = c->getLogics();
 	for(int i = 0; i < logics.size(); i++) {
 		actual = logics.at(i);
-		if (actual->subID.compare("0") == 0)
+		if (actual->subID.compare("0") == 0) {
 			defaultDef = actual->phases;
+			break;
+		}
 	}
 	
 	if (defaultDef == nullptr)
